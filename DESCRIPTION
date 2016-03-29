@@ -11,9 +11,21 @@ Description: BPRMeth package uses the Binomial Probit Regression likelihood to
     predictor of gene expression. Also, these features are used to cluster proximal-
     promoter regions using the EM algorithm.
 Depends:
-    R (>= 3.2.0)
+    R (>= 3.2.0),
+    GenomicRanges
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
 Imports: assertthat,
-    methods
+    methods,
+    MASS,
+    doParallel,
+    e1071,
+    earth,
+    foreach,
+    randomForest,
+    stats,
+    IRanges,
+    S4Vectors,
+    data.table
+Suggests: testthat
