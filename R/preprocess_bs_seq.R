@@ -26,23 +26,21 @@
 #'
 #'   Bismark Cov format: \url{http://rnbeads.mpi-inf.mpg.de/data/RnBeads.pdf}
 #'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
 #' @seealso \code{\link{read_bs_bismark_cov}}, \code{\link{read_bs_encode_haib}}
 #'   \code{\link{pool_bs_seq_rep}}
 #'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
 #' @examples
-#' ####
-#' bs_file1 <- system.file("extdata", "rrbs.bed", package = "processHTS")
-#' bs_file2 <- system.file("extdata", "rrbs.bed", package = "processHTS")
-#' bs_files <- c(bs_file1, bs_file2)
-#' pool_data <- preprocess_bs_seq(files=bs_files)
+#' \dontrun{
+#' # Download the files and change the working directory to that location
+#' files <- c("name_of_bs_encode_file1", "name_of_bs_encode_file2")
+#' bs_data <- preprocess_bs_seq(files, file_format = "encode_rrbs")
 #'
-#' ####
-#' bs_file1 <- system.file("extdata", "bism_rep1.bed", package = "processHTS")
-#' bs_file2 <- system.file("extdata", "bism_rep2.bed", package = "processHTS")
-#' bs_files <- c(bs_file1, bs_file2)
-#' pool_data <- preprocess_bs_seq(files=bs_files, file_format="bismark_cov")
+#' # Extract the total reads and methylated reads
+#' total_reads <- bs_data$total_reads
+#' meth_reads <- bs_data$meth_reads
+#' }
 #'
 #' @export
 preprocess_bs_seq <- function(files, file_format = "encode_rrbs",
