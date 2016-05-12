@@ -1,4 +1,4 @@
-#' Read file containing ENCODE Caltech \code{bed} formatted RNA-Seq data
+#' Read ENCODE Caltech bed formatted RNA-Seq file
 #'
 #' \code{read_rna_encode_caltech} reads a file containing promoter annotation
 #' data together with gene expression levels from RNA-Seq experiments using the
@@ -8,8 +8,16 @@
 #'
 #' @inheritParams read_bs_encode_haib
 #'
-#' @return a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
-#'  is TRUE, otherwise a \code{\link[data.table]{data.table}} object.
+#' @return A \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges} is
+#'   TRUE, otherwise a \code{\link[data.table]{data.table}} object.
+#'
+#'   The GRanges object contains three additional metadata columns: \itemize{
+#'   \item \code{ensembl_id}: Ensembl IDs of each gene promoter. \item
+#'   \code{gene_name}: Gene name. \item \code{gene_fpkm}: Expression level in
+#'   FPKM. } These columns can be accessed as follows:
+#'   \code{granges_object$ensembl_id}
+#'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
 #' @seealso \code{\link{read_chrom_size}}, \code{\link{read_bs_encode_haib}}
 #'
@@ -78,9 +86,8 @@ read_rna_encode_caltech <- function(file, chr_discarded = NULL,
                                                  end = rna_data$end),
                        ensembl_id = rna_data$ensembl_id,
                        gene_name  = rna_data$gene_name,
-                       gene_expr  = rna_data$gene_expr,
                        gene_fpkm  = rna_data$fpkm)
   }
-  message("Done!\n")
+  message("Finished reading RNA-Seq file!\n")
   return(rna_data)
 }
