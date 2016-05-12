@@ -70,10 +70,10 @@ mpgex_regr <- function(formula = NULL, x, y, model_name = "svm", w = NULL,
 
   # Create training and test sets
   message("Partitioning to test and train data ...\n")
-  dataset <- partition_data(x          = out_opt$W_opt,
-                            y          = y,
-                            train_ind  = train_ind,
-                            train_perc = train_perc)
+  dataset <- .partition_data(x          = out_opt$W_opt,
+                             y          = y,
+                             train_ind  = train_ind,
+                             train_perc = train_perc)
 
   # Train regression model from methylation profiles
   message("Training linear regression model ...\n")
