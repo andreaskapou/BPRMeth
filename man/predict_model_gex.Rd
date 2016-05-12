@@ -26,6 +26,6 @@ A list containing the following elements:
  differential expression from differential methylation profiles.
 }
 \seealso{
-\code{\link{calculate_errors}}, \code{\link{train_model_gex}}
+\code{\link{train_model_gex}}
 }
 

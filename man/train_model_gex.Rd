@@ -32,6 +32,6 @@ A list containing the following elements:
  from methylation profiles.
 }
 \seealso{
-\code{\link{calculate_errors}}, \code{\link{predict_model_gex}}
+\code{\link{predict_model_gex}}
 }
 
