@@ -13,14 +13,33 @@ read_encode_cgi(file, is_GRanges = TRUE)
 data.frame object is returned.}
 }
 \value{
-A \code{\link[data.table]{data.table}} object.
+A \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges} is
+  TRUE, otherwise a \code{\link[data.table]{data.table}} object.
+
+  The GRanges object contains one additional metadata column: \itemize{ \item
+  \code{cgi_id}: Unique ID of the CpG Island. } This column can be accessed
+  as follows: \code{granges_object$cgi_id}
 }
 \description{
-\code{read_encode_cgi} reads a file containing CpG island (CGI) locations
- in the human genome using the \code{\link[data.table]{fread}} function.
+\code{read_encode_cgi} reads a file containing CpG island (CGI) locations in
+the human genome using the \code{\link[data.table]{fread}} function.
+}
+\examples{
+\dontrun{
+# Download the file and change the working directory to that location
+file <- "name_of_CGI_file")
+cgi_data <- read_encode_cgi(file)
+
+# Extract the CGI ID
+cgi_id <- cgi_data$cgi_id
+}
+
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{read_rna_encode_caltech}},
- \code{\link{read_bs_encode_haib}}
+  \code{\link{read_bs_encode_haib}}
 }
 
