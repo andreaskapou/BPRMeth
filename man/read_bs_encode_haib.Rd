@@ -11,8 +11,9 @@ read_bs_encode_haib(file, chr_discarded = NULL, is_GRanges = TRUE)
 
 \item{chr_discarded}{A vector with chromosome names to be discarded.}
 
-\item{is_GRanges}{Logical: if TRUE a GRanges object is returned, otherwise
-a data.frame object is returned.}
+\item{is_GRanges}{Logical: if TRUE a \code{\link[GenomicRanges]{GRanges}}
+object is returned, otherwise a \code{\link[data.table]{data.table}} object
+is returned.}
 }
 \value{
 a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
@@ -23,10 +24,15 @@ a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
 BS-Seq experiments using the \code{\link{scan}} function.
 The BS-Seq file should be in ENCODE HAIB \code{bed} format.
 }
-\references{
-\url{http://genome.ucsc.edu/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_doSchema=describe+table+schema}
+\examples{
+\donttest{
+# Download the files and change the working directory to that location
+file <- "name_of_bs_encode_file"
+rrbs <- read_bs_encode_haib(file)}
+
 }
 \seealso{
-\code{\link{read_chrom_size}}, \code{\link{read_rna_encode_caltech}}
+\code{\link{read_bs_bismark_cov}},
+ \code{\link{read_rna_encode_caltech}}
 }
 

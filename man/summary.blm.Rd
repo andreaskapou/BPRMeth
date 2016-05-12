@@ -4,7 +4,7 @@
 \alias{summary.blm}
 \title{Summary output of the Basis Linear Model}
 \usage{
-\method{summary}{blm}(object, ...)
+summary.blm(object, ...)
 }
 \arguments{
 \item{object}{Object of class \code{\link{blm}}.}

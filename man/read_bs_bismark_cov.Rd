@@ -11,8 +11,9 @@ read_bs_bismark_cov(file, chr_discarded = NULL, is_GRanges = TRUE)
 
 \item{chr_discarded}{A vector with chromosome names to be discarded.}
 
-\item{is_GRanges}{Logical: if TRUE a GRanges object is returned, otherwise
-a data.frame object is returned.}
+\item{is_GRanges}{Logical: if TRUE a \code{\link[GenomicRanges]{GRanges}}
+object is returned, otherwise a \code{\link[data.table]{data.table}} object
+is returned.}
 }
 \value{
 a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
@@ -22,6 +23,16 @@ a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
 \code{read_bs_bismark_cov} reads a file containing methylation data from
  BS-Seq experiments using the \code{\link[data.table]{fread}} function.
  The BS-Seq file should be in Bismark Cov format.
+}
+\examples{
+\donttest{
+# Download the files and change the working directory to that location
+file <- "name_of_bismark_file"
+rrbs <- read_bs_bismark_cov(file)}
+
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \references{
 \url{http://rnbeads.mpi-inf.mpg.de/data/RnBeads.pdf}
