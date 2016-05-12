@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_chrom_size.R
 \name{read_chrom_size}
 \alias{read_chrom_size}
-\title{Read file containing genome chromosome sizes.}
+\title{Read genome chromosome sizes file.}
 \usage{
 read_chrom_size(file)
 }
@@ -15,6 +15,19 @@ A \code{\link[data.table]{data.table}} object.
 \description{
 \code{read_chrom_size} reads a file containing genome chromosome sizes using
  the \code{\link[data.table]{fread}} function.
+}
+\examples{
+# Get the location of the hg19 file
+hg19_file <- system.file("extdata", "hg19", package = "processHTS")
+hg_data <- read_chrom_size(file=hg19_file)
+
+\dontrun{
+read.chrom_size(20)
+}
+
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{read_rna_encode_caltech}},
