@@ -1,8 +1,8 @@
 Package: BPRMeth
 Type: Package
 Title: Model higher-order methylation profiles
-Version: 0.0.1.9000
-Authors@R: person("C. A.", "Kapourani", email = "kapouranis.andreas@gmail.com",
+Version: 0.99.0
+Authors@R: person("C. A.", "Kapourani", email = "C.A.Kapourani@ed.ac.uk",
                   role = c("aut", "cre"))
 Description: BPRMeth package uses the Binomial Probit Regression likelihood to
     model methylation profiles and extract higher order features. These features
@@ -20,6 +20,7 @@ Imports: assertthat,
     methods,
     MASS,
     doParallel,
+	parallel,
     e1071,
     earth,
     foreach,
@@ -28,4 +29,16 @@ Imports: assertthat,
     IRanges,
     S4Vectors,
     data.table
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+biocViews: DNAMethylation,
+	GeneExpression,
+	GeneRegulation,
+	Epigenetics,
+	Genetics,
+	Clustering,
+	FeatureExtraction,
+	Regression,
+	RNASeq
