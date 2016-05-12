@@ -22,9 +22,9 @@ preprocess_bs_encode_haib <- function(files, chr_discarded = NULL,
                                    is_GRanges    = TRUE)
   }
 
-  bs_data <- discard_bs_noise_reads(bs_data     = bs_data,
-                                    min_bs_cov  = min_bs_cov,
-                                    max_bs_cov  = max_bs_cov)
+  bs_data <- .discard_bs_noise_reads(bs_data     = bs_data,
+                                     min_bs_cov  = min_bs_cov,
+                                     max_bs_cov  = max_bs_cov)
   message("Done!\n")
   return(bs_data)
 }
