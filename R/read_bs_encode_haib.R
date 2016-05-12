@@ -6,16 +6,21 @@
 #'
 #' @param file The name of the file to read data values from.
 #' @param chr_discarded A vector with chromosome names to be discarded.
-#' @param is_GRanges Logical: if TRUE a GRanges object is returned, otherwise
-#'  a data.frame object is returned.
+#' @param is_GRanges Logical: if TRUE a \code{\link[GenomicRanges]{GRanges}}
+#'  object is returned, otherwise a \code{\link[data.table]{data.table}} object
+#'  is returned.
 #'
 #' @return a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
 #'  is TRUE, otherwise a \code{\link[data.table]{data.table}} object.
 #'
-#' @seealso \code{\link{read_chrom_size}}, \code{\link{read_rna_encode_caltech}}
+#' @seealso \code{\link{read_bs_bismark_cov}},
+#'  \code{\link{read_rna_encode_caltech}}
 #'
-#' @references
-#'   \url{http://genome.ucsc.edu/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_doSchema=describe+table+schema}
+#' @examples
+#' \donttest{
+#' # Download the files and change the working directory to that location
+#' file <- "name_of_bs_encode_file"
+#' rrbs <- read_bs_encode_haib(file)}
 #'
 #' @export
 read_bs_encode_haib <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
@@ -51,7 +56,7 @@ read_bs_encode_haib <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
 
 
   # Remove selected chromosomes  -------------------------------
-  bs_data <- discard_chr(x = bs_data, chr_discarded = chr_discarded)
+  bs_data <- .discard_chr(x = bs_data, chr_discarded = chr_discarded)
 
 
   # Sorting data -----------------------------------------------

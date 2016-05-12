@@ -9,7 +9,7 @@
 #' @inheritParams read_bs_encode_haib
 #'
 #' @return a \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges}
-#'  is TRUE, otherwise a data.frame object.
+#'  is TRUE, otherwise a \code{\link[data.table]{data.table}} object.
 #'
 #' @seealso \code{\link{read_chrom_size}}, \code{\link{read_bs_encode_haib}}
 #'
@@ -48,8 +48,8 @@ read_rna_encode_caltech <- function(file, chr_discarded = NULL,
 
   message("Extracting FPKM and gene names ...")
   for (i in 1:length(gene_info)){
-    fpkm[i]      <- extract_fpkm(gene_info[i])
-    gene_name[i] <- extract_gene_name(gene_info[i])
+    fpkm[i]      <- .extract_fpkm(gene_info[i])
+    gene_name[i] <- .extract_gene_name(gene_info[i])
   }
 
   # Store extracted data to data.frame
@@ -60,7 +60,7 @@ read_rna_encode_caltech <- function(file, chr_discarded = NULL,
 
 
   # Remove selected chromosomes  -------------------------------
-  rna_data <- discard_chr(x = rna_data, chr_discarded = chr_discarded)
+  rna_data <- .discard_chr(x = rna_data, chr_discarded = chr_discarded)
 
 
   # Sorting data -----------------------------------------------

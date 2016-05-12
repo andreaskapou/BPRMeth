@@ -3,9 +3,7 @@
 #' \code{read_encode_cgi} reads a file containing CpG island (CGI) locations
 #'  in the human genome using the \code{\link[data.table]{fread}} function.
 #'
-#' @param file The name of the file to read data values from.
-#' @param is_GRanges Logical: if TRUE a GRanges object is returned, otherwise
-#'  a data.frame object is returned.
+#' @inheritParams read_bs_encode_haib
 #'
 #' @return A \code{\link[data.table]{data.table}} object.
 #'

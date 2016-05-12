@@ -18,7 +18,7 @@
 #'  \item \code{train_errors} the training error metrics.
 #' }
 #'
-#' @seealso \code{\link{calculate_errors}}, \code{\link{predict_model_gex}}
+#' @seealso \code{\link{predict_model_gex}}
 #'
 #' @importFrom stats formula predict
 #'

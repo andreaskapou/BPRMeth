@@ -15,6 +15,14 @@
 #' @references
 #'   \url{http://rnbeads.mpi-inf.mpg.de/data/RnBeads.pdf}
 #'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @examples
+#' \donttest{
+#' # Download the files and change the working directory to that location
+#' file <- "name_of_bismark_file"
+#' rrbs <- read_bs_bismark_cov(file)}
+#'
 #' @export
 read_bs_bismark_cov <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
   message("Reading file ", file, " ...")
@@ -26,7 +34,7 @@ read_bs_bismark_cov <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
 
 
   # Remove selected chromosomes  -------------------------------
-  bs_data <- discard_chr(x = bs_data, chr_discarded = chr_discarded)
+  bs_data <- .discard_chr(x = bs_data, chr_discarded = chr_discarded)
 
 
   # Sorting data -----------------------------------------------
