@@ -35,9 +35,9 @@ preprocess_bs_bismark_cov <- function(files, chr_discarded = NULL,
                                     total_reads = total_reads,
                                     meth_reads  = bs_data$meth_reads)
 
-  bs_data <- discard_bs_noise_reads(bs_data     = bs_data,
-                                    min_bs_cov  = min_bs_cov,
-                                    max_bs_cov  = max_bs_cov)
+  bs_data <- .discard_bs_noise_reads(bs_data     = bs_data,
+                                     min_bs_cov  = min_bs_cov,
+                                     max_bs_cov  = max_bs_cov)
   message("Done!\n")
   return(bs_data)
 }
