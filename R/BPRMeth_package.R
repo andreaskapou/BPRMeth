@@ -3,7 +3,7 @@
 #' @docType package
 #' @name BPRMeth
 #'
-#' @import GenomicRanges
+#' @import GenomicRanges S4Vectors doParallel parallel foreach MASS e1071 earth randomForest
 #'
 .datatable.aware=TRUE
 NULL
