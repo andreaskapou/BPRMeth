@@ -132,11 +132,11 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
           meth_data[[n]] <- matrix(0, nrow = length(cpg_ind), ncol = 3)
 
           # Store normalized locations of methylated CpGs in (fmin,fmax) region
-          meth_data[[n]][ ,1] <- minmax_scaling(data = center_data[Order],
-                                                xmin = upstream,
-                                                xmax = downstream,
-                                                fmin = fmin,
-                                                fmax = fmax)
+          meth_data[[n]][ ,1] <- .minmax_scaling(data = center_data[Order],
+                                                 xmin = upstream,
+                                                 xmax = downstream,
+                                                 fmin = fmin,
+                                                 fmax = fmax)
 
           # Store total reads in the corresponding locations
           meth_data[[n]][ ,2] <- tot_reads[cpg_ind][Order]
