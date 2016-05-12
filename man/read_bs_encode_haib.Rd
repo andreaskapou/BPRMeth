@@ -28,7 +28,7 @@ A \code{\link[GenomicRanges]{GRanges}} object if \code{is_GRanges} is
 \code{read_bs_encode_haib} reads a file containing methylation data from
 BS-Seq experiments using the \code{\link{scan}} function. The BS-Seq file
 should be in ENCODE HAIB \code{bed} format. Read the Important section below
-on when using this function.
+on when to use this function.
 }
 \section{Important}{
  Unless you want to create a different workflow when

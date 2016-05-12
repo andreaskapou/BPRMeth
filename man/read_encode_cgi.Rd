@@ -9,9 +9,8 @@ read_encode_cgi(file, is_GRanges = TRUE)
 \arguments{
 \item{file}{The name of the file to read data values from.}
 
-\item{is_GRanges}{Logical: if TRUE a \code{\link[GenomicRanges]{GRanges}}
-object is returned, otherwise a \code{\link[data.table]{data.table}} object
-is returned.}
+\item{is_GRanges}{Logical: if TRUE a GRanges object is returned, otherwise a
+data.frame object is returned.}
 }
 \value{
 A \code{\link[data.table]{data.table}} object.
