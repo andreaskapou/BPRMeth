@@ -40,7 +40,7 @@ on when using this function.
 \dontrun{
 # Download the files and change the working directory to that location
 file <- "name_of_bismark_file"
-rrbs <- read_bs_bismark_cov(file)
+bs_data <- read_bs_bismark_cov(file)
 
 # Extract the total reads and methylated reads
 total_reads <- bs_data$total_reads
