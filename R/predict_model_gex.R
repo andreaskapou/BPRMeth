@@ -30,9 +30,9 @@ predict_model_gex <- function(model, test, is_summary = TRUE){
 
   # Calculate model errors
   if (is_summary) message("-- Test Errors --")
-  test_errors <- calculate_errors(x = test$y,
-                                  y = test_pred,
-                                  summary = is_summary)
+  test_errors <- .calculate_errors(x = test$y,
+                                   y = test_pred,
+                                   summary = is_summary)
 
   out <- list(test_pred   = test_pred,
               test_errors = test_errors)

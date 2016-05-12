@@ -57,9 +57,9 @@ train_model_gex <- function(formula = NULL, model_name = "svm", train,
   }else{
     # Calculate model errors
     if (is_summary) message("-- Train Errors --")
-    train_errors <- calculate_errors(x = train$y,
-                                     y = train_pred,
-                                     summary = is_summary)
+    train_errors <- .calculate_errors(x = train$y,
+                                      y = train_pred,
+                                      summary = is_summary)
   }
 
   out <- list(formula      = formula,

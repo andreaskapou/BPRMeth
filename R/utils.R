@@ -1,6 +1,6 @@
 # Compute the min-max scaling
 #
-# \code{minmax_scaling} normalizes a given vector using the the min-max
+# \code{.minmax_scaling} normalizes a given vector using the the min-max
 # scaling method. More formally:
 # \deqn{scaled = \frac{data -x_{min}}{x_{max} - x_{min}} \times (f_{max} -
 #  f_{min}) + f_{min}}
@@ -16,9 +16,9 @@
 #
 # @examples
 # data <- c(-20, 0, 15, 20)
-# scaled <- minmax_scaling(data)
+# scaled <- .minmax_scaling(data)
 #
-minmax_scaling <- function(data, xmin = NULL, xmax = NULL, fmin = -1, fmax = 1){
+.minmax_scaling <- function(data, xmin = NULL, xmax = NULL, fmin = -1, fmax = 1){
   if (is.null(xmin)){
     xmin <- min(data)
   }
@@ -36,7 +36,7 @@ minmax_scaling <- function(data, xmin = NULL, xmax = NULL, fmin = -1, fmax = 1){
 
 # Partition data in train and test set
 #
-# \code{partition_data} partition data randomly in train and test sets.
+# \code{.partition_data} partition data randomly in train and test sets.
 #
 # @param x Input / Independent variables
 # @param y Dependent variables
@@ -56,8 +56,7 @@ minmax_scaling <- function(data, xmin = NULL, xmax = NULL, fmin = -1, fmax = 1){
 # train_ind <- c(1,4)
 # data <- partition_data(x, y, train_ind)
 #
-partition_data <- function(x, y, train_ind = NULL, train_perc = 0.7){
-
+.partition_data <- function(x, y, train_ind = NULL, train_perc = 0.7){
   # Convert both x and y to matrices
   x <- as.matrix(x)
   y <- as.matrix(y)
@@ -78,7 +77,7 @@ partition_data <- function(x, y, train_ind = NULL, train_perc = 0.7){
 
 # Calculate error metrics
 #
-# \code{calculate_errors} calculates error metrics so as to assess the
+# \code{.calculate_errors} calculates error metrics so as to assess the
 #  performance of a model, e.g. linear regression.
 # @param x Actual values.
 # @param y Predicted values.
@@ -98,9 +97,9 @@ partition_data <- function(x, y, train_ind = NULL, train_perc = 0.7){
 # actual <- c(4, 6, 9, 10, 4, 6, 4, 7, 8, 7)
 # predicted <- c(5, 6, 8, 10, 4, 8, 4, 9, 8, 9)
 #
-# calculate_errors(actual, predicted, summary = TRUE)
+# (.calculate_errors(actual, predicted, summary = TRUE))
 #
-calculate_errors <- function(x, y, summary = FALSE){
+.calculate_errors <- function(x, y, summary = FALSE){
   # TODO Compute actual errors using the right DoF!!
   R <- list()
   if (! is.numeric(x) || ! is.numeric(y))
@@ -214,7 +213,6 @@ log_sum_exp <- function(x) {
 # @param x The HTS data stored in a data.table object
 # @param chr_discarded A vector with chromosome names to be discarded.
 #
-# @import assertthat
 # @return The reduced HTS data.
 #
 .discard_chr <- function(x, chr_discarded = NULL){
@@ -235,14 +233,13 @@ log_sum_exp <- function(x) {
 #  from BS-Seq experiments. These reads can be thought as noise of the
 #  experiment.
 #
-# @param bs_data A Granges object containing the BS-Seq data.
+# @param bs_data A GRanges object containing the BS-Seq data.
 # @param min_bs_cov The minimum number of reads mapping to each CpG site.
 # @param max_bs_cov The maximum number of reads mapping to each CpG site.
 #
-# @return The reduced Granges object without noisy observations
+# @return The reduced GRanges object without noisy observations
 #
 .discard_bs_noise_reads <- function(bs_data, min_bs_cov = 2, max_bs_cov = 1000){
-
   message("Discarding noisy reads ...")
   bs_data <- subset(bs_data, bs_data$total_reads >= min_bs_cov)
   bs_data <- subset(bs_data, bs_data$total_reads <= max_bs_cov)
