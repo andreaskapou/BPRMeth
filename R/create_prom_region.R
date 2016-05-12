@@ -1,23 +1,44 @@
 #' Create promoter regions from gene annotation data.
 #'
 #' \code{create_prom_region} creates promoter region from gene annotation data.
-#'  Using the TSS of gene annotation data as ground truth labels we create
-#'  promoter regions \code{N} bp upstream and \code{M} bp downstream of TSS.
+#' Using the TSS of gene annotation data as ground truth labels we create
+#' promoter regions \code{N} bp upstream and \code{M} bp downstream of TSS.
 #'
-#' @param annot_data A GRanges object containing the gene annotation data.
-#' @param chrom_size Optional data.frame containing the chromosome sizes.
+#' @param annot_data A \code{\link[GenomicRanges]{GRanges}} object containing
+#'   the gene annotation data. This for example can be RNA-Seq data output from
+#'   \code{\link{read_rna_encode_caltech}}.
+#' @param chrom_size Optional \code{\link[data.table]{data.table}} containing
+#'   chromosome sizes, e.g. using the \code{\link{read_chrom_size}} function.
 #' @param upstream Integer defining the length of bp upstream of TSS.
 #' @param downstream Integer defining the length of bp downstream of TSS.
 #'
-#' @return The created promoter regions stored in a
-#'  \code{\link[GenomicRanges]{GRanges}} object.
+#' @return A \code{\link[GenomicRanges]{GRanges}} object containing the promoter
+#'   regions data.
 #'
-#' @seealso \code{\link{create_methyl_region}}
+#'   The GRanges object contains one additional metadata column: \itemize{ \item
+#'   \code{tss}: TSS of each gene promoter.} This column can be accessed as
+#'   follows: \code{granges_object$tss}
+#'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{create_methyl_region}}, \code{\link{read_chrom_size}},
+#'   \code{\link{read_rna_encode_caltech}}
+#'
+#' @examples
+#' \dontrun{
+#' # Download the RNA-Seq or the annotation file and change the working
+#' # directory to that location
+#' annot_file <- "name_of_annotation_file")
+#' prom_region <- create_prom_region(annot_file)
+#'
+#' # Extract the TSS
+#' tsss <- prom_region$tss
+#' }
 #'
 #' @importFrom methods is
 #' @export
 create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -100,
-                                                            downstream = 100){
+                               downstream = 100){
 
   message("Creating promoter regions ...")
   assertthat::assert_that(methods::is(annot_data, "GRanges"))
@@ -43,13 +64,10 @@ create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -100,
   for (i in 1:N){
     # Depending on the strand we change regions upstream and downstream of TSS
     if (identical(annot_strand[i], "+")){
-
       # Set TSS location
       tss[i] <- annot_start[i]
-
       # Set upstream bp promoter region
       up_prom[i] <- max(0, annot_start[i] + upstream)
-
       # Set downstream bp promoter region
       if (is.null(chrom_size)){
         down_prom[i] <- annot_start[i] + downstream
@@ -58,13 +76,10 @@ create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -100,
                             annot_start[i] + downstream)
       }
     }else if (identical(annot_strand[i], "-")){
-
       # Set TSS location
       tss[i] <- annot_end[i]
-
       # Set downstream bp promoter region
       up_prom[i] <- max(0, annot_end[i] - downstream)
-
       # Set upstream bp promoter region
       if (is.null(chrom_size)){
         down_prom[i] <- annot_end[i] - upstream
@@ -82,6 +97,6 @@ create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -100,
                                                       end = down_prom),
                           strand   = annot_strand,
                           tss      = tss)
-  message("Done!\n")
+  message("Finished creating promoter regions!\n")
   return(prom_region)
 }

@@ -8,24 +8,47 @@ create_prom_region(annot_data, chrom_size = NULL, upstream = -100,
   downstream = 100)
 }
 \arguments{
-\item{annot_data}{A GRanges object containing the gene annotation data.}
+\item{annot_data}{A \code{\link[GenomicRanges]{GRanges}} object containing
+the gene annotation data. This for example can be RNA-Seq data output from
+\code{\link{read_rna_encode_caltech}}.}
 
-\item{chrom_size}{Optional data.frame containing the chromosome sizes.}
+\item{chrom_size}{Optional \code{\link[data.table]{data.table}} containing
+chromosome sizes, e.g. using the \code{\link{read_chrom_size}} function.}
 
 \item{upstream}{Integer defining the length of bp upstream of TSS.}
 
 \item{downstream}{Integer defining the length of bp downstream of TSS.}
 }
 \value{
-The created promoter regions stored in a
- \code{\link[GenomicRanges]{GRanges}} object.
+A \code{\link[GenomicRanges]{GRanges}} object containing the promoter
+  regions data.
+
+  The GRanges object contains one additional metadata column: \itemize{ \item
+  \code{tss}: TSS of each gene promoter.} This column can be accessed as
+  follows: \code{granges_object$tss}
 }
 \description{
 \code{create_prom_region} creates promoter region from gene annotation data.
- Using the TSS of gene annotation data as ground truth labels we create
- promoter regions \code{N} bp upstream and \code{M} bp downstream of TSS.
+Using the TSS of gene annotation data as ground truth labels we create
+promoter regions \code{N} bp upstream and \code{M} bp downstream of TSS.
+}
+\examples{
+\dontrun{
+# Download the RNA-Seq or the annotation file and change the working
+# directory to that location
+annot_file <- "name_of_annotation_file")
+prom_region <- create_prom_region(annot_file)
+
+# Extract the TSS
+tsss <- prom_region$tss
+}
+
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
-\code{\link{create_methyl_region}}
+\code{\link{create_methyl_region}}, \code{\link{read_chrom_size}},
+  \code{\link{read_rna_encode_caltech}}
 }
 
