@@ -94,7 +94,7 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
       weighted_pdf[ ,k] <- log(pi_k[k]) + weighted_pdf[ ,k]
     }
     # Calculate probabilities using the logSumExp trick for numerical stability
-    Z <- apply(weighted_pdf, 1, log_sum_exp)
+    Z <- apply(weighted_pdf, 1, .log_sum_exp)
 
     # Get actual posterior probabilities, i.e. responsibilities
     post_prob <- exp(weighted_pdf - Z)

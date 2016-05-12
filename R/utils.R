@@ -147,7 +147,7 @@
 
 # Compute stable Log-Sum-Exp
 #
-# \code{log_sum_exp} computes the log sum exp trick for avoiding numeric
+# \code{.log_sum_exp} computes the log sum exp trick for avoiding numeric
 # underflow and have numeric stability in computations of small numbers.
 #
 # @param x A vector of observations
@@ -159,9 +159,9 @@
 #
 # @examples
 # x <- c(0.001, 0.5, 2, 1.4, 1.5)
-# out <- log_sum_exp(x)
+# out <- .log_sum_exp(x)
 #
-log_sum_exp <- function(x) {
+.log_sum_exp <- function(x) {
   # Computes log(sum(exp(x))
   offset <- max(x)
   return(log(sum(exp(x - offset))) + offset)
