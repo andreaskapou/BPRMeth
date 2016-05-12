@@ -9,53 +9,59 @@ create_methyl_region(bs_data, prom_region, cpg_density = 1, sd_thresh = 0,
 }
 \arguments{
 \item{bs_data}{\code{\link[GenomicRanges]{GRanges}} object containing the
-BS-Seq data.}
+BS-Seq data. The GRanges object should also have two additional metadata
+columns named \code{total_reads} and \code{meth_reads}. A GRanges object
+used in this function can be the output of
+\code{\link{read_bs_encode_haib}} or its wrapper function
+\code{\link{preprocess_bs_seq}}.}
 
 \item{prom_region}{\code{\link[GenomicRanges]{GRanges}} object containing
-promoter regions, i.e. N bp upstream and M bp downstream of TSS location.}
+promoter regions, i.e. N bp upstream and M bp downstream of TSS location.
+The GRanges object should also have one additional metadata column named
+\code{tss}. A GRanges object used in this function can be the output of
+\code{\link{create_prom_region}}.}
 
 \item{cpg_density}{Optional integer defining the minimum number of CpGs that
-have to be in a methylated region. Regions with less than \code{n} CpGs
-are discarded.}
+have to be in a methylated region. Regions with less than \code{n} CpGs are
+discarded.}
 
-\item{sd_thresh}{Optional numeric defining the minimum standard deviation
-of the methylation change in a region.}
+\item{sd_thresh}{Optional numeric defining the minimum standard deviation of
+the methylation change in a region. This is used to filter regions with no
+methylation change.}
 
 \item{ignore_strand}{Logical, whether or not to ignore strand information.}
 
-\item{fmin}{Optional minimum range value for region location scaling.}
+\item{fmin}{Optional minimum range value for region location scaling. Under
+this version, this parameter should be left to its default value.}
 
-\item{fmax}{Optional maximum range value for region location scaling.}
+\item{fmax}{Optional maximum range value for region location scaling. Under
+this version, this parameter should be left to its default value.}
 }
 \value{
-A \code{meth_regions} object containing the following information:
- \itemize{
-   \item{ \code{meth_data}: A list containing methylation data, where each
-     each entry in the list consists of an L X 3 dimensional matrix, where:
-     \enumerate{
-       \item{ 1st column: Contains the locations of CpGs relative to TSS,
-         where the range (min, max) of possible values is given, by the
-         inputs fmin and fmax.
-       }
-       \item{ 2nd column: Contains the total reads of the CpG in the
-         corresponding location.}
-       \item{ 3rd column: Contains the methylated reads of the CpG in the
-         corresponding location.}
-     }
-   }
-   \item{ \code{prom_ind}: A vector storing the corresponding promoter
-     indices.}
- }
+A \code{methyl_region} object containing the following information:
+  \itemize{ \item{ \code{meth_data}: A list containing methylation data,
+  where each entry in the list is an \eqn{L_{i} X 3} dimensional matrix,
+  where \eqn{L_{i}} denotes the number of CpGs found in region \code{i}. The
+  columns contain the following information: \enumerate{ \item{ 1st column:
+  Contains the locations of CpGs relative to TSS. Note that the actual
+  locations are scaled to the (fmin, fmax) region. } \item{ 2nd column:
+  Contains the total reads of each CpG in the corresponding location.} \item{
+  3rd column: Contains the methylated reads each CpG in the corresponding
+  location.} } } \item{ \code{prom_ind}: A vector storing the corresponding
+  promoter indices, so as to map each methylation region with its
+  corresponding gene promoter.} } The lengths of \code{prom_ind} and
+  \code{meth_data} should be the same.
 }
 \description{
 \code{create_methyl_region} creates methylation regions using BS-Seq and
- pre-processed annotated gene promoter regions. BS-Seq data give information
- for the methylated CpGs individually, and promoter data are used to locate
- the TSS of each gene and its promoter region.
+pre-processed annotated gene promoter regions. BS-Seq data give information
+for the methylation of CpGs individually, and promoter data are used to
+locate the TSS of each gene and its promoter region.
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
-\code{\link{read_rna_encode_caltech}},
- \code{\link{read_bs_encode_haib}},
- \code{\link{create_prom_region}}
+\code{\link{preprocess_bs_seq}}, \code{\link{create_prom_region}}
 }
 

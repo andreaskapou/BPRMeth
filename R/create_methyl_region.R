@@ -1,52 +1,57 @@
 #' Create methylation regions for each gene promoter.
 #'
 #' \code{create_methyl_region} creates methylation regions using BS-Seq and
-#'  pre-processed annotated gene promoter regions. BS-Seq data give information
-#'  for the methylated CpGs individually, and promoter data are used to locate
-#'  the TSS of each gene and its promoter region.
+#' pre-processed annotated gene promoter regions. BS-Seq data give information
+#' for the methylation of CpGs individually, and promoter data are used to
+#' locate the TSS of each gene and its promoter region.
 #'
 #' @param bs_data \code{\link[GenomicRanges]{GRanges}} object containing the
-#'  BS-Seq data.
+#'   BS-Seq data. The GRanges object should also have two additional metadata
+#'   columns named \code{total_reads} and \code{meth_reads}. A GRanges object
+#'   used in this function can be the output of
+#'   \code{\link{read_bs_encode_haib}} or its wrapper function
+#'   \code{\link{preprocess_bs_seq}}.
 #' @param prom_region \code{\link[GenomicRanges]{GRanges}} object containing
-#'  promoter regions, i.e. N bp upstream and M bp downstream of TSS location.
+#'   promoter regions, i.e. N bp upstream and M bp downstream of TSS location.
+#'   The GRanges object should also have one additional metadata column named
+#'   \code{tss}. A GRanges object used in this function can be the output of
+#'   \code{\link{create_prom_region}}.
 #' @param cpg_density Optional integer defining the minimum number of CpGs that
-#'  have to be in a methylated region. Regions with less than \code{n} CpGs
-#'  are discarded.
-#' @param sd_thresh Optional numeric defining the minimum standard deviation
-#'  of the methylation change in a region.
+#'   have to be in a methylated region. Regions with less than \code{n} CpGs are
+#'   discarded.
+#' @param sd_thresh Optional numeric defining the minimum standard deviation of
+#'   the methylation change in a region. This is used to filter regions with no
+#'   methylation change.
 #' @param ignore_strand Logical, whether or not to ignore strand information.
-#' @param fmin Optional minimum range value for region location scaling.
-#' @param fmax Optional maximum range value for region location scaling.
+#' @param fmin Optional minimum range value for region location scaling. Under
+#'   this version, this parameter should be left to its default value.
+#' @param fmax Optional maximum range value for region location scaling. Under
+#'   this version, this parameter should be left to its default value.
 #'
-#' @return A \code{meth_regions} object containing the following information:
-#'  \itemize{
-#'    \item{ \code{meth_data}: A list containing methylation data, where each
-#'      each entry in the list consists of an L X 3 dimensional matrix, where:
-#'      \enumerate{
-#'        \item{ 1st column: Contains the locations of CpGs relative to TSS,
-#'          where the range (min, max) of possible values is given, by the
-#'          inputs fmin and fmax.
-#'        }
-#'        \item{ 2nd column: Contains the total reads of the CpG in the
-#'          corresponding location.}
-#'        \item{ 3rd column: Contains the methylated reads of the CpG in the
-#'          corresponding location.}
-#'      }
-#'    }
-#'    \item{ \code{prom_ind}: A vector storing the corresponding promoter
-#'      indices.}
-#'  }
+#' @return A \code{methyl_region} object containing the following information:
+#'   \itemize{ \item{ \code{meth_data}: A list containing methylation data,
+#'   where each entry in the list is an \eqn{L_{i} X 3} dimensional matrix,
+#'   where \eqn{L_{i}} denotes the number of CpGs found in region \code{i}. The
+#'   columns contain the following information: \enumerate{ \item{ 1st column:
+#'   Contains the locations of CpGs relative to TSS. Note that the actual
+#'   locations are scaled to the (fmin, fmax) region. } \item{ 2nd column:
+#'   Contains the total reads of each CpG in the corresponding location.} \item{
+#'   3rd column: Contains the methylated reads each CpG in the corresponding
+#'   location.} } } \item{ \code{prom_ind}: A vector storing the corresponding
+#'   promoter indices, so as to map each methylation region with its
+#'   corresponding gene promoter.} } The lengths of \code{prom_ind} and
+#'   \code{meth_data} should be the same.
 #'
-#' @seealso \code{\link{read_rna_encode_caltech}},
-#'  \code{\link{read_bs_encode_haib}},
-#'  \code{\link{create_prom_region}}
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{preprocess_bs_seq}}, \code{\link{create_prom_region}}
 #'
 #' @importFrom stats sd
 #' @importFrom methods is
 #' @export
 create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
                                  sd_thresh = 0, ignore_strand = FALSE,
-                                                  fmin = -1, fmax = 1){
+                                 fmin = -1, fmax = 1){
 
   message("Creating methylation regions ...")
   assertthat::assert_that(methods::is(bs_data, "GRanges"))
@@ -83,7 +88,6 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
     upstream   <- downstream - width + 1
   }
 
-
   # Initialize variables -----------------------------------------
   n            <- 1                         # Data points counter
   LABEL        <- FALSE                     # Flag variable
@@ -105,27 +109,20 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
     if(LABEL){
       # Only keep regions that have more than 'n' CpGs
       if (length(cpg_ind) > cpg_density){
-
         # If standard deviation of the methylation level is above threshold
         if (sd(meth_reads[cpg_ind] / tot_reads[cpg_ind]) > sd_thresh){
-
           # Promoter indices
           prom_ind <- c(prom_ind, prom_loc[prom_counter])
-
           # Locations of CpGs in the genome
           region <- cpg_loc[cpg_ind]
-
           # TSS location for promoter 'promCount'
           tss <- tss_loc[prom_loc[prom_counter]]
-
           # Extract strand information, i.e. direction
           strand_direction <- tss_strand[prom_loc[prom_counter]]
-
           # Shift CpG locations relative to TSS
-          center_data  <- center_loc(region = region,
-                                     tss = tss,
-                                     strand_direction = strand_direction)
-
+          center_data  <- .center_loc(region = region,
+                                      tss = tss,
+                                      strand_direction = strand_direction)
           # In the "-" strand the order of the locations should change
           Order <- base::order(center_data)
 
@@ -140,10 +137,8 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
 
           # Store total reads in the corresponding locations
           meth_data[[n]][ ,2] <- tot_reads[cpg_ind][Order]
-
           # Store methylated reads in the corresponding locations
           meth_data[[n]][ ,3] <- meth_reads[cpg_ind][Order]
-
           # Increase data points counter
           n <- n + 1
         }
@@ -161,19 +156,18 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
 }
 
 
-#' Center CpG locations relative to TSS
-#'
-#' \code{center_loc} centera CpG locations relative to TSS
-#'
-#' @param region CpG locations
-#' @param tss TSS location
-#' @param strand_direction Strand direction
-#'
-#' @return Centered location data relative to TSS
-#'
-center_loc <- function(region, tss, strand_direction){
+# Center CpG locations relative to TSS
+#
+# \code{center_loc} centera CpG locations relative to TSS
+#
+# @param region CpG locations
+# @param tss TSS location
+# @param strand_direction Strand direction
+#
+# @return Centered location data relative to TSS
+#
+.center_loc <- function(region, tss, strand_direction){
   assertthat::assert_that(is.character(strand_direction))
-
   center <- region - tss
   if (identical(strand_direction, "-")){
     center  <- (-center)  # If '-' strand, swap CpG locations
