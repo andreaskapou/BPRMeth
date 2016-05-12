@@ -14,7 +14,7 @@
 #'  \item \code{test_errors} the test error metrics.
 #' }
 #'
-#' @seealso \code{\link{calculate_errors}}, \code{\link{train_model_gex}}
+#' @seealso \code{\link{train_model_gex}}
 #'
 #' @importFrom stats lm predict
 #'
