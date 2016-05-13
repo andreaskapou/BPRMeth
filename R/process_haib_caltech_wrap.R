@@ -52,12 +52,6 @@
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @examples
-#' # Get the location of the files
-#' rrbs_file <- system.file("extdata", "rrbsH1hESC.bed", package = "processHTS")
-#' rnaseq_file <- system.file("extdata", "rnaseqH1hESC.bed", package = "processHTS")
-#' data <- process_haib_caltech_wrap(rrbs_file, rnaseq_file)
-#'
 #' @export
 process_haib_caltech_wrap <- function(bs_files, rna_files,
                                       chrom_size_file = NULL,

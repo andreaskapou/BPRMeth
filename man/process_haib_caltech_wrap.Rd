@@ -84,13 +84,6 @@ expression data for those promoter regions. Note that the format of BS-Seq
 data should be in the Encode Haib bed format and for the RNA-Seq data in
 Encode Caltech bed format.
 }
-\examples{
-# Get the location of the files
-rrbs_file <- system.file("extdata", "rrbsH1hESC.bed", package = "processHTS")
-rnaseq_file <- system.file("extdata", "rnaseqH1hESC.bed", package = "processHTS")
-data <- process_haib_caltech_wrap(rrbs_file, rnaseq_file)
-
-}
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }

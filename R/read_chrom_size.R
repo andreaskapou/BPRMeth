@@ -12,15 +12,6 @@
 #' @seealso \code{\link{read_rna_encode_caltech}},
 #'  \code{\link{read_bs_encode_haib}}
 #'
-#' @examples
-#' # Get the location of the hg19 file
-#' hg19_file <- system.file("extdata", "hg19", package = "processHTS")
-#' hg_data <- read_chrom_size(file=hg19_file)
-#'
-#' \dontrun{
-#' read.chrom_size(20)
-#' }
-#'
 #' @export
 read_chrom_size <- function(file){
   message("Reading file ", file, " ...")

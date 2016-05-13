@@ -16,16 +16,6 @@ A \code{\link[data.table]{data.table}} object.
 \code{read_chrom_size} reads a file containing genome chromosome sizes using
  the \code{\link[data.table]{fread}} function.
 }
-\examples{
-# Get the location of the hg19 file
-hg19_file <- system.file("extdata", "hg19", package = "processHTS")
-hg_data <- read_chrom_size(file=hg19_file)
-
-\dontrun{
-read.chrom_size(20)
-}
-
-}
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
