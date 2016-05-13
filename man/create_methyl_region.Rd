@@ -49,14 +49,14 @@ A \code{methyl_region} object containing the following information:
   3rd column: Contains the methylated reads each CpG in the corresponding
   location.} } } \item{ \code{prom_ind}: A vector storing the corresponding
   promoter indices, so as to map each methylation region with its
-  corresponding gene promoter.} } The lengths of \code{prom_ind} and
-  \code{meth_data} should be the same.
+  corresponding gene promoter.} } The lengths of \code{meth_data} and
+  \code{prom_ind} should be the same.
 }
 \description{
 \code{create_methyl_region} creates methylation regions using BS-Seq and
-pre-processed annotated gene promoter regions. BS-Seq data give information
-for the methylation of CpGs individually, and promoter data are used to
-locate the TSS of each gene and its promoter region.
+annotated gene promoter regions. BS-Seq data give information for the
+methylation of CpGs individually, and annotated data are used to locate the
+TSS of each gene and its promoter region.
 }
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
