@@ -1,50 +1,50 @@
 #' Predict gene expression from methylation profiles
 #'
-#' \code{mpgex_regr} is a function that wraps all the necessary subroutines
-#' for performing predictions on gene expressions. Initially, it optimizes the
+#' \code{mpgex_regr} is a function that wraps all the necessary subroutines for
+#' performing predictions on gene expressions. Initially, it optimizes the
 #' parameters of the basis functions so as to learn the methylation profiles.
 #' Then uses the learned parameters / coefficients of the basis functions as
 #' input features for performing linear regression in order to predict/regress
 #' the corresponding gene expression data.
 #'
 #' @param formula An object of class \code{\link[stats]{formula}} needed when
-#'  calling the \code{\link[stats]{lm}} function for performing linear
-#'  regression. If NULL, the simple linear regression method is used.
-#' @param x The binomial distributed observations, which has to be a list
-#'  where each element is an L x 3 dimensional matrix.
+#'   calling the \code{\link[stats]{lm}} function for performing linear
+#'   regression. If NULL, the simple linear regression method is used.
+#' @param x The binomial distributed observations, which has to be a list where
+#'   each element is an L x 3 dimensional matrix.
 #' @param y Corresponding gene expression data for each element of the list x
 #' @param model_name A charcter denoting the regression model.
 #' @param w Optional vector of initial parameter / coefficient values.
 #' @param basis Optional basis function object, default is
-#'  \code{\link{polynomial.object}}
-#' @param train_ind Optional vector containing the indices for the
-#'  train set.
+#'   \code{\link{create_rbf_object}}.
+#' @param train_ind Optional vector containing the indices for the train set.
 #' @param train_perc Optional parameter for defining the percentage of the
-#'  dataset to be used for training set, the remaining will be the test set.
+#'   dataset to be used for training set, the remaining will be the test set.
 #' @param fit_feature Additional feature on how well the profile fits the
-#'  methylation data.
+#'   methylation data.
 #' @param cpg_dens_feat Additional feature for the CpG density across the
-#'  promoter region.
+#'   promoter region.
 #' @param opt_method Parameter for defining the method to be used in the
-#'  optimization procedure, see \code{\link[stats]{optim}}.
+#'   optimization procedure, see \code{\link[stats]{optim}}.
 #' @param opt_itnmax Optional parameter for defining the max number of
-#'  iterations of the optimization procedure, see \code{\link[stats]{optim}}.
+#'   iterations of the optimization procedure, see \code{\link[stats]{optim}}.
 #' @param is_parallel Logical, indicating if code should be run in parallel.
 #' @param no_cores Number of cores to be used, default is max_no_cores - 1.
 #' @param is_summary Logical, print the summary statistics.
 #'
 #' @return An mpgex object consisting of the following elements:
 #'
-#' @seealso \code{\link{bpr_optim}}, \code{\link{bpr_likelihood}},
-#'  \code{\link{polynomial.object}}, \code{\link{rbf.object}},
-#'  \code{\link{design_matrix}}
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{bpr_optim}}, \code{\link{create_polynomial_object}},
+#'   \code{\link{create_rbf_object}}, \code{\link{design_matrix}}
 #'
 #' @examples
 #' obs <- meth_data
 #' y   <- gex_data
-#' basis <- rbf.object(M = 5)
+#' basis <- create_rbf_object(M = 5)
 #' out   <- mpgex_regr(x = obs, y = y, basis = basis, is_parallel = FALSE,
-#'                     opt_itnmax = 50)
+#'                     opt_itnmax = 10)
 #'
 #' @export
 mpgex_regr <- function(formula = NULL, x, y, model_name = "svm", w = NULL,

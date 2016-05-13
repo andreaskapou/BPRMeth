@@ -10,9 +10,11 @@
 #'  parameter values.
 #' @inheritParams bpr_EM
 #'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
 #' @examples
 #' ex_data <- meth_data
-#' mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 5, is_parallel = FALSE,
+#' mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 3, is_parallel = FALSE,
 #'                              opt_itnmax = 10)
 #'
 #' @export
@@ -96,7 +98,7 @@ mpgex_cluster <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
                           opt_method = "CG", init_opt_itnmax = 100,
                           is_parallel = TRUE, no_cores = NULL){
   if (is.null(basis)){
-    basis <- rbf.object(M = 3)
+    basis <- create_rbf_object(M = 3)
   }
   if (is.null(w)){
     w <- rep(0.5, basis$M + 1)
