@@ -109,15 +109,6 @@ bpr_gradient <- function(w, H, data, is_NLL = FALSE){
   # Compute the gradient vector w.r.t the coefficients w
   gr <- (N * (succ * (1/Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
 
-#   if (NROW(H) == 1){
-#     gr <- (succ * (1 / Phi) - (total - succ) * (1 / (1 - Phi))) * N %*% H - w
-#   }else{
-#     gr <- (t(succ) %*% diag(1 / Phi) - t(total - succ) %*%
-#              diag(1 / (1 - Phi))) %*% diag(N) %*% H - w
-#
-#     (N * (succ * (1/Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
-#   }
-
   # If we required the Negative Log Likelihood
   if (is_NLL){
     gr <- (-1) * gr
@@ -182,7 +173,6 @@ sum_weighted_bpr_lik <- function(w, x, des_mat, post_prob, is_NLL = TRUE){
 #'
 #' @seealso \code{\link{bpr_gradient}}, \code{\link{bpr_EM}}
 #'
-#' @export
 sum_weighted_bpr_grad <- function(w, x, des_mat, post_prob, is_NLL = TRUE){
   N <- length(x)
 
