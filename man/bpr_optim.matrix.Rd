@@ -14,7 +14,7 @@ successes at the corresponding locations, repsectively.}
 
 \item{w}{A vector of parameters (i.e. coefficients of the basis functions)}
 
-\item{basis}{A 'basis' object. See \code{\link{polynomial.object}}}
+\item{basis}{A 'basis' object. E.g. see \code{\link{create_rbf_object}}.}
 
 \item{fit_feature}{Additional feature on how well the profile fits the
 methylation data.}
@@ -47,11 +47,14 @@ procedure is used. The \code{\link[stats]{optim}} packages is used for
 performing optimization.
 }
 \examples{
-basis <- polynomial.object(M=2)
+basis <- create_rbf_object(M=2)
 w <- c(0.1, 0.1, 0.1)
 data <- meth_data[[1]]
 out_opt <- bpr_optim(x = data, w = w, basis = basis, fit_feature = "NLL")
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{bpr_optim}}, \code{\link{bpr_optim.list}}

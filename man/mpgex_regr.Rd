@@ -14,8 +14,8 @@ mpgex_regr(formula = NULL, x, y, model_name = "svm", w = NULL,
 calling the \code{\link[stats]{lm}} function for performing linear
 regression. If NULL, the simple linear regression method is used.}
 
-\item{x}{The binomial distributed observations, which has to be a list
-where each element is an L x 3 dimensional matrix.}
+\item{x}{The binomial distributed observations, which has to be a list where
+each element is an L x 3 dimensional matrix.}
 
 \item{y}{Corresponding gene expression data for each element of the list x}
 
@@ -24,10 +24,9 @@ where each element is an L x 3 dimensional matrix.}
 \item{w}{Optional vector of initial parameter / coefficient values.}
 
 \item{basis}{Optional basis function object, default is
-\code{\link{polynomial.object}}}
+\code{\link{create_rbf_object}}.}
 
-\item{train_ind}{Optional vector containing the indices for the
-train set.}
+\item{train_ind}{Optional vector containing the indices for the train set.}
 
 \item{train_perc}{Optional parameter for defining the percentage of the
 dataset to be used for training set, the remaining will be the test set.}
@@ -54,8 +53,8 @@ iterations of the optimization procedure, see \code{\link[stats]{optim}}.}
 An mpgex object consisting of the following elements:
 }
 \description{
-\code{mpgex_regr} is a function that wraps all the necessary subroutines
-for performing predictions on gene expressions. Initially, it optimizes the
+\code{mpgex_regr} is a function that wraps all the necessary subroutines for
+performing predictions on gene expressions. Initially, it optimizes the
 parameters of the basis functions so as to learn the methylation profiles.
 Then uses the learned parameters / coefficients of the basis functions as
 input features for performing linear regression in order to predict/regress
@@ -64,14 +63,16 @@ the corresponding gene expression data.
 \examples{
 obs <- meth_data
 y   <- gex_data
-basis <- rbf.object(M = 5)
+basis <- create_rbf_object(M = 5)
 out   <- mpgex_regr(x = obs, y = y, basis = basis, is_parallel = FALSE,
-                    opt_itnmax = 50)
+                    opt_itnmax = 10)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
-\code{\link{bpr_optim}}, \code{\link{bpr_likelihood}},
- \code{\link{polynomial.object}}, \code{\link{rbf.object}},
- \code{\link{design_matrix}}
+\code{\link{bpr_optim}}, \code{\link{create_polynomial_object}},
+  \code{\link{create_rbf_object}}, \code{\link{design_matrix}}
 }
 

@@ -15,20 +15,23 @@
 }
 \value{
 A list containing the design matrix H and the basis object. The
- dimensions of the matrix H are N x (M+1), where N is the length of the
- observations, and M is the degree of the polynomial.
+  dimensions of the matrix H are N x (M+1), where N is the length of the
+  observations, and M is the degree of the polynomial.
 }
 \description{
 \code{design_matrix.polynomial} creates a design matrix H using polynomial
 basis functions of degree M.
 }
 \examples{
-obj <- polynomial.object(M=2)
+obj <- create_polynomial_object(M=2)
 obs <- c(0,.2,.5)
 des_mat <- design_matrix(obj, obs)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
-\code{\link{polynomial_basis}}, \code{\link{polynomial.object}}
+\code{\link{design_matrix}}, \code{\link{create_polynomial_object}}
 }
 

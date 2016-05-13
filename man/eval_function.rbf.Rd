@@ -24,10 +24,13 @@ Method for evaluating the rbf function with M basis for observation data
 obs and coefficients w.
 }
 \examples{
-x <- rbf.object(M=2, mus = c(2,2.5))
+x <- create_rbf_object(M=2, mus = c(2,2.5))
 obs <- c(1,2,3)
 w <- c(0.1, 0.3, -0.6)
 out <- eval_function(x, obs, w)
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 

@@ -12,7 +12,7 @@ bpr_optim(x, ...)
 \item{...}{Additional parameters}
 }
 \description{
-\code{bpr_optim} is a generic function which calles the appropriate methods
+\code{bpr_optim} is a generic function which calls the appropriate methods
 depending on the class of the object \code{x}. Object \code{x} can be either
 a \code{\link{list}} or a \code{\link{matrix}}.
 }
@@ -20,6 +20,9 @@ a \code{\link{list}} or a \code{\link{matrix}}.
 data <- meth_data
 out_opt <- bpr_optim(x = data, is_parallel = FALSE, method = "BFGS")
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{bpr_optim.list}}, \code{\link{bpr_optim.matrix}}

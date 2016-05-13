@@ -19,14 +19,17 @@ The probit transformed basis function values.
 Method for evaluating the probit transformation of a basis function.
 }
 \examples{
-x <- polynomial.object(M=2)
+x <- create_rbf_object(M=2)
 obs <- c(1,2,3)
 w <- c(0.1, 0.3, -0.6)
 out <- eval_probit_function(x, obs, w)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
 \code{\link{eval_function}}, \code{\link{eval_function.rbf}},
- \code{\link{eval_function.polynomial}}
+  \code{\link{eval_function.polynomial}}
 }
 

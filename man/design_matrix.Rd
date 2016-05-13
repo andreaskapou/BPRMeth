@@ -12,23 +12,27 @@ design_matrix(x, ...)
 \item{...}{Additional parameters.}
 }
 \description{
-This is a generic function which calles the appropriate methods depending
-on the class of the object \code{x}.
+This is a generic function which calls the appropriate methods depending on
+the class of the object \code{x}.
 }
 \examples{
-obj <- polynomial.object(M=2)
+obj <- create_rbf_object(M=2)
 obs <- c(0,.2,.5)
 polyn <- design_matrix(obj, obs)
 
 #----------------
 
-obj <- rbf.object(M=2)
+obj <- create_polynomial_object(M=2)
 obs <- c(0,.2,.5)
 rbf <- design_matrix(obj, obs)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
-\code{\link{polynomial.object}}, \code{\link{rbf.object}},
- \code{\link{design_matrix.polynomial}}, \code{\link{design_matrix.rbf}}
+\code{\link{create_polynomial_object}},
+  \code{\link{create_rbf_object}}, \code{\link{design_matrix.polynomial}},
+  \code{\link{design_matrix.rbf}}
 }
 

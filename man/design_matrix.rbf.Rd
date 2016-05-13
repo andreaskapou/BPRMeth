@@ -15,21 +15,24 @@
 }
 \value{
 A list containing the design matrix \code{H} and the basis object.
-The dimensions of the matrix H are Nx(M+1), where N is the length of the
-observations, and M is the number of radial basis functions. The updated
-\code{basis} object contains also the updated centers of RBFs.
+  The dimensions of the matrix H are Nx(M+1), where N is the length of the
+  observations, and M is the number of radial basis functions. The updated
+  \code{basis} object contains also the updated centers of RBFs.
 }
 \description{
-\code{design_matrix.rbf} creates a design matrix H using radial
-basis functions of degree M.
+\code{design_matrix.rbf} creates a design matrix H using radial basis
+functions of degree M.
 }
 \examples{
-obj <- rbf.object(M=3)
+obj <- create_rbf_object(M=3)
 obs <- c(0,.2,.5, 0.3)
 des_mat <- design_matrix(obj, obs)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
-\code{\link{design_matrix}}, \code{\link{rbf_basis}}
+\code{\link{design_matrix}}, \code{\link{create_rbf_object}}
 }
 

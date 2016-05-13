@@ -24,10 +24,13 @@ Method for evaluating the polynomial function of degree M for observation
 data obs and coefficients w.
 }
 \examples{
-x <- polynomial.object(M=2)
+x <- create_polynomial_object(M=2)
 obs <- c(1,2,3)
 w <- c(0.1, 0.3, -0.6)
 out <- eval_function(x, obs, w)
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 

@@ -22,7 +22,7 @@ corresponding locations, repsectively.}
 \item{w}{A MxK matrix, where each column contains the basis function
 coefficients for the corresponding cluster.}
 
-\item{basis}{A 'basis' object. E.g. see \code{\link{polynomial.object}}}
+\item{basis}{A 'basis' object. E.g. see \code{\link{create_rbf_object}}.}
 
 \item{em_max_iter}{Integer denoting the maximum number of EM iterations.}
 
@@ -39,7 +39,7 @@ parameter values.}
 
 \item{is_parallel}{Logical, indicating if code should be run in parallel.}
 
-\item{no_cores}{Number of cores to be used, default is max_no_cores - 1.}
+\item{no_cores}{Number of cores to be used, default is max_no_cores - 2.}
 
 \item{is_verbose}{Logical, print results during EM iterations}
 }
@@ -52,8 +52,11 @@ metrics are calculated, such as BIC and AIC.
 }
 \examples{
 ex_data <- meth_data
-mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 5, is_parallel = FALSE,
+mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 3, is_parallel = FALSE,
                              opt_itnmax = 10)
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 

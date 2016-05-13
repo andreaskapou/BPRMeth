@@ -22,7 +22,7 @@ corresponding locations, repsectively.}
 \item{w}{A MxK matrix, where each column contains the basis function
 coefficients for the corresponding cluster.}
 
-\item{basis}{A 'basis' object. E.g. see \code{\link{polynomial.object}}}
+\item{basis}{A 'basis' object. E.g. see \code{\link{create_rbf_object}}.}
 
 \item{em_max_iter}{Integer denoting the maximum number of EM iterations.}
 
@@ -36,13 +36,16 @@ for the corresponding method. See \code{\link[stats]{optim}} for details.}
 
 \item{is_parallel}{Logical, indicating if code should be run in parallel.}
 
-\item{no_cores}{Number of cores to be used, default is max_no_cores - 1.}
+\item{no_cores}{Number of cores to be used, default is max_no_cores - 2.}
 
 \item{is_verbose}{Logical, print results during EM iterations}
 }
 \description{
 \code{bpr_EM} implements the EM algorithm for performing clustering on DNA
  methylation profiles, where the observation model is the Binomial
- distributed Probit Regression function, \code{\link{bpr_likelihood}}.
+ distributed Probit Regression function.
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 

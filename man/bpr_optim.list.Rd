@@ -16,7 +16,7 @@ corresponding locations, repsectively.}
 
 \item{w}{A vector of parameters (i.e. coefficients of the basis functions)}
 
-\item{basis}{A 'basis' object. See \code{\link{polynomial.object}}}
+\item{basis}{A 'basis' object. E.g. see \code{\link{create_rbf_object}}.}
 
 \item{fit_feature}{Additional feature on how well the profile fits the
 methylation data.}
@@ -32,40 +32,35 @@ for the corresponding method. See \code{\link[stats]{optim}} for details.}
 
 \item{is_parallel}{Logical, indicating if code should be run in parallel.}
 
-\item{no_cores}{Number of cores to be used, default is max_no_cores - 1.}
+\item{no_cores}{Number of cores to be used, default is max_no_cores - 2.}
 
 \item{...}{Additional parameters}
 }
 \value{
-A list containing the following elements:
-\itemize{
- \item{ \code{W_opt}: An Nx(M+1) matrix with the optimized parameter values.
-   Each row of the matrix corresponds to each element of the list x. The
-   columns are of the same length as the parameter vector w (i.e. number
-   of basis functions).
- }
- \item{ \code{Mus}: An N x M matrix with the RBF centers if basis object is
-  \code{\link{rbf.object}}, otherwise NULL.}
- \item{ \code{basis}: The basis object.
- }
- \item{ \code{w}: The initial values of the parameters w.
- }
- \item{ \code{x_extrema}: The min and max values of each promoter region.
- }
-}
+A list containing the following elements: \itemize{ \item{
+  \code{W_opt}: An Nx(M+1) matrix with the optimized parameter values. Each
+  row of the matrix corresponds to each element of the list x. The columns
+  are of the same length as the parameter vector w (i.e. number of basis
+  functions). } \item{ \code{Mus}: An N x M matrix with the RBF centers if
+  basis object is \code{\link{create_rbf_object}}, otherwise NULL.} \item{
+  \code{basis}: The basis object. } \item{ \code{w}: The initial values of
+  the parameters w. } }
 }
 \description{
 \code{bpr_optim.list} minimizes the negative log likelihood of the BPR
 function. Since it cannot be evaluated analytically, an optimization
 procedure is used. The \code{\link[stats]{optim}} packages is used for
-performing optimization. This method calls \code{\link{bpr_optim.matrix}}
-to process each element of the list.
+performing optimization. This method calls \code{\link{bpr_optim.matrix}} to
+process each element of the list.
 }
 \examples{
 ex_data <- meth_data
-basis <- rbf.object(M=3)
-out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis, opt_method = "CG")
+basis <- create_rbf_object(M=3)
+out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
 
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{bpr_optim}}, \code{\link{bpr_optim.matrix}}

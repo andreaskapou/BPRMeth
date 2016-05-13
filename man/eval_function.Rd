@@ -16,21 +16,24 @@ functions.}
 Method for evaluating a basis function object of class x.
 }
 \examples{
-x <- rbf.object(M=2, mus = c(2,2.5))
+x <- create_rbf_object(M=2, mus = c(2,2.5))
 obs <- c(1,2,3)
 w <- c(0.1, 0.3, -0.6)
 out <- eval_function(x, obs, w)
 
 #----------------
 
-x <- polynomial.object(M=2)
+x <- create_polynomial_object(M=2)
 obs <- c(1,2,3)
 w <- c(0.1, 0.3, -0.6)
 out <- eval_function(x, obs, w)
 
 }
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
+}
 \seealso{
 \code{\link{eval_probit_function}}, \code{\link{eval_function.rbf}},
- \code{\link{eval_function.polynomial}}
+  \code{\link{eval_function.polynomial}}
 }
 
