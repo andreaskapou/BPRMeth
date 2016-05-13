@@ -1,22 +1,25 @@
 #' Generic function for creating design matrices
 #'
-#' This is a generic function which calles the appropriate methods depending
-#' on the class of the object \code{x}.
+#' This is a generic function which calls the appropriate methods depending on
+#' the class of the object \code{x}.
 #'
 #' @param x A basis function object.
 #' @param ... Additional parameters.
 #'
-#' @seealso \code{\link{polynomial.object}}, \code{\link{rbf.object}},
-#'  \code{\link{design_matrix.polynomial}}, \code{\link{design_matrix.rbf}}
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{create_polynomial_object}},
+#'   \code{\link{create_rbf_object}}, \code{\link{design_matrix.polynomial}},
+#'   \code{\link{design_matrix.rbf}}
 #'
 #' @examples
-#' obj <- polynomial.object(M=2)
+#' obj <- create_rbf_object(M=2)
 #' obs <- c(0,.2,.5)
 #' polyn <- design_matrix(obj, obs)
 #'
 #' #----------------
 #'
-#' obj <- rbf.object(M=2)
+#' obj <- create_polynomial_object(M=2)
 #' obs <- c(0,.2,.5)
 #' rbf <- design_matrix(obj, obs)
 #'
@@ -42,13 +45,15 @@ design_matrix.default <- function(x, ...){
 #' @param ... Additional parameters
 #'
 #' @return A list containing the design matrix H and the basis object. The
-#'  dimensions of the matrix H are N x (M+1), where N is the length of the
-#'  observations, and M is the degree of the polynomial.
+#'   dimensions of the matrix H are N x (M+1), where N is the length of the
+#'   observations, and M is the degree of the polynomial.
 #'
-#' @seealso \code{\link{polynomial_basis}}, \code{\link{polynomial.object}}
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{design_matrix}}, \code{\link{create_polynomial_object}}
 #'
 #' @examples
-#' obj <- polynomial.object(M=2)
+#' obj <- create_polynomial_object(M=2)
 #' obs <- c(0,.2,.5)
 #' des_mat <- design_matrix(obj, obs)
 #'
@@ -61,7 +66,7 @@ design_matrix.polynomial <- function(x, obs, ...){
   H <- matrix(1, nrow = N, ncol = x$M + 1)
   if (x$M > 0){
     for (j in 1:x$M){
-      H[ ,j + 1] <- polynomial_basis(obs, j)  # Compute X^(j)
+      H[ ,j + 1] <- .polynomial_basis(obs, j)  # Compute X^(j)
     }
   }
   return(list(H = H, basis = x))
@@ -70,20 +75,22 @@ design_matrix.polynomial <- function(x, obs, ...){
 
 #' Create RBF design matrices
 #'
-#' \code{design_matrix.rbf} creates a design matrix H using radial
-#' basis functions of degree M.
+#' \code{design_matrix.rbf} creates a design matrix H using radial basis
+#' functions of degree M.
 #'
 #' @inheritParams design_matrix.polynomial
 #'
 #' @return A list containing the design matrix \code{H} and the basis object.
-#' The dimensions of the matrix H are Nx(M+1), where N is the length of the
-#' observations, and M is the number of radial basis functions. The updated
-#' \code{basis} object contains also the updated centers of RBFs.
+#'   The dimensions of the matrix H are Nx(M+1), where N is the length of the
+#'   observations, and M is the number of radial basis functions. The updated
+#'   \code{basis} object contains also the updated centers of RBFs.
 #'
-#' @seealso \code{\link{design_matrix}}, \code{\link{rbf_basis}}
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @seealso \code{\link{design_matrix}}, \code{\link{create_rbf_object}}
 #'
 #' @examples
-#' obj <- rbf.object(M=3)
+#' obj <- create_rbf_object(M=3)
 #' obs <- c(0,.2,.5, 0.3)
 #' des_mat <- design_matrix(obj, obs)
 #'
@@ -121,7 +128,7 @@ design_matrix.rbf <- function(x, obs, ...){
     obs <- as.matrix(obs)
     H <- matrix(1, nrow = N, ncol = x$M + 1)
     for (j in 1:x$M){
-      H[ ,j + 1] <- apply(obs, 1, rbf_basis, mus = x$mus[j], gamma = x$gamma)
+      H[ ,j + 1] <- apply(obs, 1, .rbf_basis, mus = x$mus[j], gamma = x$gamma)
     }
   }
   return(list(H = H, basis = x))

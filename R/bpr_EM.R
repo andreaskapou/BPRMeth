@@ -2,7 +2,7 @@
 #'
 #' \code{bpr_EM} implements the EM algorithm for performing clustering on DNA
 #'  methylation profiles, where the observation model is the Binomial
-#'  distributed Probit Regression function, \code{\link{bpr_likelihood}}.
+#'  distributed Probit Regression function.
 #'
 #' @param x A list of elements of length N, where each element is an L x 3
 #' matrix of observations, where 1st column contains the locations. The 2nd
@@ -12,7 +12,7 @@
 #' @param pi_k Vector of length K, denoting the mixing proportions.
 #' @param w A MxK matrix, where each column contains the basis function
 #' coefficients for the corresponding cluster.
-#' @param basis A 'basis' object. E.g. see \code{\link{polynomial.object}}
+#' @param basis A 'basis' object. E.g. see \code{\link{create_rbf_object}}.
 #' @param em_max_iter Integer denoting the maximum number of EM iterations.
 #' @param epsilon_conv Numeric denoting the convergence parameter for EM.
 #' @param opt_method The optimization method to be used. See
@@ -20,10 +20,11 @@
 #' @param opt_itnmax Optional argument giving the maximum number of iterations
 #'  for the corresponding method. See \code{\link[stats]{optim}} for details.
 #' @param is_parallel Logical, indicating if code should be run in parallel.
-#' @param no_cores Number of cores to be used, default is max_no_cores - 1.
+#' @param no_cores Number of cores to be used, default is max_no_cores - 2.
 #' @param is_verbose Logical, print results during EM iterations
-#'
 #' @importFrom stats optim
+#'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
 #' @export
 bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
@@ -85,10 +86,10 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
       # For each element in x, evaluate the BPR log likelihood
       weighted_pdf[ ,k] <- vapply(X   = 1:N,
                                   FUN = function(y)
-                                    bpr_likelihood(w = w[ ,k],
-                                                   H = des_mat[[y]]$H,
-                                                   data = x[[y]][ ,2:3],
-                                                   is_NLL = FALSE),
+                                    .bpr_likelihood(w = w[ ,k],
+                                                    H = des_mat[[y]]$H,
+                                                    data = x[[y]][ ,2:3],
+                                                    is_NLL = FALSE),
                                   FUN.VALUE = numeric(1),
                                   USE.NAMES = FALSE)
       weighted_pdf[ ,k] <- log(pi_k[k]) + weighted_pdf[ ,k]
@@ -119,8 +120,8 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
                                                      .combine = cbind),
                               ex  = {
                         out <- optim(par       = w[ ,k],
-                                     fn        = sum_weighted_bpr_lik,
-                                     gr        = sum_weighted_bpr_grad,
+                                     fn        = .sum_weighted_bpr_lik,
+                                     gr        = .sum_weighted_bpr_grad,
                                      method    = opt_method,
                                      control   = list(maxit = opt_itnmax),
                                      x         = x,
@@ -134,8 +135,8 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
                                                   .combine = cbind),
                            ex  = {
                      out <- optim(par       = w[ ,k],
-                                  fn        = sum_weighted_bpr_lik,
-                                  gr        = sum_weighted_bpr_grad,
+                                  fn        = .sum_weighted_bpr_lik,
+                                  gr        = .sum_weighted_bpr_grad,
                                   method    = opt_method,
                                   control   = list(maxit = opt_itnmax),
                                   x         = x,
