@@ -4,13 +4,16 @@
 #' BS-Seq data. If a vector of files is given, these are considered as
 #' replicates and are pooled together. Finally, noisy reads are discarded.
 #'
-#' @param files A vector of filenames containing replicate experiments.
+#' @param files A vector of filenames containing replicate experiments. This can
+#'   also be just a single replicate.
 #' @param file_format A string denoting the file format that the BS-Seq data are
 #'   stored. Current version allows "\code{encode_rrbs}" or "\code{bismark_cov}"
 #'   formats.
 #' @param chr_discarded A vector with chromosome names to be discarded.
-#' @param min_bs_cov Minimum number of reads mapping to each CpG site.
-#' @param max_bs_cov Maximum number of reads mapping to each CpG site.
+#' @param min_bs_cov The minimum number of reads mapping to each CpG site. CpGs
+#'   with less reads will be considered as noise and will be discarded.
+#' @param max_bs_cov The maximum number of reads mapping to each CpG site. CpGs
+#'   with more reads will be considered as noise and will be discarded.
 #'
 #' @return A \code{\link[GenomicRanges]{GRanges}} object. The GRanges object
 #'   contains two additional metadata columns: \itemize{ \item

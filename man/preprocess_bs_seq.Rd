@@ -8,7 +8,8 @@ preprocess_bs_seq(files, file_format = "encode_rrbs", chr_discarded = NULL,
   min_bs_cov = 2, max_bs_cov = 1000)
 }
 \arguments{
-\item{files}{A vector of filenames containing replicate experiments.}
+\item{files}{A vector of filenames containing replicate experiments. This can
+also be just a single replicate.}
 
 \item{file_format}{A string denoting the file format that the BS-Seq data are
 stored. Current version allows "\code{encode_rrbs}" or "\code{bismark_cov}"
@@ -16,9 +17,11 @@ formats.}
 
 \item{chr_discarded}{A vector with chromosome names to be discarded.}
 
-\item{min_bs_cov}{Minimum number of reads mapping to each CpG site.}
+\item{min_bs_cov}{The minimum number of reads mapping to each CpG site. CpGs
+with less reads will be considered as noise and will be discarded.}
 
-\item{max_bs_cov}{Maximum number of reads mapping to each CpG site.}
+\item{max_bs_cov}{The maximum number of reads mapping to each CpG site. CpGs
+with more reads will be considered as noise and will be discarded.}
 }
 \value{
 A \code{\link[GenomicRanges]{GRanges}} object. The GRanges object

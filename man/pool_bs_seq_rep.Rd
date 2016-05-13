@@ -7,7 +7,8 @@
 pool_bs_seq_rep(files, file_format = "encode_rrbs", chr_discarded = NULL)
 }
 \arguments{
-\item{files}{A vector of filenames containing replicate experiments.}
+\item{files}{A vector of filenames containing replicate experiments. This can
+also be just a single replicate.}
 
 \item{file_format}{A string denoting the file format that the BS-Seq data are
 stored. Current version allows "\code{encode_rrbs}" or "\code{bismark_cov}"
