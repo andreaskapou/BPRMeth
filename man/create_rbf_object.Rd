@@ -27,7 +27,7 @@ An object of class 'rbf'.
 \description{
 \code{create_rbf_object} creates objects of class "rbf". These objects can be
 used as input to complex functions in order to perform computations depending
-on the basis function. E.g see \code{\link{design_matrix}} generic function.
+on the basis function.
 }
 \examples{
 (obj <- create_rbf_object(M = 2))
@@ -37,6 +37,6 @@ on the basis function. E.g see \code{\link{design_matrix}} generic function.
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
-\code{\link{design_matrix}}, \code{\link{create_polynomial_object}}
+\code{\link{create_polynomial_object}}
 }
 

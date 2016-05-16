@@ -2,8 +2,7 @@
 #'
 #' \code{create_polynomial_object} creates objects of class "polynomial". These
 #' objects can be used as input to complex functions in order to perform
-#' computations depending on the class of  basis function. E.g see
-#' \code{\link{design_matrix}} generic function.
+#' computations depending on the class of  basis function.
 #'
 #' @param M The degree of the polynomial object.
 #'
@@ -11,7 +10,7 @@
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @seealso \code{\link{design_matrix}}, \code{\link{create_rbf_object}}
+#' @seealso \code{\link{create_rbf_object}}
 #'
 #' @examples
 #' (obj <- create_polynomial_object(M = 2))
@@ -31,7 +30,7 @@ create_polynomial_object <- function(M = 1){
 #'
 #' \code{create_rbf_object} creates objects of class "rbf". These objects can be
 #' used as input to complex functions in order to perform computations depending
-#' on the basis function. E.g see \code{\link{design_matrix}} generic function.
+#' on the basis function.
 #'
 #' @param M The number of the RBFs.
 #' @param gamma Inverse width of radial basis function.
@@ -46,7 +45,7 @@ create_polynomial_object <- function(M = 1){
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @seealso \code{\link{design_matrix}}, \code{\link{create_polynomial_object}}
+#' @seealso \code{\link{create_polynomial_object}}
 #'
 #' @examples
 #' (obj <- create_rbf_object(M = 2))

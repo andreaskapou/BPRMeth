@@ -66,13 +66,13 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
     # Create design matrix for each observation
     des_mat <- parallel::mclapply(X   = x,
                                   FUN = function(y)
-                                    design_matrix(x = basis, obs = y[ ,1]),
+                                    .design_matrix(x = basis, obs = y[ ,1]),
                                   mc.cores = no_cores)
   }else{
     # Create design matrix for each observation
     des_mat <- lapply(X   = x,
                       FUN = function(y)
-                        design_matrix(x = basis, obs = y[ ,1]))
+                        .design_matrix(x = basis, obs = y[ ,1]))
   }
 
   # Run EM algorithm until convergence

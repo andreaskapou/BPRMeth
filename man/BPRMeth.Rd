@@ -11,7 +11,11 @@
 .datatable.aware
 }
 \description{
-\code{BPRMeth}: Extracting higher order methylation features
+Higher order methylation features for clustering and prediction in epigenomic
+studies
+}
+\author{
+C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \keyword{datasets}
 

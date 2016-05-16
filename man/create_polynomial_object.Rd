@@ -15,8 +15,7 @@ An object of class 'polynomial'
 \description{
 \code{create_polynomial_object} creates objects of class "polynomial". These
 objects can be used as input to complex functions in order to perform
-computations depending on the class of  basis function. E.g see
-\code{\link{design_matrix}} generic function.
+computations depending on the class of  basis function.
 }
 \examples{
 (obj <- create_polynomial_object(M = 2))
@@ -26,6 +25,6 @@ computations depending on the class of  basis function. E.g see
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
-\code{\link{design_matrix}}, \code{\link{create_rbf_object}}
+\code{\link{create_rbf_object}}
 }
 

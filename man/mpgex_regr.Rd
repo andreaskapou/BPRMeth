@@ -73,6 +73,6 @@ C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \seealso{
 \code{\link{bpr_optim}}, \code{\link{create_polynomial_object}},
-  \code{\link{create_rbf_object}}, \code{\link{design_matrix}}
+  \code{\link{create_rbf_object}}
 }
 
