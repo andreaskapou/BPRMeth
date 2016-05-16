@@ -176,7 +176,7 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
 #' @rdname bpr_optimize
 #'
 #' @examples
-#' # Example of optimizing parameters for synthetic data using 2 RBFs, only for a specific promoter region.
+#' # Example of of specific promoter region using 2 RBFs
 #' basis <- create_rbf_object(M=2)
 #' w <- c(0.1, 0.1, 0.1)
 #' data <- meth_data[[1]]
