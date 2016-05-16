@@ -14,8 +14,7 @@
 #'
 #' @examples
 #' ex_data <- meth_data
-#' mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 3, is_parallel = FALSE,
-#'                              opt_itnmax = 10)
+#' mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 3, is_parallel = FALSE, opt_itnmax = 10)
 #'
 #' @export
 mpgex_cluster <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
@@ -107,6 +106,8 @@ mpgex_cluster <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
     out_opt <- bpr_optim(x           = x,
                          w           = w,
                          basis       = basis,
+                         fit_feature = NULL,
+                         cpg_dens_feat = FALSE,
                          method      = opt_method,
                          itnmax      = init_opt_itnmax,
                          is_parallel = is_parallel,
