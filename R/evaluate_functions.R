@@ -1,23 +1,38 @@
-#' Generic function for evaluating probit basis functions
+#' @name eval_functions
+#' @rdname eval_functions
 #'
-#' Method for evaluating the probit transformation of a basis function.
+#' @title Evaluate basis functions
+#'
+#' @description Method for evaluating an M basis function model with observation
+#'   data \code{obs} and coefficients \code{w}.
 #'
 #' @param x The basis function object.
-#' @param ... Additional parameters that will be passed to more specific
-#'   functions.
+#' @param obs Observation data.
+#' @param w Vector of length M, containing the coefficients of an
+#'   M\eqn{^{th}}-order basis function.
+#' @param ... Optional additional parameters
 #'
-#' @return The probit transformed basis function values.
+#' @return The evaluated function values.
+#'
+#'   NOTE that the \code{eval_probit_function} computes the probit transformed
+#'   basis function values.
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @seealso \code{\link{eval_function}}, \code{\link{eval_function.rbf}},
-#'   \code{\link{eval_function.polynomial}}
+#' @seealso \code{\link{create_basis}}
+NULL
+
+
+#' @rdname eval_functions
 #'
 #' @examples
+#' # Evaluate the probit transformed basis function values
 #' x <- create_rbf_object(M=2)
 #' obs <- c(1,2,3)
 #' w <- c(0.1, 0.3, -0.6)
 #' out <- eval_probit_function(x, obs, w)
+#'
+#' # -------------------------
 #'
 #' @export
 eval_probit_function <- function(x, ...){
@@ -26,25 +41,18 @@ eval_probit_function <- function(x, ...){
 }
 
 
-#' Generic function for evaluating basis functions
-#'
-#' Method for evaluating a basis function object of class x.
-#'
-#' @inheritParams eval_probit_function
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @seealso \code{\link{eval_probit_function}}, \code{\link{eval_function.rbf}},
-#'   \code{\link{eval_function.polynomial}}
+#' @rdname eval_functions
 #'
 #' @examples
+#' # Evaluate the RBF basis function values
 #' x <- create_rbf_object(M=2, mus = c(2,2.5))
 #' obs <- c(1,2,3)
 #' w <- c(0.1, 0.3, -0.6)
 #' out <- eval_function(x, obs, w)
 #'
-#' #----------------
+#' # -------------------------
 #'
+#' # Evaluate the Polynomial basis function values
 #' x <- create_polynomial_object(M=2)
 #' obs <- c(1,2,3)
 #' w <- c(0.1, 0.3, -0.6)
@@ -62,59 +70,7 @@ eval_function.default <- function(x, ...){
 }
 
 
-#' Evaluate polynomial function
-#'
-#' Method for evaluating the polynomial function of degree M for observation
-#' data obs and coefficients w.
-#'
-#' @param x The basis function object.
-#' @param obs Input / observation data.
-#' @param w Vector of length M, containing the coefficients of an Mth-order
-#'   basis function.
-#' @param ... Optional additional parameters
-#'
-#' @return The polynomial function values.
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @examples
-#' x <- create_polynomial_object(M=2)
-#' obs <- c(1,2,3)
-#' w <- c(0.1, 0.3, -0.6)
-#' out <- eval_function(x, obs, w)
-#'
-#' @export
-eval_function.polynomial <- function(x, obs, w, ...){
-  assertthat::assert_that(methods::is(x, "polynomial"))
-  assertthat::assert_that(is.vector(obs))
-  assertthat::assert_that(is.vector(w))
-
-  f <- rep(w[1], length(obs))
-  if (x$M > 0){
-    for (i in 1:x$M){
-      f <- f + w[i + 1] * .polynomial_basis(obs, i)
-    }
-  }
-  return(f)
-}
-
-
-#' Evaluate rbf function
-#'
-#' Method for evaluating the rbf function with M basis for observation data
-#' obs and coefficients w.
-#'
-#' @inheritParams eval_function.polynomial
-#'
-#' @return The rbf function values.
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @examples
-#' x <- create_rbf_object(M=2, mus = c(2,2.5))
-#' obs <- c(1,2,3)
-#' w <- c(0.1, 0.3, -0.6)
-#' out <- eval_function(x, obs, w)
+#' @rdname eval_functions
 #'
 #' @export
 eval_function.rbf <- function(x, obs, w, ...){
@@ -131,6 +87,24 @@ eval_function.rbf <- function(x, obs, w, ...){
                                 FUN    = .rbf_basis,
                                 mus    = x$mus[i],
                                 gamma  = x$gamma)
+    }
+  }
+  return(f)
+}
+
+
+#' @rdname eval_functions
+#'
+#' @export
+eval_function.polynomial <- function(x, obs, w, ...){
+  assertthat::assert_that(methods::is(x, "polynomial"))
+  assertthat::assert_that(is.vector(obs))
+  assertthat::assert_that(is.vector(w))
+
+  f <- rep(w[1], length(obs))
+  if (x$M > 0){
+    for (i in 1:x$M){
+      f <- f + w[i + 1] * .polynomial_basis(obs, i)
     }
   }
   return(f)
