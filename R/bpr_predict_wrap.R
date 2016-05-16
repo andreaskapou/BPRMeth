@@ -10,8 +10,11 @@
 #' @param formula An object of class \code{\link[stats]{formula}}, e.g. see
 #'   \code{\link[stats]{lm}} function. If NULL, the simple linear regression
 #'   model is used.
-#' @param x The binomial distributed observations, which has to be a list where
-#'   each element of the list is an L x 3 dimensional matrix. See
+#' @param x The binomial distributed observations, which has to be a list of
+#'   elements of length N, where each element is an L x 3 matrix of
+#'   observations, where 1st column contains the locations. The 2nd and 3rd
+#'   columns contain the total trials and number of successes at the
+#'   corresponding locations, repsectively. See
 #'   \code{\link{process_haib_caltech_wrap}} on a possible way to get this data
 #'   structure.
 #' @param y Corresponding gene expression data for each element of the list x.
