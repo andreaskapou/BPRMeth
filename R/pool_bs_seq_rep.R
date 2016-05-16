@@ -93,7 +93,7 @@ pool_bs_seq_rep <- function(files, file_format = "encode_rrbs",
                 bs_data_rep[-S4Vectors::subjectHits(overlaps)])
 
     # Sort the pooled GRanges object
-    pooled_bs <- sort(tmp_bs, ignore.strand=TRUE)
+    pooled_bs <- sort(tmp_bs, ignore.strand = TRUE)
   }
   message("Finished pooling BS-Seq replicates!\n")
   return(pooled_bs)

@@ -14,11 +14,8 @@
 # @return The scaled data in the given range, default is between (-1, 1). If
 #  xmin = xmax the input vector \code{data} is returned.
 #
-# @examples
-# data <- c(-20, 0, 15, 20)
-# scaled <- .minmax_scaling(data)
-#
-.minmax_scaling <- function(data, xmin = NULL, xmax = NULL, fmin = -1, fmax = 1){
+.minmax_scaling <- function(data, xmin = NULL, xmax = NULL,
+                                    fmin = -1, fmax = 1){
   if (is.null(xmin)){
     xmin <- min(data)
   }
@@ -44,17 +41,6 @@
 # @param train_perc Percentage of training data when partitioning.
 #
 # @return A list containing the train, test data and index of training data.
-#
-# @examples
-# x <- matrix(c(-20, 0, 15, 20, 20, 10, 4, 5), ncol=2)
-# y <- c(2, 5, 0, 8)
-# data <- partition_data(x, y)
-#
-# ##
-# x <- matrix(c(-20, 0, 15, 20, 20, 10, 4, 5), ncol=2)
-# y <- c(2, 5, 0, 8)
-# train_ind <- c(1,4)
-# data <- partition_data(x, y, train_ind)
 #
 .partition_data <- function(x, y, train_ind = NULL, train_perc = 0.7){
   # Convert both x and y to matrices
@@ -92,13 +78,6 @@
 #  \item \code{rstd} relative standard deviation.
 # }
 #
-# @examples
-# # Example data
-# actual <- c(4, 6, 9, 10, 4, 6, 4, 7, 8, 7)
-# predicted <- c(5, 6, 8, 10, 4, 8, 4, 9, 8, 9)
-#
-# (.calculate_errors(actual, predicted, summary = TRUE))
-#
 .calculate_errors <- function(x, y, summary = FALSE){
   # TODO Compute actual errors using the right DoF!!
   R <- list()
@@ -118,12 +97,10 @@
   rmse_f <- formatC(R$rmse, digits = 4, format = "f")
   # mean absolute percentage error
   R$mape <- mean(abs(error / x))
-  mape_f <- formatC(R$mape, digits = 4, format = "f")
   # relative standard deviation
   R$rstd <- R$rmse / mean(x)
-  rstd_f <- formatC(R$rstd, digits = 4, format = "f")
   # Compute r-squared
-  R$rsq  <- 1 - (sum(error ^ 2) / sum((x - mean(x)) ^ 2))
+  R$rsq  <- 1 - (sum(error ^ 2) / sum( (x - mean(x)) ^ 2) )
   rsq_f  <- formatC(R$rsq, digits = 4, format = "f")
   # Pearson Correlation Coefficient
   R$pcc  <- stats::cor(x, y)
@@ -157,10 +134,6 @@
 # @references
 #  \url{https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/}
 #
-# @examples
-# x <- c(0.001, 0.5, 2, 1.4, 1.5)
-# out <- .log_sum_exp(x)
-#
 .log_sum_exp <- function(x) {
   # Computes log(sum(exp(x))
   offset <- max(x)
@@ -176,10 +149,6 @@
 #
 # @return The FPKM numeric value
 #
-# @examples
-# data <- 'gene_id "72"; transcr "ENST00000456328"; FPKM "0.0736851531";'
-# scaled <- extract_fpkm(data)
-#
 .extract_fpkm <- function(x){
   # TODO test when no FPKM is available
   fpkm <- gsub(".* FPKM ([^;]+);.*", "\\1", x)
@@ -194,10 +163,6 @@
 # @param x a string containing gene name information
 #
 # @return The gene name as a string
-#
-# @examples
-# data <- 'gene_name "Bnt1.1"; transcr "ENST00000456328"; FPKM "0.0736831";'
-# scaled <- extract_gene_name(data)
 #
 .extract_gene_name <- function(x){
   # TODO test when no gene name is available

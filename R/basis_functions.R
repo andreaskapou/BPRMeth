@@ -33,8 +33,8 @@ NULL
 #' #---------------------------------
 #'
 #' @export
-create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL, eq_spaced_mus = TRUE,
-                                                         whole_region = TRUE){
+create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL,
+                              eq_spaced_mus = TRUE, whole_region = TRUE){
   assertthat::assert_that(is.numeric(M))
   assertthat::assert_that(is.logical(eq_spaced_mus))
   assertthat::assert_that(is.logical(whole_region))
@@ -102,11 +102,6 @@ create_polynomial_object <- function(M = 1){
 #
 # @seealso \code{\link{create_polynomial_object}}, \code{\link{rbf_basis}}
 #
-# @examples
-# out <- polynomial_basis(X = 3, M = 2)
-# #
-# out <- polynomial_basis(X = c(2, 3, 4), M = 2)
-#
 .polynomial_basis <- function(X, M = 1){
   return(X ^ M)
 }
@@ -126,11 +121,6 @@ create_polynomial_object <- function(M = 1){
 #
 # @seealso \code{\link{create_rbf_object}}, \code{\link{polynomial_basis}}
 #
-# @examples
-# out <- rbf_basis(X = c(1,2), mus = c(1,1))
-# #
-# out <- rbf_basis(X = c(1,2), mus = c(1,1), gamma = 0.1)
-#
 .rbf_basis <- function(X, mus, gamma = 1){
-  return(exp( (-1) * gamma * sum((X - mus)^2)))
+  return(exp( (-1) * gamma * sum( (X - mus) ^ 2) ))
 }

@@ -24,20 +24,11 @@
 #
 # @seealso \code{\link{bpr_gradient}}, \code{\link{design_matrix}}
 #
-# @examples
-# obj <- create_rbf_object(M=2)
-# obs <- c(0,.2,.5, 0.6)
-# des_mat <- design_matrix(obj, obs)
-# H <- des_mat$H
-# w <- c(.1,.1,.1)
-# data <- matrix(c(10,12,15,7,9,8), ncol=2)
-# lik <- .bpr_likelihood(w, H, data)
-#
 # @importFrom stats pnorm dbinom
 #
 .bpr_likelihood <- function(w, H, data, is_NLL = FALSE){
-  total <- data[ ,1]
-  succ  <- data[ ,2]
+  total <- data[, 1]
+  succ  <- data[, 2]
 
   # Predictions of the target variables
   g <- as.vector(H %*% w)
@@ -51,7 +42,7 @@
 
   # Compute the log likelihood
   res <- sum(dbinom(x = succ, size = total, prob = Phi, log = TRUE)) -
-                                                       1/2 * t(w) %*% w
+                                                       1 / 2 * t(w) %*% w
 
   # If we required the Negative Log Likelihood
   if (is_NLL){
@@ -75,20 +66,11 @@
 #
 # @seealso \code{\link{bpr_likelihood}}, \code{\link{design_matrix}}
 #
-# @examples
-# obj <- create_rbf_object(M=2)
-# obs <- c(0,.2,.5)
-# des_mat <- design_matrix(obj, obs)
-# H <- des_mat$H
-# w <- c(.1,.1,.1)
-# data <- matrix(c(10,12,15,7,9,8), ncol=2)
-# gr <- .bpr_gradient(w, H, data)
-#
 # @importFrom stats pnorm dnorm
 #
 .bpr_gradient <- function(w, H, data, is_NLL = FALSE){
-  total <- data[ ,1]
-  succ  <- data[ ,2]
+  total <- data[, 1]
+  succ  <- data[, 2]
 
   # Predictions of the target variables
   g <- as.vector(H %*% w)
@@ -105,7 +87,7 @@
   N[which(N < 1e-289)] <- 1e-289
 
   # Compute the gradient vector w.r.t the coefficients w
-  gr <- (N * (succ * (1/Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
+  gr <- (N * (succ * (1 / Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
 
   # If we required the Negative Log Likelihood
   if (is_NLL){
@@ -149,7 +131,7 @@
   res <- vapply(X   = 1:N,
                 FUN = function(y) .bpr_likelihood(w = w,
                                                   H = des_mat[[y]]$H,
-                                                  data = x[[y]][ ,2:3],
+                                                  data = x[[y]][, 2:3],
                                                   is_NLL = is_NLL),
                 FUN.VALUE = numeric(1),
                 USE.NAMES = FALSE)
@@ -182,7 +164,7 @@
   res <- vapply(X   = 1:N,
                 FUN = function(y) .bpr_gradient(w = w,
                                                 H = des_mat[[y]]$H,
-                                                data = x[[y]][ ,2:3],
+                                                data = x[[y]][, 2:3],
                                                 is_NLL = is_NLL),
                 FUN.VALUE = numeric(length(w)),
                 USE.NAMES = FALSE)

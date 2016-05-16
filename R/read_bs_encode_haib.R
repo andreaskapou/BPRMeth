@@ -44,20 +44,20 @@
 #' @export
 read_bs_encode_haib <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
   message("Reading file ", file, " ...")
-  data_raw <- scan(file=file,
-                   skip=1,
-                   sep="\t",
-                   what=list("character",  # Reference chromosome or scaffold
-                             integer(),    # Start position in chromosome
-                             NULL,         # End position in chromosome
-                             NULL,         # Name of item
-                             integer(),    # Score from 0-1000. Capped number
-                             "character",  # Strand : + or - or . for unknown
-                             NULL,         # Start position
-                             NULL,         # End position
-                             NULL,         # Color value R,G,B
-                             NULL,         # Number of reads or coverage
-                             integer()     # Methylation percentage
+  data_raw <- scan(file = file,
+                   skip = 1,
+                   sep = "\t",
+                   what = list("character",  # Reference chromosome or scaffold
+                               integer(),    # Start position in chromosome
+                               NULL,         # End position in chromosome
+                               NULL,         # Name of item
+                               integer(),    # Score from 0-1000. Capped number
+                               "character",  # Strand : + or - or . for unknown
+                               NULL,         # Start position
+                               NULL,         # End position
+                               NULL,         # Color value R,G,B
+                               NULL,         # Number of reads or coverage
+                               integer()     # Methylation percentage
                    ))
 
 
@@ -88,10 +88,10 @@ read_bs_encode_haib <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
     # Create a GRanges object -----------------------------------
     message("Creating GRanges object ...")
     bs_data <- GenomicRanges::GRanges(seqnames = bs_data$chr,
-                      strand = bs_data$strand,
-                      ranges = IRanges::IRanges(start=bs_data$start, width=1),
-                      total_reads = bs_data$total_reads,
-                      meth_reads  = bs_data$meth_reads)
+                    strand = bs_data$strand,
+                    ranges = IRanges::IRanges(start = bs_data$start, width = 1),
+                    total_reads = bs_data$total_reads,
+                    meth_reads  = bs_data$meth_reads)
   }
   message("Finished reading BS-Seq file!\n")
   return(bs_data)

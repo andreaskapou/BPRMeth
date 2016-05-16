@@ -62,9 +62,9 @@ read_bs_bismark_cov <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
     # Create a GRanges object ---------------------------------
     message("Creating GRanges object ...")
     bs_data <- GenomicRanges::GRanges(seqnames = bs_data$chr,
-                      ranges = IRanges::IRanges(start=bs_data$start, width=1),
-                      total_reads = bs_data$meth_reads + bs_data$unmeth_reads,
-                      meth_reads  = bs_data$meth_reads)
+                    ranges = IRanges::IRanges(start = bs_data$start, width = 1),
+                    total_reads = bs_data$meth_reads + bs_data$unmeth_reads,
+                    meth_reads  = bs_data$meth_reads)
   }
   message("Finished reading BS-Seq file!\n")
   return(bs_data)

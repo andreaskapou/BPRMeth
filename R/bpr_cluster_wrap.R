@@ -100,7 +100,8 @@ bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
   total_params <- (K - 1) + K * NROW(w)
 
   # Bayesian Information Criterion
-  bpr_cluster$BIC <- 2 * utils::tail(bpr_cluster$NLL, n = 1) + total_params * log(N)
+  bpr_cluster$BIC <- 2 * utils::tail(bpr_cluster$NLL, n = 1) +
+                          total_params * log(N)
 
   # Akaike Iformation Criterion
   bpr_cluster$AIC <- 2 * utils::tail(bpr_cluster$NLL, n = 1) + 2 * total_params
@@ -185,13 +186,13 @@ bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
     # Create design matrix for each observation
     des_mat <- parallel::mclapply(X   = x,
                                   FUN = function(y)
-                                    .design_matrix(x = basis, obs = y[ ,1]),
+                                    .design_matrix(x = basis, obs = y[, 1]),
                                   mc.cores = no_cores)
   }else{
     # Create design matrix for each observation
     des_mat <- lapply(X   = x,
                       FUN = function(y)
-                        .design_matrix(x = basis, obs = y[ ,1]))
+                        .design_matrix(x = basis, obs = y[, 1]))
   }
 
   # Run EM algorithm until convergence
@@ -203,15 +204,15 @@ bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
     # Compute weighted pdfs for each cluster
     for (k in 1:K){
       # For each element in x, evaluate the BPR log likelihood
-      weighted_pdf[ ,k] <- vapply(X   = 1:N,
+      weighted_pdf[, k] <- vapply(X   = 1:N,
                                   FUN = function(y)
-                                    .bpr_likelihood(w = w[ ,k],
+                                    .bpr_likelihood(w = w[, k],
                                                     H = des_mat[[y]]$H,
-                                                    data = x[[y]][ ,2:3],
+                                                    data = x[[y]][, 2:3],
                                                     is_NLL = FALSE),
                                   FUN.VALUE = numeric(1),
                                   USE.NAMES = FALSE)
-      weighted_pdf[ ,k] <- log(pi_k[k]) + weighted_pdf[ ,k]
+      weighted_pdf[, k] <- log(pi_k[k]) + weighted_pdf[, k]
     }
     # Calculate probabilities using the logSumExp trick for numerical stability
     Z <- apply(weighted_pdf, 1, .log_sum_exp)
@@ -234,36 +235,36 @@ bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
       # Parallel optimization for each cluster k
       w <- foreach::"%dopar%"(obj = foreach::foreach(k = 1:K,
                                                      .combine = cbind),
-                              ex  = {
-                                out <- optim(par       = w[ ,k],
-                                             fn        = .sum_weighted_bpr_lik,
-                                             gr        = .sum_weighted_bpr_grad,
-                                             method    = opt_method,
-                                             control   = list(maxit = opt_itnmax),
-                                             x         = x,
-                                             des_mat   = des_mat,
-                                             post_prob = post_prob[ ,k],
-                                             is_NLL    = TRUE)$par
-                              })
+                            ex  = {
+                              out <- optim(par       = w[, k],
+                                           fn        = .sum_weighted_bpr_lik,
+                                           gr        = .sum_weighted_bpr_grad,
+                                           method    = opt_method,
+                                           control   = list(maxit = opt_itnmax),
+                                           x         = x,
+                                           des_mat   = des_mat,
+                                           post_prob = post_prob[, k],
+                                           is_NLL    = TRUE)$par
+                            })
     }else{
       # Sequential optimization for each clustrer k
       w <- foreach::"%do%"(obj = foreach::foreach(k = 1:K,
                                                   .combine = cbind),
                            ex  = {
-                             out <- optim(par       = w[ ,k],
+                             out <- optim(par       = w[, k],
                                           fn        = .sum_weighted_bpr_lik,
                                           gr        = .sum_weighted_bpr_grad,
                                           method    = opt_method,
                                           control   = list(maxit = opt_itnmax),
                                           x         = x,
                                           des_mat   = des_mat,
-                                          post_prob = post_prob[ ,k],
+                                          post_prob = post_prob[, k],
                                           is_NLL    = TRUE)$par
                            })
     }
 
     if (is_verbose){
-      cat("It:\t",t, "\tNLL:\t", NLL[t + 1],
+      cat("It:\t", t, "\tNLL:\t", NLL[t + 1],
           "\tNLL_diff:\t", NLL[t] - NLL[t + 1], "\n")
     }
     if (NLL[t + 1] > NLL[t]){

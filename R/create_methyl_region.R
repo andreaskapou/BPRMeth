@@ -106,7 +106,7 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
       LABEL <- TRUE
     }
 
-    if(LABEL){
+    if (LABEL){
       # Only keep regions that have more than 'n' CpGs
       if (length(cpg_ind) > cpg_density){
         # If standard deviation of the methylation level is above threshold
@@ -129,22 +129,22 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
           meth_data[[n]] <- matrix(0, nrow = length(cpg_ind), ncol = 3)
 
           # Store normalized locations of methylated CpGs in (fmin,fmax) region
-          meth_data[[n]][ ,1] <- .minmax_scaling(data = center_data[Order],
+          meth_data[[n]][, 1] <- .minmax_scaling(data = center_data[Order],
                                                  xmin = upstream,
                                                  xmax = downstream,
                                                  fmin = fmin,
                                                  fmax = fmax)
 
           # Store total reads in the corresponding locations
-          meth_data[[n]][ ,2] <- tot_reads[cpg_ind][Order]
+          meth_data[[n]][, 2] <- tot_reads[cpg_ind][Order]
           # Store methylated reads in the corresponding locations
-          meth_data[[n]][ ,3] <- meth_reads[cpg_ind][Order]
+          meth_data[[n]][, 3] <- meth_reads[cpg_ind][Order]
           # Increase data points counter
           n <- n + 1
         }
       }
       LABEL   <- FALSE
-      cpg_ind <- vector(mode="integer")
+      cpg_ind <- vector(mode = "integer")
       cpg_ind <- c(cpg_ind, subj_hits[i])
     }
   }

@@ -36,18 +36,18 @@
 read_rna_encode_caltech <- function(file, chr_discarded = NULL,
                                              is_GRanges = TRUE){
   message("Reading file ", file, " ...")
-  data_raw <- scan(file=file,
-                   sep="\t",
-                   what=list("character",  # Reference chromosome
-                             integer(),    # Start position in chromosome
-                             integer(),    # End position in chromosome
-                             "character",  # Gene ENSEMBL id
-                             numeric(),    # Expression level
-                             "character",  # Strand : + or - or . for unknown
-                             NULL,         # Source, e.g. HAVANA
-                             NULL,         # Type of feature, e.g. gene
-                             NULL,         # No information
-                             "character"   # Metadata
+  data_raw <- scan(file = file,
+                   sep = "\t",
+                   what = list("character",  # Reference chromosome
+                               integer(),    # Start position in chromosome
+                               integer(),    # End position in chromosome
+                               "character",  # Gene ENSEMBL id
+                               numeric(),    # Expression level
+                               "character",  # Strand : + or - or . for unknown
+                               NULL,         # Source, e.g. HAVANA
+                               NULL,         # Type of feature, e.g. gene
+                               NULL,         # No information
+                               "character"   # Metadata
                    ))
 
 

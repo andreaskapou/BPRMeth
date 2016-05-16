@@ -50,8 +50,8 @@ train_model_gex <- function(formula = NULL, model_name = "svm", train,
   }else if (model_name == "svm"){
     model <- e1071::svm(formula = formula,
                         data = train,
-                        kernel="radial",
-                        cross=10)
+                        kernel = "radial",
+                        cross = 10)
   }else{
     model <- stats::lm(formula = formula,
                        data = train)
@@ -63,7 +63,7 @@ train_model_gex <- function(formula = NULL, model_name = "svm", train,
 
   if (length(train_pred) != length(train$y)){
     warning("The regression model returned NAs")
-    train_errors = NULL
+    train_errors <- NULL
   }else{
     # Calculate model errors
     if (is_summary) message("-- Train Errors --")
@@ -120,7 +120,7 @@ predict_model_gex <- function(model, test, is_summary = TRUE){
 
   # Make predictions
   test_pred <- predict(object  = model,
-                       newdata = test[ , 1:(NCOL(test) - 1), drop = FALSE],
+                       newdata = test[, 1:(NCOL(test) - 1), drop = FALSE],
                        type    = "response")
 
   # Calculate model errors

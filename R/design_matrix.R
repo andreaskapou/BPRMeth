@@ -12,17 +12,6 @@
 #   \code{\link{create_rbf_object}}, \code{\link{design_matrix.polynomial}},
 #   \code{\link{design_matrix.rbf}}
 #
-# @examples
-# obj <- create_rbf_object(M=2)
-# obs <- c(0,.2,.5)
-# polyn <- design_matrix(obj, obs)
-#
-# #----------------
-#
-# obj <- create_polynomial_object(M=2)
-# obs <- c(0,.2,.5)
-# rbf <- design_matrix(obj, obs)
-#
 .design_matrix <- function(x, ...){
   UseMethod(".design_matrix")
 }
@@ -51,11 +40,6 @@
 #
 # @seealso \code{\link{design_matrix}}, \code{\link{create_polynomial_object}}
 #
-# @examples
-# obj <- create_polynomial_object(M=2)
-# obs <- c(0,.2,.5)
-# des_mat <- design_matrix(obj, obs)
-#
 .design_matrix.polynomial <- function(x, obs, ...){
   assertthat::assert_that(methods::is(x, "polynomial"))
   assertthat::assert_that(is.vector(obs))
@@ -64,7 +48,7 @@
   H <- matrix(1, nrow = N, ncol = x$M + 1)
   if (x$M > 0){
     for (j in 1:x$M){
-      H[ ,j + 1] <- .polynomial_basis(obs, j)  # Compute X^(j)
+      H[, j + 1] <- .polynomial_basis(obs, j)  # Compute X^(j)
     }
   }
   return(list(H = H, basis = x))
@@ -86,11 +70,6 @@
 # @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #
 # @seealso \code{\link{design_matrix}}, \code{\link{create_rbf_object}}
-#
-# @examples
-# obj <- create_rbf_object(M=3)
-# obs <- c(0,.2,.5, 0.3)
-# des_mat <- design_matrix(obj, obs)
 #
 .design_matrix.rbf <- function(x, obs, ...){
   assertthat::assert_that(methods::is(x, "rbf"))
@@ -125,7 +104,7 @@
     obs <- as.matrix(obs)
     H <- matrix(1, nrow = N, ncol = x$M + 1)
     for (j in 1:x$M){
-      H[ ,j + 1] <- apply(obs, 1, .rbf_basis, mus = x$mus[j], gamma = x$gamma)
+      H[, j + 1] <- apply(obs, 1, .rbf_basis, mus = x$mus[j], gamma = x$gamma)
     }
   }
   return(list(H = H, basis = x))

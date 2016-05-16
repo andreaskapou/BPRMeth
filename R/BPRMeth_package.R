@@ -11,6 +11,6 @@
 #'   randomForest
 #' @importFrom stats pnorm dbinom dnorm
 #'
-.datatable.aware=TRUE
+.datatable.aware <- TRUE
 NULL
 #> NULL
