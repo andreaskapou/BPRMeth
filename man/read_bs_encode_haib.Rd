@@ -51,7 +51,10 @@ meth_reads <- bs_data$meth_reads
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \references{
-\url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=describe+table+schema}
+\url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=
+regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=
+wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=
+describe+table+schema}
 }
 \seealso{
 \code{\link{pool_bs_seq_rep}}, \code{\link{preprocess_bs_seq}}

@@ -86,7 +86,8 @@ predict the corresponding gene expression levels.
 obs <- meth_data
 y   <- gex_data
 basis <- create_rbf_object(M = 5)
-out   <- bpr_predict_wrap(x = obs, y = y, basis = basis, is_parallel = FALSE, opt_itnmax = 10)
+out   <- bpr_predict_wrap(x = obs, y = y, basis = basis,
+                          is_parallel = FALSE, opt_itnmax = 10)
 
 }
 \author{

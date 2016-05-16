@@ -14,6 +14,9 @@
 \usage{
 meth_data
 }
+\value{
+Synthetic methylation data
+}
 \description{
 A synthetic dataset containinig 600 entries.
 }

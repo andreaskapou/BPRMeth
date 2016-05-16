@@ -8,6 +8,9 @@
 \usage{
 gex_data
 }
+\value{
+Synthetic gene expression data
+}
 \description{
 Corresponding gene expression data for the 'meth_data'
 }

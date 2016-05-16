@@ -10,6 +10,9 @@
 \usage{
 .datatable.aware
 }
+\value{
+BPRMeth main package documentation.
+}
 \description{
 Higher order methylation features for clustering and prediction in epigenomic
 studies

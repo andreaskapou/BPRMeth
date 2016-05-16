@@ -40,7 +40,10 @@ replicates and are pooled together. Finally, noisy reads are discarded.
   the following links:
 
   Encode RRBS format:
-  \url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=describe+table+schema}
+  \url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=
+  hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=
+  wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=
+  describe+table+schema}
 
   Bismark Cov format: \url{http://rnbeads.mpi-inf.mpg.de/data/RnBeads.pdf}
 }

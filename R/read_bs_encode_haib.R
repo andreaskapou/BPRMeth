@@ -27,7 +27,10 @@
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
 #' @references
-#' \url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=describe+table+schema}
+#' \url{http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=
+#' regulation&hgta_track=wgEncodeHaibMethylRrbs&hgta_table=
+#' wgEncodeHaibMethylRrbsBcbreast0203015BiochainSitesRep2&hgta_doSchema=
+#' describe+table+schema}
 #'
 #' @seealso \code{\link{pool_bs_seq_rep}}, \code{\link{preprocess_bs_seq}}
 #'
@@ -88,10 +91,10 @@ read_bs_encode_haib <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
     # Create a GRanges object -----------------------------------
     message("Creating GRanges object ...")
     bs_data <- GenomicRanges::GRanges(seqnames = bs_data$chr,
-                    strand = bs_data$strand,
-                    ranges = IRanges::IRanges(start = bs_data$start, width = 1),
-                    total_reads = bs_data$total_reads,
-                    meth_reads  = bs_data$meth_reads)
+                  strand = bs_data$strand,
+                  ranges = IRanges::IRanges(start = bs_data$start, width = 1),
+                  total_reads = bs_data$total_reads,
+                  meth_reads  = bs_data$meth_reads)
   }
   message("Finished reading BS-Seq file!\n")
   return(bs_data)

@@ -41,7 +41,8 @@
 #'
 #' @examples
 #' ex_data <- meth_data
-#' data_clust <- bpr_cluster_wrap(x = ex_data, em_max_iter = 3, is_parallel = FALSE, opt_itnmax = 10)
+#' data_clust <- bpr_cluster_wrap(x = ex_data, em_max_iter = 3,
+#'                    is_parallel = FALSE, opt_itnmax = 10)
 #'
 #' @export
 bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
@@ -235,32 +236,32 @@ bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
       # Parallel optimization for each cluster k
       w <- foreach::"%dopar%"(obj = foreach::foreach(k = 1:K,
                                                      .combine = cbind),
-                            ex  = {
-                              out <- optim(par       = w[, k],
-                                           fn        = .sum_weighted_bpr_lik,
-                                           gr        = .sum_weighted_bpr_grad,
-                                           method    = opt_method,
-                                           control   = list(maxit = opt_itnmax),
-                                           x         = x,
-                                           des_mat   = des_mat,
-                                           post_prob = post_prob[, k],
-                                           is_NLL    = TRUE)$par
-                            })
+                        ex  = {
+                          out <- optim(par       = w[, k],
+                                       fn        = .sum_weighted_bpr_lik,
+                                       gr        = .sum_weighted_bpr_grad,
+                                       method    = opt_method,
+                                       control   = list(maxit = opt_itnmax),
+                                       x         = x,
+                                       des_mat   = des_mat,
+                                       post_prob = post_prob[, k],
+                                       is_NLL    = TRUE)$par
+                        })
     }else{
       # Sequential optimization for each clustrer k
       w <- foreach::"%do%"(obj = foreach::foreach(k = 1:K,
                                                   .combine = cbind),
-                           ex  = {
-                             out <- optim(par       = w[, k],
-                                          fn        = .sum_weighted_bpr_lik,
-                                          gr        = .sum_weighted_bpr_grad,
-                                          method    = opt_method,
-                                          control   = list(maxit = opt_itnmax),
-                                          x         = x,
-                                          des_mat   = des_mat,
-                                          post_prob = post_prob[, k],
-                                          is_NLL    = TRUE)$par
-                           })
+                       ex  = {
+                         out <- optim(par       = w[, k],
+                                      fn        = .sum_weighted_bpr_lik,
+                                      gr        = .sum_weighted_bpr_grad,
+                                      method    = opt_method,
+                                      control   = list(maxit = opt_itnmax),
+                                      x         = x,
+                                      des_mat   = des_mat,
+                                      post_prob = post_prob[, k],
+                                      is_NLL    = TRUE)$par
+                       })
     }
 
     if (is_verbose){
