@@ -1,19 +1,61 @@
-#' Generic function for optimizing BPR negative log likelihood function
+#' @name bpr_optimize
+#' @rdname bpr_optimize
+#' @aliases bpr_optimise
 #'
-#' \code{bpr_optim} is a generic function which calls the appropriate methods
-#' depending on the class of the object \code{x}. Object \code{x} can be either
-#' a \code{\link{list}} or a \code{\link{matrix}}.
+#' @title Optimize BPR negative log likelihood function
 #'
-#' @param x The input object
-#' @param ... Additional parameters
+#' @description The function bpr_optimize minimizes the negative log likelihood
+#'   of the BPR function. Since it cannot be evaluated analytically, an
+#'   optimization procedure is used. The \code{\link[stats]{optim}} packages is
+#'   used for performing optimization.
+#'
+#' @param x The input object, either a \code{\link[base]{matrix}} or a
+#'   \code{\link[base]{list}}.
+#' @param ... Additional parameters.
+#' @param w A vector of parameters (i.e. coefficients of the basis functions)
+#' @param basis A 'basis' object. E.g. see \code{\link{create_rbf_object}}.
+#' @param fit_feature Return additional feature on how well the profile fits the
+#'   methylation data. Either NULL for ignoring this feature or one of the
+#'   following: 1) "RMSE" for returning the fit of the profile using the RMSE as
+#'   measure of error or 2) "NLL " for returning the fit of the profile using
+#'   the Negative Log Likelihood as measure of error.
+#' @param cpg_dens_feat Logical, whether to return an additional feature for the
+#'   CpG density across the promoter region.
+#' @param opt_method The optimization method to be used. See
+#'   \code{\link[stats]{optim}} for possible methods. Default is "CG".
+#' @param opt_itnmax Optional argument giving the maximum number of iterations
+#'   for the corresponding method. See \code{\link[stats]{optim}} for details.
+#' @param is_parallel Logical, indicating if code should be run in parallel.
+#' @param no_cores Number of cores to be used, default is max_no_cores - 2.
+#'
+#' @return Depending on the input object \code{x}: \itemize{\item{If \code{x} is
+#'   a \code{\link[base]{list}}:}  An object containing the following elements:
+#'   \itemize{ \item{ \code{W_opt}: An Nx(M+1) matrix with the optimized
+#'   parameter values. Each row of the matrix corresponds to each element of the
+#'   list x. The columns are of the same length as the parameter vector w (i.e.
+#'   number of basis functions). } \item{ \code{Mus}: An N x M matrix with the
+#'   RBF centers if basis object is \code{\link{create_rbf_object}}, otherwise
+#'   NULL.} \item{ \code{basis}: The basis object. } \item{ \code{w}: The
+#'   initial values of the parameters w. } } \item{If \code{x} is a
+#'   \code{\link[base]{matrix}}:} An object containing the following elements:
+#'   \itemize{ \item{ \code{w_opt}: Optimized values for the coefficient vector
+#'   w. The length of the result is the same as the length of the vector w. }
+#'   \item{ \code{basis}: The basis object. } }}
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @seealso \code{\link{bpr_optim.list}}, \code{\link{bpr_optim.matrix}}
+#' @seealso \code{\link{create_basis}}, \code{\link{eval_functions}}
+NULL
+
+
+#' @rdname bpr_optimize
 #'
 #' @examples
+#' # Example of optimizing parameters for synthetic data using default values
 #' data <- meth_data
 #' out_opt <- bpr_optim(x = data, is_parallel = FALSE, method = "BFGS")
+#'
+#' #-------------------------------------
 #'
 #' @export
 bpr_optim <- function(x, ...){
@@ -27,43 +69,19 @@ bpr_optim.default <- function(x, ...){
 }
 
 
-#' Optimization method for the BPR NLL function using list x
-#'
-#' \code{bpr_optim.list} minimizes the negative log likelihood of the BPR
-#' function. Since it cannot be evaluated analytically, an optimization
-#' procedure is used. The \code{\link[stats]{optim}} packages is used for
-#' performing optimization. This method calls \code{\link{bpr_optim.matrix}} to
-#' process each element of the list.
-#'
-#' @param x A list of elements of length N, where each element is an L x 3
-#'   matrix of observations, where 1st column contains the locations. The 2nd
-#'   and 3rd columns contain the total trials and number of successes at the
-#'   corresponding locations, repsectively.
-#' @param is_parallel Logical, indicating if code should be run in parallel.
-#' @param no_cores Number of cores to be used, default is max_no_cores - 2.
-#' @inheritParams bpr_optim.matrix
-#'
-#' @return A list containing the following elements: \itemize{ \item{
-#'   \code{W_opt}: An Nx(M+1) matrix with the optimized parameter values. Each
-#'   row of the matrix corresponds to each element of the list x. The columns
-#'   are of the same length as the parameter vector w (i.e. number of basis
-#'   functions). } \item{ \code{Mus}: An N x M matrix with the RBF centers if
-#'   basis object is \code{\link{create_rbf_object}}, otherwise NULL.} \item{
-#'   \code{basis}: The basis object. } \item{ \code{w}: The initial values of
-#'   the parameters w. } }
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @seealso \code{\link{bpr_optim}}, \code{\link{bpr_optim.matrix}}
+#' @rdname bpr_optimize
 #'
 #' @examples
+#' # Example of optimizing parameters for synthetic data using 3 RBFs
 #' ex_data <- meth_data
 #' basis <- create_rbf_object(M=3)
 #' out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
 #'
+#' #-------------------------------------
+#'
 #' @export
-bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = NULL,
-                           cpg_dens_feat = FALSE, opt_method = "CG",
+bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
+                           cpg_dens_feat = TRUE, opt_method = "CG",
                            opt_itnmax = 100, is_parallel = TRUE,
                            no_cores = NULL, ...){
   # Check that x is a list object
@@ -155,42 +173,10 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = NULL,
 }
 
 
-#' Optimization method for the BPR NLL using matrix x
-#'
-#' \code{bpr_optim.matrix} minimizes the negative log likelihood of the BPR
-#' function. Since it cannot be evaluated analytically, an optimization
-#' procedure is used. The \code{\link[stats]{optim}} packages is used for
-#' performing optimization.
-#'
-#' @param x An L x 3 matrix of observations, where 1st column contains the
-#'  locations. The 2nd and 3rd columns contain the total trials and number of
-#'  successes at the corresponding locations, repsectively.
-#' @param w A vector of parameters (i.e. coefficients of the basis functions)
-#' @param basis A 'basis' object. E.g. see \code{\link{create_rbf_object}}.
-#' @param fit_feature Additional feature on how well the profile fits the
-#'  methylation data.
-#' @param cpg_dens_feat Additional feature for the CpG density across the
-#'  promoter region.
-#' @param opt_method The optimization method to be used. See
-#'  \code{\link[stats]{optim}} for possible methods. Default is 'CG'.
-#' @param opt_itnmax Optional argument giving the maximum number of iterations
-#'  for the corresponding method. See \code{\link[stats]{optim}} for details.
-#' @param ... Additional parameters
-#'
-#' @return A list containing the following elements:
-#' \itemize{
-#'  \item{ \code{w_opt}: Optimized values for the coefficient vector w.
-#'    The length of the result is the same as the length of the vector w.
-#'  }
-#'  \item{ \code{basis}: The basis object.
-#'  }
-#' }
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @seealso \code{\link{bpr_optim}}, \code{\link{bpr_optim.list}}
+#' @rdname bpr_optimize
 #'
 #' @examples
+#' # Example of optimizing parameters for synthetic data using 2 RBFs, only for a specific promoter region.
 #' basis <- create_rbf_object(M=2)
 #' w <- c(0.1, 0.1, 0.1)
 #' data <- meth_data[[1]]
@@ -199,8 +185,8 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = NULL,
 #' @importFrom stats optim
 #'
 #' @export
-bpr_optim.matrix <- function(x, w = NULL, basis = NULL, fit_feature = NULL,
-                             cpg_dens_feat = FALSE, opt_method = "CG",
+bpr_optim.matrix <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
+                             cpg_dens_feat = TRUE, opt_method = "CG",
                              opt_itnmax = 100, ...){
   # Vector for storing CpG locations relative to TSS
   obs <- as.vector(x[ ,1])
