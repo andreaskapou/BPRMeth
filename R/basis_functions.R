@@ -1,38 +1,14 @@
-#' Create a polynomial object
+#' @name create_basis
+#' @rdname create_basis
+#' @aliases basis
 #'
-#' \code{create_polynomial_object} creates objects of class "polynomial". These
+#' @title Create basis objects
+#'
+#' @description These functions create different basis objects. These
 #' objects can be used as input to complex functions in order to perform
-#' computations depending on the class of  basis function.
+#' computations depending on the class of the basis function.
 #'
-#' @param M The degree of the polynomial object.
-#'
-#' @return An object of class 'polynomial'
-#'
-#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
-#'
-#' @seealso \code{\link{create_rbf_object}}
-#'
-#' @examples
-#' (obj <- create_polynomial_object(M = 2))
-#'
-#' @export
-create_polynomial_object <- function(M = 1){
-  # Check that M is numberic and integer
-  assertthat::assert_that(is.numeric(M))
-  assertthat::assert_that(M %% 1 == 0)
-  assertthat::assert_that(M > -1)
-  obj <- structure(list(M = M), class = "polynomial")
-  return(obj)
-}
-
-
-#' Create an RBF object
-#'
-#' \code{create_rbf_object} creates objects of class "rbf". These objects can be
-#' used as input to complex functions in order to perform computations depending
-#' on the basis function.
-#'
-#' @param M The number of the RBFs.
+#' @param M The number of the basis functions.
 #' @param gamma Inverse width of radial basis function.
 #' @param mus Optional centers of the RBF.
 #' @param eq_spaced_mus Logical, if TRUE, equally spaced centers are created,
@@ -41,14 +17,20 @@ create_polynomial_object <- function(M = 1){
 #'   equally spaced on the whole region, or between the min and max of the
 #'   observation values.
 #'
-#' @return An object of class 'rbf'.
+#' @return A basis object of class 'rbf' or 'polynomial'.
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
-#' @seealso \code{\link{create_polynomial_object}}
+#' @seealso \code{\link{eval_functions}}, \code{\link{bpr_optimize}}
+NULL
+
+
+#' @rdname create_basis
 #'
 #' @examples
 #' (obj <- create_rbf_object(M = 2))
+#'
+#' #---------------------------------
 #'
 #' @export
 create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL, eq_spaced_mus = TRUE,
@@ -83,6 +65,22 @@ create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL, eq_spaced_mus = T
                         eq_spaced_mus = eq_spaced_mus,
                         whole_region = whole_region),
                    class = "rbf")
+  return(obj)
+}
+
+
+#' @rdname create_basis
+#'
+#' @examples
+#' (obj <- create_polynomial_object(M = 2))
+#'
+#' @export
+create_polynomial_object <- function(M = 1){
+  # Check that M is numberic and integer
+  assertthat::assert_that(is.numeric(M))
+  assertthat::assert_that(M %% 1 == 0)
+  assertthat::assert_that(M > -1)
+  obj <- structure(list(M = M), class = "polynomial")
   return(obj)
 }
 
