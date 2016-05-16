@@ -16,12 +16,13 @@
 #' @param em_max_iter Integer denoting the maximum number of EM iterations.
 #' @param epsilon_conv Numeric denoting the convergence parameter for EM.
 #' @param opt_method The optimization method to be used. See
-#'  \code{\link[stats]{optim}} for possible methods. Default is 'CG'.
+#'  \code{\link[stats]{optim}} for possible methods. Default is "CG".
 #' @param opt_itnmax Optional argument giving the maximum number of iterations
 #'  for the corresponding method. See \code{\link[stats]{optim}} for details.
 #' @param is_parallel Logical, indicating if code should be run in parallel.
 #' @param no_cores Number of cores to be used, default is max_no_cores - 2.
 #' @param is_verbose Logical, print results during EM iterations
+#'
 #' @importFrom stats optim
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
@@ -96,10 +97,8 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
     }
     # Calculate probabilities using the logSumExp trick for numerical stability
     Z <- apply(weighted_pdf, 1, .log_sum_exp)
-
     # Get actual posterior probabilities, i.e. responsibilities
     post_prob <- exp(weighted_pdf - Z)
-
     # Evaluate and store the NLL
     NLL  <- c(NLL, (-1) * sum(Z))
 
@@ -108,7 +107,6 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
     #
     # Compute sum of posterior probabilities for each cluster
     N_k <- colSums(post_prob)
-
     # Update mixing proportions for each cluster
     pi_k <- N_k / N
 
@@ -150,22 +148,18 @@ bpr_EM <- function(x, K = 2, pi_k = NULL, w = NULL, basis = NULL,
       cat("It:\t",t, "\tNLL:\t", NLL[t + 1],
               "\tNLL_diff:\t", NLL[t] - NLL[t + 1], "\n")
     }
-
     if (NLL[t + 1] > NLL[t]){
       stop("Negative Log Likelihood increases - Stopping EM!\n")
     }
-
     # Check for convergence
     if (NLL[t] - NLL[t + 1] < epsilon_conv){
       break
     }
   }
-
   if (is_parallel){
     # Stop parallel execution
     parallel::stopCluster(cl)
   }
-
   # Check if EM converged in the given maximum iterations
   if (t == em_max_iter){
     warning("EM did not converge with the given maximum iterations!\n")

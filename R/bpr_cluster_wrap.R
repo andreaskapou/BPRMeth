@@ -14,14 +14,14 @@
 #'
 #' @examples
 #' ex_data <- meth_data
-#' mpgex_clust <- mpgex_cluster(x = ex_data, em_max_iter = 3, is_parallel = FALSE, opt_itnmax = 10)
+#' mpgex_clust <- bpr_cluster_wrap(x = ex_data, em_max_iter = 3, is_parallel = FALSE, opt_itnmax = 10)
 #'
 #' @export
-mpgex_cluster <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
-                          em_max_iter = 100, epsilon_conv = 1e-04,
-                          opt_method = "CG", opt_itnmax = 100,
-                          init_opt_itnmax = 100, is_parallel = TRUE,
-                          no_cores = NULL, is_verbose = FALSE){
+bpr_cluster_wrap <- function(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
+                             em_max_iter = 100, epsilon_conv = 1e-04,
+                             opt_method = "CG", opt_itnmax = 100,
+                             init_opt_itnmax = 100, is_parallel = TRUE,
+                             no_cores = NULL, is_verbose = FALSE){
   # Check that x is a list object
   assertthat::assert_that(is.list(x))
 

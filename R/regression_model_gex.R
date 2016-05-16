@@ -7,7 +7,7 @@
 #' @param formula An object of class \code{\link[stats]{formula}}, e.g. see
 #'   \code{\link[stats]{lm}} function. If NULL, the simple linear regression
 #'   model is used.
-#' @param model_name A charcter denoting the regression model. Currently,
+#' @param model_name A string denoting the regression model. Currently,
 #'   available models are: \code{"svm"}, \code{"randomForest"}, \code{"rlm"},
 #'   \code{"mars"} and \code{"lm"}.
 #' @param train The training data.

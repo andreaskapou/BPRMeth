@@ -31,7 +31,7 @@ bpr_optim(x, ...)
 \item{fit_feature}{Return additional feature on how well the profile fits the
 methylation data. Either NULL for ignoring this feature or one of the
 following: 1) "RMSE" for returning the fit of the profile using the RMSE as
-measure of error or 2) "NLL " for returning the fit of the profile using
+measure of error or 2) "NLL" for returning the fit of the profile using
 the Negative Log Likelihood as measure of error.}
 
 \item{cpg_dens_feat}{Logical, whether to return an additional feature for the
@@ -82,7 +82,7 @@ out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
 
 #-------------------------------------
 
-# Example of optimizing parameters for synthetic data using 2 RBFs, only for a specific promoter region.
+# Example of of specific promoter region using 2 RBFs
 basis <- create_rbf_object(M=2)
 w <- c(0.1, 0.1, 0.1)
 data <- meth_data[[1]]

@@ -12,7 +12,7 @@ train_model_gex(formula = NULL, model_name = "svm", train,
 \code{\link[stats]{lm}} function. If NULL, the simple linear regression
 model is used.}
 
-\item{model_name}{A charcter denoting the regression model. Currently,
+\item{model_name}{A string denoting the regression model. Currently,
 available models are: \code{"svm"}, \code{"randomForest"}, \code{"rlm"},
 \code{"mars"} and \code{"lm"}.}
 
