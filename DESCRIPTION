@@ -41,4 +41,6 @@ biocViews: DNAMethylation,
 	Clustering,
 	FeatureExtraction,
 	Regression,
-	RNASeq
+	RNASeq,
+	Bayesian,
+	KEGG
