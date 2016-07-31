@@ -53,7 +53,7 @@ NULL
 #' @examples
 #' # Example of optimizing parameters for synthetic data using default values
 #' data <- meth_data
-#' out_opt <- bpr_optim(x = data, is_parallel = FALSE, method = "BFGS")
+#' out_opt <- bpr_optim(x = data, is_parallel = FALSE, opt_itnmax = 10)
 #'
 #' #-------------------------------------
 #'
@@ -75,7 +75,8 @@ bpr_optim.default <- function(x, ...){
 #' # Example of optimizing parameters for synthetic data using 3 RBFs
 #' ex_data <- meth_data
 #' basis <- create_rbf_object(M=3)
-#' out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
+#' out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis,
+#'                      opt_itnmax = 10)
 #'
 #' #-------------------------------------
 #'
@@ -180,7 +181,8 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
 #' basis <- create_rbf_object(M=2)
 #' w <- c(0.1, 0.1, 0.1)
 #' data <- meth_data[[1]]
-#' out_opt <- bpr_optim(x = data, w = w, basis = basis, fit_feature = "NLL")
+#' out_opt <- bpr_optim(x = data, w = w, basis = basis, fit_feature = "NLL",
+#'                      opt_itnmax = 10)
 #'
 #' @importFrom stats optim
 #'

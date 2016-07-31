@@ -68,8 +68,8 @@ metrics are calculated, such as BIC and AIC.
 }
 \examples{
 ex_data <- meth_data
-data_clust <- bpr_cluster_wrap(x = ex_data, em_max_iter = 3,
-                   is_parallel = FALSE, opt_itnmax = 10)
+data_clust <- bpr_cluster_wrap(x = ex_data, em_max_iter = 3, opt_itnmax = 5,
+                               init_opt_itnmax = 10, is_parallel = FALSE)
 
 }
 \author{

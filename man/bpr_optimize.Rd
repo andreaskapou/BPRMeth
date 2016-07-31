@@ -71,14 +71,15 @@ The function bpr_optimize minimizes the negative log likelihood
 \examples{
 # Example of optimizing parameters for synthetic data using default values
 data <- meth_data
-out_opt <- bpr_optim(x = data, is_parallel = FALSE, method = "BFGS")
+out_opt <- bpr_optim(x = data, is_parallel = FALSE, opt_itnmax = 10)
 
 #-------------------------------------
 
 # Example of optimizing parameters for synthetic data using 3 RBFs
 ex_data <- meth_data
 basis <- create_rbf_object(M=3)
-out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
+out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis,
+                     opt_itnmax = 10)
 
 #-------------------------------------
 
@@ -86,7 +87,8 @@ out_opt <- bpr_optim(x = ex_data, is_parallel = FALSE, basis = basis)
 basis <- create_rbf_object(M=2)
 w <- c(0.1, 0.1, 0.1)
 data <- meth_data[[1]]
-out_opt <- bpr_optim(x = data, w = w, basis = basis, fit_feature = "NLL")
+out_opt <- bpr_optim(x = data, w = w, basis = basis, fit_feature = "NLL",
+                     opt_itnmax = 10)
 
 }
 \author{
