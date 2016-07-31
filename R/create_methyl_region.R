@@ -46,11 +46,23 @@
 #'
 #' @seealso \code{\link{preprocess_bs_seq}}, \code{\link{create_prom_region}}
 #'
-#' @importFrom stats sd
+#' @examples
+#' # Obtain the path to the BS file and then read it
+#' bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+#' bs_data <- read_bs_encode_haib(bs_file)
+#'
+#' # Create promoter regions
+#' rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+#' annot_data <- read_rna_encode_caltech(rnaseq_file)
+#' prom_region <- create_prom_region(annot_data)
+#'
+#' # Finally, create methylation regions
+#' meth_region <- create_methyl_region(bs_data, prom_region)
+#'
 #' @importFrom methods is
 #' @export
-create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
-                                 sd_thresh = 0, ignore_strand = FALSE,
+create_methyl_region <- function(bs_data, prom_region, cpg_density = 10,
+                                 sd_thresh = 10e-02, ignore_strand = TRUE,
                                  fmin = -1, fmax = 1){
 
   message("Creating methylation regions ...")
@@ -110,7 +122,7 @@ create_methyl_region <- function(bs_data, prom_region, cpg_density = 1,
       # Only keep regions that have more than 'n' CpGs
       if (length(cpg_ind) > cpg_density){
         # If standard deviation of the methylation level is above threshold
-        if (sd(meth_reads[cpg_ind] / tot_reads[cpg_ind]) > sd_thresh){
+        if (stats::sd(meth_reads[cpg_ind] / tot_reads[cpg_ind]) > sd_thresh){
           # Promoter indices
           prom_ind <- c(prom_ind, prom_loc[prom_counter])
           # Locations of CpGs in the genome

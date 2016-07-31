@@ -38,19 +38,17 @@
 #'   \code{\link{pool_bs_seq_rep}}
 #'
 #' @examples
-#' \dontrun{
-#' # Download the files and change the working directory to that location
-#' files <- c("name_of_bs_encode_file1", "name_of_bs_encode_file2")
-#' bs_data <- preprocess_bs_seq(files, file_format = "encode_rrbs")
+#' # Obtain the path to the files
+#' bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+#' bs_data <- preprocess_bs_seq(bs_file, file_format = "encode_rrbs")
 #'
 #' # Extract the total reads and methylated reads
 #' total_reads <- bs_data$total_reads
 #' meth_reads <- bs_data$meth_reads
-#' }
 #'
 #' @export
 preprocess_bs_seq <- function(files, file_format = "encode_rrbs",
-                              chr_discarded = NULL, min_bs_cov = 2,
+                              chr_discarded = NULL, min_bs_cov = 4,
                               max_bs_cov = 1000){
   # If we have more than one replicates
   if (length(files) > 1){

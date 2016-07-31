@@ -37,15 +37,13 @@ on when to use this function.
   \code{\link{preprocess_bs_seq}} function.
 }
 \examples{
-\dontrun{
-# Download the files and change the working directory to that location
-file <- "name_of_bs_encode_file"
-bs_data <- read_bs_encode_haib(file)
+# Obtain the path to the file and then read it
+bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+bs_data <- read_bs_encode_haib(bs_file)
 
 # Extract the total reads and methylated reads
 total_reads <- bs_data$total_reads
 meth_reads <- bs_data$meth_reads
-}
 }
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}

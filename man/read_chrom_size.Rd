@@ -16,6 +16,14 @@ A \code{\link[data.table]{data.table}} object.
 \code{read_chrom_size} reads a file containing genome chromosome sizes using
  the \code{\link[data.table]{fread}} function.
 }
+\examples{
+chr_file <- system.file("extdata", "hg19.chr.sizes", package = "BPRMeth")
+chr_data <- read_chrom_size(chr_file)
+
+# Extract the size of the chr1
+chr_data[1]
+
+}
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }

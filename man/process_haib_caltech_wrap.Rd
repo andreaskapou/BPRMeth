@@ -5,9 +5,10 @@
 \title{Wrapper method for processing ENCODE HAIB and Caltech HTS data}
 \usage{
 process_haib_caltech_wrap(bs_files, rna_files, chrom_size_file = NULL,
-  chr_discarded = NULL, upstream = -100, downstream = 100,
-  min_bs_cov = 0, max_bs_cov = 1000, cpg_density = 1, sd_thresh = 0,
-  ignore_strand = FALSE, fmin = -1, fmax = 1)
+  chr_discarded = NULL, upstream = -7000, downstream = 7000,
+  min_bs_cov = 4, max_bs_cov = 1000, cpg_density = 10, sd_thresh = 0.1,
+  ignore_strand = TRUE, gene_expr_thresh = FALSE, gene_log2_transf = TRUE,
+  gene_outl_thresh = TRUE, gex_outlier = 300, fmin = -1, fmax = 1)
 }
 \arguments{
 \item{bs_files}{Filename (or vector of filenames if there are replicates) of
@@ -41,6 +42,17 @@ the methylation change in a region. This is used to filter regions with no
 methylation change.}
 
 \item{ignore_strand}{Logical, whether or not to ignore strand information.}
+
+\item{gene_expr_thresh}{Logical, whether or not to remove unexpressed genes.}
+
+\item{gene_log2_transf}{Logical, whether or not to log2 transform the gene
+expression data.}
+
+\item{gene_outl_thresh}{Logical, whehter or not to remove outlier gene
+expression data.}
+
+\item{gex_outlier}{Numeric, denoting the threshold above of which the gene
+expression data (before the log2 transformation) are considered as noise.}
 
 \item{fmin}{Optional minimum range value for region location scaling. Under
 this version, this parameter should be left to its default value.}
@@ -83,6 +95,13 @@ and returning the methylation promoter regions and the corresponding gene
 expression data for those promoter regions. Note that the format of BS-Seq
 data should be in the Encode Haib bed format and for the RNA-Seq data in
 Encode Caltech bed format.
+}
+\examples{
+# Obtain the path to the files
+rrbs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+proc_data <- process_haib_caltech_wrap(rrbs_file, rnaseq_file)
+
 }
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}

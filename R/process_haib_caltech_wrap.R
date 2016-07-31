@@ -20,6 +20,13 @@
 #'   with less reads will be considered as noise and will be discarded.
 #' @param max_bs_cov The maximum number of reads mapping to each CpG site. CpGs
 #'   with more reads will be considered as noise and will be discarded.
+#' @param gene_expr_thresh Logical, whether or not to remove unexpressed genes.
+#' @param gene_log2_transf Logical, whether or not to log2 transform the gene
+#'   expression data.
+#' @param gene_outl_thresh Logical, whehter or not to remove outlier gene
+#'   expression data.
+#' @param gex_outlier Numeric, denoting the threshold above of which the gene
+#'   expression data (before the log2 transformation) are considered as noise.
 #' @inheritParams create_methyl_region
 #'
 #' @return A \code{processHTS} object which contains following information:
@@ -52,13 +59,23 @@
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
+#' @examples
+#' # Obtain the path to the files
+#' rrbs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+#' rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+#' proc_data <- process_haib_caltech_wrap(rrbs_file, rnaseq_file)
+#'
 #' @export
 process_haib_caltech_wrap <- function(bs_files, rna_files,
                                       chrom_size_file = NULL,
-                                      chr_discarded = NULL, upstream = -100,
-                                      downstream = 100, min_bs_cov = 0,
-                                      max_bs_cov = 1000, cpg_density = 1,
-                                      sd_thresh = 0, ignore_strand = FALSE,
+                                      chr_discarded = NULL, upstream = -7000,
+                                      downstream = 7000, min_bs_cov = 4,
+                                      max_bs_cov = 1000, cpg_density = 10,
+                                      sd_thresh = 10e-02, ignore_strand = TRUE,
+                                      gene_expr_thresh = FALSE,
+                                      gene_log2_transf = TRUE,
+                                      gene_outl_thresh = TRUE,
+                                      gex_outlier = 300,
                                       fmin = -1, fmax = 1){
 
 
@@ -101,10 +118,19 @@ process_haib_caltech_wrap <- function(bs_files, rna_files,
   # Keep only the corresponding gene annotation data
   prom_reg <- prom_reg[methyl_reg$prom_ind]
 
+  proc_data <- preprocess_final_HTS_data(methyl_region = methyl_reg$meth_data,
+                                         prom_reg = prom_reg,
+                                         rna_data = rna_data,
+                                         gene_expr_thresh = gene_expr_thresh,
+                                         gene_log2_transf = gene_log2_transf,
+                                         gene_outl_thresh = gene_outl_thresh,
+                                         gex_outlier = gex_outlier)
+
   # Create object
-  obj <- structure(list(methyl_region = methyl_reg$meth_data,
-                        prom_region   = prom_reg,
-                        rna_data      = rna_data,
+  obj <- structure(list(methyl_region = proc_data$methyl_region,
+                        gex           = proc_data$gex,
+                        prom_region   = proc_data$prom_reg,
+                        rna_data      = proc_data$rna_data,
                         upstream      = upstream,
                         downstream    = downstream,
                         cpg_density   = cpg_density,

@@ -33,15 +33,14 @@
 #'   \code{\link{read_bs_encode_haib}}, \code{\link{preprocess_bs_seq}}
 #'
 #' @examples
-#' \dontrun{
-#' # Download the files and change the working directory to that location
-#' files <- c("name_of_bs_encode_file1", "name_of_bs_encode_file2")
-#' bs_data <- pool_bs_seq_rep(files, file_format = "encode_rrbs")
+#' # Obtain the path to the file
+#' bs_file1 <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+#' bs_file2 <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
 #'
-#' # Extract the total reads and methylated reads
-#' total_reads <- bs_data$total_reads
-#' meth_reads <- bs_data$meth_reads
-#' }
+#' # Concatenate the files
+#' bs_files <-  c(bs_file1, bs_file2)
+#' # Pool the replicates
+#' pooled_data <- pool_bs_seq_rep(bs_files)
 #'
 #' @export
 pool_bs_seq_rep <- function(files, file_format = "encode_rrbs",

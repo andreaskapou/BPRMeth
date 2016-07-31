@@ -25,20 +25,18 @@
 #'   \code{\link{read_rna_encode_caltech}}
 #'
 #' @examples
-#' \dontrun{
-#' # Download the RNA-Seq or the annotation file and change the working
-#' # directory to that location
-#' annot_file <- "name_of_annotation_file")
-#' prom_region <- create_prom_region(annot_file)
+#' # Obtain the path to the file and then read it
+#' rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+#' annot_data <- read_rna_encode_caltech(rnaseq_file)
+#' prom_region <- create_prom_region(annot_data)
 #'
 #' # Extract the TSS
-#' tsss <- prom_region$tss
-#' }
+#' tss <- prom_region$tss
 #'
 #' @importFrom methods is
 #' @export
-create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -100,
-                               downstream = 100){
+create_prom_region <- function(annot_data, chrom_size = NULL, upstream = -7000,
+                               downstream = 7000){
 
   message("Creating promoter regions ...")
   assertthat::assert_that(methods::is(annot_data, "GRanges"))

@@ -4,8 +4,8 @@
 \alias{create_methyl_region}
 \title{Create methylation regions for each gene promoter.}
 \usage{
-create_methyl_region(bs_data, prom_region, cpg_density = 1, sd_thresh = 0,
-  ignore_strand = FALSE, fmin = -1, fmax = 1)
+create_methyl_region(bs_data, prom_region, cpg_density = 10,
+  sd_thresh = 0.1, ignore_strand = TRUE, fmin = -1, fmax = 1)
 }
 \arguments{
 \item{bs_data}{\code{\link[GenomicRanges]{GRanges}} object containing the
@@ -57,6 +57,20 @@ A \code{methyl_region} object containing the following information:
 annotated gene promoter regions. BS-Seq data give information for the
 methylation of CpGs individually, and annotated data are used to locate the
 TSS of each gene and its promoter region.
+}
+\examples{
+# Obtain the path to the BS file and then read it
+bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+bs_data <- read_bs_encode_haib(bs_file)
+
+# Create promoter regions
+rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+annot_data <- read_rna_encode_caltech(rnaseq_file)
+prom_region <- create_prom_region(annot_data)
+
+# Finally, create methylation regions
+meth_region <- create_methyl_region(bs_data, prom_region)
+
 }
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}

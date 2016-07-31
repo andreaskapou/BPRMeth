@@ -32,15 +32,13 @@ data together with gene expression levels from RNA-Seq experiments using the
 \code{gtf} format.
 }
 \examples{
-\dontrun{
-# Download the files and change the working directory to that location
-file <- "name_of_rna-seq file")
-rna_data <- read_rna_encode_caltech(file)
+# Obtain the path to the file and then read it
+rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+rna_data <- read_rna_encode_caltech(rnaseq_file)
 
 # Extract the gene name and gene expression in fpkm
 gene_name <- rna_data$gene_name
 gene_fpkm <- rna_data$gene_fpkm
-}
 
 }
 \author{

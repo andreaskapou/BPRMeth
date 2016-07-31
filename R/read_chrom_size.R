@@ -12,6 +12,13 @@
 #' @seealso \code{\link{read_rna_encode_caltech}},
 #'  \code{\link{read_bs_encode_haib}}
 #'
+#' @examples
+#' chr_file <- system.file("extdata", "hg19.chr.sizes", package = "BPRMeth")
+#' chr_data <- read_chrom_size(chr_file)
+#'
+#' # Extract the size of the chr1
+#' chr_data[1]
+#'
 #' @export
 read_chrom_size <- function(file){
   message("Reading file ", file, " ...")

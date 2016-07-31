@@ -5,7 +5,7 @@
 \title{Pre-process BS-Seq data in any given format}
 \usage{
 preprocess_bs_seq(files, file_format = "encode_rrbs", chr_discarded = NULL,
-  min_bs_cov = 2, max_bs_cov = 1000)
+  min_bs_cov = 4, max_bs_cov = 1000)
 }
 \arguments{
 \item{files}{A vector of filenames containing replicate experiments. This can
@@ -48,15 +48,13 @@ replicates and are pooled together. Finally, noisy reads are discarded.
   Bismark Cov format: \url{http://rnbeads.mpi-inf.mpg.de/data/RnBeads.pdf}
 }
 \examples{
-\dontrun{
-# Download the files and change the working directory to that location
-files <- c("name_of_bs_encode_file1", "name_of_bs_encode_file2")
-bs_data <- preprocess_bs_seq(files, file_format = "encode_rrbs")
+# Obtain the path to the files
+bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+bs_data <- preprocess_bs_seq(bs_file, file_format = "encode_rrbs")
 
 # Extract the total reads and methylated reads
 total_reads <- bs_data$total_reads
 meth_reads <- bs_data$meth_reads
-}
 
 }
 \author{

@@ -4,8 +4,8 @@
 \alias{create_prom_region}
 \title{Create promoter regions from gene annotation data.}
 \usage{
-create_prom_region(annot_data, chrom_size = NULL, upstream = -100,
-  downstream = 100)
+create_prom_region(annot_data, chrom_size = NULL, upstream = -7000,
+  downstream = 7000)
 }
 \arguments{
 \item{annot_data}{A \code{\link[GenomicRanges]{GRanges}} object containing
@@ -33,15 +33,13 @@ Using the TSS of gene annotation data as ground truth labels we create
 promoter regions \code{N} bp upstream and \code{M} bp downstream of TSS.
 }
 \examples{
-\dontrun{
-# Download the RNA-Seq or the annotation file and change the working
-# directory to that location
-annot_file <- "name_of_annotation_file")
-prom_region <- create_prom_region(annot_file)
+# Obtain the path to the file and then read it
+rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+annot_data <- read_rna_encode_caltech(rnaseq_file)
+prom_region <- create_prom_region(annot_data)
 
 # Extract the TSS
-tsss <- prom_region$tss
-}
+tss <- prom_region$tss
 
 }
 \author{
