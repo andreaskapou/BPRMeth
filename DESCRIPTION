@@ -31,7 +31,8 @@ Imports: assertthat,
     data.table
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+	BiocStyle
 VignetteBuilder: knitr
 biocViews: DNAMethylation,
 	GeneExpression,
