@@ -7,8 +7,8 @@
 process_haib_caltech_wrap(bs_files, rna_files, chrom_size_file = NULL,
   chr_discarded = NULL, upstream = -7000, downstream = 7000,
   min_bs_cov = 4, max_bs_cov = 1000, cpg_density = 10, sd_thresh = 0.1,
-  ignore_strand = TRUE, gene_expr_thresh = FALSE, gene_log2_transf = TRUE,
-  gene_outl_thresh = TRUE, gex_outlier = 300, fmin = -1, fmax = 1)
+  ignore_strand = TRUE, gene_log2_transf = TRUE, gene_outl_thresh = TRUE,
+  gex_outlier = 300, fmin = -1, fmax = 1)
 }
 \arguments{
 \item{bs_files}{Filename (or vector of filenames if there are replicates) of
@@ -42,8 +42,6 @@ the methylation change in a region. This is used to filter regions with no
 methylation change.}
 
 \item{ignore_strand}{Logical, whether or not to ignore strand information.}
-
-\item{gene_expr_thresh}{Logical, whether or not to remove unexpressed genes.}
 
 \item{gene_log2_transf}{Logical, whether or not to log2 transform the gene
 expression data.}

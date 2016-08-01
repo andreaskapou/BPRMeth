@@ -211,25 +211,27 @@ bpr_optim.matrix <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
                  data    = data,
                  is_NLL  = TRUE)$par
 
-  # If we need to add the goodness of fit to the data as feature
-  if (!is.null(fit_feature)){
-    if (identical(fit_feature, "NLL")){
-      fit <- .bpr_likelihood(w = w_opt,
-                             H = H,
-                             data = data,
-                             is_NLL = TRUE)
-    }else if (identical(fit_feature, "RMSE")){
-      # Predictions of the target variables
-      f_pred <- as.vector(pnorm(H %*% w_opt))
-      f_true <- data[, 2] / data[, 1]
-      fit <- sqrt(mean( (f_pred - f_true) ^ 2) )
+  if (basis$M != 0){
+    # If we need to add the goodness of fit to the data as feature
+    if (!is.null(fit_feature)){
+      if (identical(fit_feature, "NLL")){
+        fit <- .bpr_likelihood(w = w_opt,
+                               H = H,
+                               data = data,
+                               is_NLL = TRUE)
+      }else if (identical(fit_feature, "RMSE")){
+        # Predictions of the target variables
+        f_pred <- as.vector(pnorm(H %*% w_opt))
+        f_true <- data[, 2] / data[, 1]
+        fit <- sqrt(mean( (f_pred - f_true) ^ 2) )
+      }
+      w_opt <- c(w_opt, fit)
     }
-    w_opt <- c(w_opt, fit)
-  }
 
-  # Add as feature the CpG density in the promoter region
-  if (cpg_dens_feat){
-    w_opt <- c(w_opt, length(obs))
+    # Add as feature the CpG density in the promoter region
+    if (cpg_dens_feat){
+      w_opt <- c(w_opt, length(obs))
+    }
   }
 
   return(list(w_opt = w_opt,

@@ -5,8 +5,7 @@
 \title{Pre-process final HTS data for downstream analysis}
 \usage{
 preprocess_final_HTS_data(methyl_region, prom_reg, rna_data,
-  gene_expr_thresh = FALSE, gene_log2_transf = TRUE,
-  gene_outl_thresh = TRUE, gex_outlier = 300)
+  gene_log2_transf = TRUE, gene_outl_thresh = TRUE, gex_outlier = 300)
 }
 \arguments{
 \item{methyl_region}{Methylation region data, which are the output of the
@@ -19,8 +18,6 @@ corresponding annotated promoter regions for each entry of the
 \item{rna_data}{A \code{\link[GenomicRanges]{GRanges}} object containing
 corresponding RNA-Seq data for each entry of the \code{methyl_region} list.
 This is the output of the "\code{read_rna_encode_caltech} function.}
-
-\item{gene_expr_thresh}{Logical, whether or not to remove unexpressed genes.}
 
 \item{gene_log2_transf}{Logical, whether or not to log2 transform the gene
 expression data.}

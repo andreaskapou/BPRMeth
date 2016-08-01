@@ -31,9 +31,8 @@
   succ  <- data[, 2]
 
   # Predictions of the target variables
-  g <- as.vector(H %*% w)
   # Compute the cdf of N(0,1) distribution (i.e. probit function)
-  Phi <- as.vector(pnorm(g))
+  Phi <- pnorm(H %*% w)
 
   # In extreme cases where probit is 0 or 1, subtract a tiny number
   # so we can evaluate the log(0) when computing the Binomial
@@ -75,7 +74,7 @@
   # Predictions of the target variables
   g <- as.vector(H %*% w)
   # Compute the cdf of N(0,1) distribution (i.e. probit function)
-  Phi <- as.vector(pnorm(g))
+  Phi <- pnorm(g)
 
   # In extreme cases where probit is 0 or 1, subtract a tiny number
   # so we can evaluate the log(0) when computing the Binomial
@@ -83,7 +82,7 @@
   Phi[which(Phi < 1e-289)] <- 1e-289
 
   # Compute the density of a N(0,1) distribution
-  N <- as.vector(dnorm(g))
+  N <- dnorm(g)
   N[which(N < 1e-289)] <- 1e-289
 
   # Compute the gradient vector w.r.t the coefficients w

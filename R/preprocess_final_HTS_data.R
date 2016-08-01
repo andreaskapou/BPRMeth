@@ -29,7 +29,6 @@
 #'
 #' @export
 preprocess_final_HTS_data <- function(methyl_region, prom_reg, rna_data,
-                                      gene_expr_thresh = FALSE,
                                       gene_log2_transf = TRUE,
                                       gene_outl_thresh = TRUE,
                                       gex_outlier = 300){
@@ -37,22 +36,15 @@ preprocess_final_HTS_data <- function(methyl_region, prom_reg, rna_data,
   # Extract only the gene expression data in FPKM
   gex <- as.numeric(rna_data$gene_fpkm)
 
-  # Option to discard all unexpressed genes
-  if (gene_expr_thresh){
-    ind <- which(gex == 0)
-    gex <- gex[-ind]
-    methyl_region <- methyl_region[-ind]
-    prom_reg <- prom_reg[-ind]
-    rna_data <- rna_data[-ind]
-  }
-
   # Option to discard possible outliers / noisy data
   if (gene_outl_thresh){
     ind <- which(gex > gex_outlier)
-    gex <- gex[-ind]
-    methyl_region <- methyl_region[-ind]
-    prom_reg <- prom_reg[-ind]
-    rna_data <- rna_data[-ind]
+    if (length(ind) > 0){
+      gex <- gex[-ind]
+      methyl_region <- methyl_region[-ind]
+      prom_reg <- prom_reg[-ind]
+      rna_data <- rna_data[-ind]
+    }
   }
 
   # Option to log-transform gene expression data

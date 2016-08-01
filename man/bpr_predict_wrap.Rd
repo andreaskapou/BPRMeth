@@ -7,7 +7,7 @@
 bpr_predict_wrap(formula = NULL, x, y, model_name = "svm", w = NULL,
   basis = NULL, train_ind = NULL, train_perc = 0.7,
   fit_feature = "RMSE", cpg_dens_feat = TRUE, opt_method = "CG",
-  opt_itnmax = 500, is_parallel = TRUE, no_cores = NULL,
+  opt_itnmax = 100, is_parallel = TRUE, no_cores = NULL,
   is_summary = TRUE)
 }
 \arguments{

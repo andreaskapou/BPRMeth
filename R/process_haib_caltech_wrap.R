@@ -20,7 +20,6 @@
 #'   with less reads will be considered as noise and will be discarded.
 #' @param max_bs_cov The maximum number of reads mapping to each CpG site. CpGs
 #'   with more reads will be considered as noise and will be discarded.
-#' @param gene_expr_thresh Logical, whether or not to remove unexpressed genes.
 #' @param gene_log2_transf Logical, whether or not to log2 transform the gene
 #'   expression data.
 #' @param gene_outl_thresh Logical, whehter or not to remove outlier gene
@@ -72,7 +71,6 @@ process_haib_caltech_wrap <- function(bs_files, rna_files,
                                       downstream = 7000, min_bs_cov = 4,
                                       max_bs_cov = 1000, cpg_density = 10,
                                       sd_thresh = 10e-02, ignore_strand = TRUE,
-                                      gene_expr_thresh = FALSE,
                                       gene_log2_transf = TRUE,
                                       gene_outl_thresh = TRUE,
                                       gex_outlier = 300,
@@ -121,7 +119,6 @@ process_haib_caltech_wrap <- function(bs_files, rna_files,
   proc_data <- preprocess_final_HTS_data(methyl_region = methyl_reg$meth_data,
                                          prom_reg = prom_reg,
                                          rna_data = rna_data,
-                                         gene_expr_thresh = gene_expr_thresh,
                                          gene_log2_transf = gene_log2_transf,
                                          gene_outl_thresh = gene_outl_thresh,
                                          gex_outlier = gex_outlier)
