@@ -28,7 +28,8 @@ Imports: assertthat,
     stats,
     IRanges,
     S4Vectors,
-    data.table
+    data.table,
+    graphics
 Suggests: testthat,
     knitr,
     rmarkdown,
