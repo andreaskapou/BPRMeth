@@ -1,6 +1,9 @@
 .Rproj.user
-.Rproj
 .Rhistory
 .RData
-.toc
+*.toc
+*.log
+*.out
+*.blg
+*.aux
 inst/doc
