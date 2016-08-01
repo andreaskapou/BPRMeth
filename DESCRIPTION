@@ -47,4 +47,6 @@ biocViews: DNAMethylation,
 	Regression,
 	RNASeq,
 	Bayesian,
-	KEGG
+	KEGG, 
+	Sequencing, 
+	Coverage
