@@ -3,7 +3,7 @@
 %\VignettePackage{BPRMeth}
 %\VignetteEngine{knitr::knitr}
 
-\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+\documentclass{article}\usepackage[]{graphicx}\usepackage[usenames,dvipsnames]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -60,7 +60,7 @@
 
 
 \bioctitle[BPRMeth: Methylation features for clustering and prediction]{BPRMeth: Higher order methylation features for clustering and prediction in epigenomic studies}
-\author{Chantriolnt-Andreas Kapourani\footnote{C.A.Kapourani@ed.ac.uk}}
+\author{Chantriolnt-Andreas Kapourani\footnote{C.A.Kapourani@ed.ac.uk or kapouranis.andreas@gmail.com}}
 \date{Modified: 1 August, 2016. Compiled: \today}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
@@ -413,7 +413,7 @@ This vignette was compiled using:
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=en_GB.UTF-8       
-##  [4] LC_COLLATE=C               LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+##  [4] LC_COLLATE=en_GB.UTF-8     LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
 ##  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
 ## [10] LC_TELEPHONE=C             LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 ## 
@@ -423,18 +423,16 @@ This vignette was compiled using:
 ## 
 ## other attached packages:
 ## [1] BPRMeth_0.99.0       GenomicRanges_1.24.2 GenomeInfoDb_1.8.3   IRanges_2.6.1       
-## [5] S4Vectors_0.10.2     BiocGenerics_0.18.0 
+## [5] S4Vectors_0.10.2     BiocGenerics_0.18.0  knitr_1.13           colorout_1.1-2      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.6         compiler_3.3.1      formatR_1.4         highr_0.6          
-##  [5] XVector_0.12.1      TeachingDemos_2.10  class_7.3-14        iterators_1.0.8    
-##  [9] tools_3.3.1         zlibbioc_1.18.0     testthat_1.0.2      digest_0.6.9       
-## [13] memoise_1.0.0       evaluate_0.9        foreach_1.4.3       e1071_1.6-7        
-## [17] withr_1.0.2         stringr_1.0.0       roxygen2_5.0.1      knitr_1.13         
-## [21] devtools_1.12.0     data.table_1.9.6    R6_2.1.2            plotrix_3.6-3      
-## [25] plotmo_3.1.4        magrittr_1.5        codetools_0.2-14    MASS_7.3-45        
-## [29] assertthat_0.1      randomForest_4.6-12 BiocStyle_2.0.2     earth_4.4.4        
-## [33] stringi_1.1.1       doParallel_1.0.10   chron_2.3-47        crayon_1.3.2
+##  [1] XVector_0.12.1      magrittr_1.5        zlibbioc_1.18.0     MASS_7.3-45        
+##  [5] doParallel_1.0.10   plotmo_3.1.4        foreach_1.4.3       highr_0.6          
+##  [9] stringr_1.0.0       tools_3.3.1         data.table_1.9.6    plotrix_3.6-3      
+## [13] e1071_1.6-7         iterators_1.0.8     class_7.3-14        assertthat_0.1     
+## [17] randomForest_4.6-12 formatR_1.4         codetools_0.2-14    evaluate_0.9       
+## [21] earth_4.4.4         stringi_1.1.1       compiler_3.3.1      TeachingDemos_2.10 
+## [25] BiocStyle_2.0.2     chron_2.3-47
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
