@@ -35,37 +35,37 @@ NULL
 #' @export
 create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL,
                               eq_spaced_mus = TRUE, whole_region = TRUE){
-  assertthat::assert_that(is.numeric(M))
-  assertthat::assert_that(is.logical(eq_spaced_mus))
-  assertthat::assert_that(is.logical(whole_region))
-  assertthat::assert_that(M %% 1 == 0)
-  assertthat::assert_that(M > -1)
-  if (! is.null(gamma)){
-    assertthat::assert_that(is.numeric(gamma))
-    assertthat::assert_that(gamma > 0)
-  }else{
-    gamma <- M ^ 2 / ( abs(1) + abs(-1) ) ^ 2
-  }
-  if (! is.null(mus)){
-    assertthat::assert_that(is.vector(mus))
-    assertthat::assert_that(M == length(mus))
-  }else{
-    if (eq_spaced_mus){
-      mus <- vector(mode = "numeric", M)
-      if (whole_region){
-        for (i in 1:M){
-          mus[i] <- i * ( (1 - (-1)) / (M + 1) ) + (-1)
-        }
-      }
+    assertthat::assert_that(is.numeric(M))
+    assertthat::assert_that(is.logical(eq_spaced_mus))
+    assertthat::assert_that(is.logical(whole_region))
+    assertthat::assert_that(M %% 1 == 0)
+    assertthat::assert_that(M > -1)
+    if (! is.null(gamma)){
+        assertthat::assert_that(is.numeric(gamma))
+        assertthat::assert_that(gamma > 0)
+    }else{
+        gamma <- M ^ 2 / ( abs(1) + abs(-1) ) ^ 2
     }
-  }
-  obj <- structure(list(M = M,
-                        mus = mus,
-                        gamma = gamma,
-                        eq_spaced_mus = eq_spaced_mus,
-                        whole_region = whole_region),
-                   class = "rbf")
-  return(obj)
+    if (! is.null(mus)){
+        assertthat::assert_that(is.vector(mus))
+        assertthat::assert_that(M == length(mus))
+    }else{
+        if (eq_spaced_mus){
+            mus <- vector(mode = "numeric", M)
+            if (whole_region){
+                for (i in 1:M){
+                    mus[i] <- i * ( (1 - (-1)) / (M + 1) ) + (-1)
+                }
+            }
+        }
+    }
+    obj <- structure(list(M = M,
+                          mus = mus,
+                          gamma = gamma,
+                          eq_spaced_mus = eq_spaced_mus,
+                          whole_region = whole_region),
+                     class = "rbf")
+    return(obj)
 }
 
 
@@ -76,12 +76,12 @@ create_rbf_object <- function(M = 2, gamma = NULL, mus = NULL,
 #'
 #' @export
 create_polynomial_object <- function(M = 1){
-  # Check that M is numberic and integer
-  assertthat::assert_that(is.numeric(M))
-  assertthat::assert_that(M %% 1 == 0)
-  assertthat::assert_that(M > -1)
-  obj <- structure(list(M = M), class = "polynomial")
-  return(obj)
+    # Check that M is numberic and integer
+    assertthat::assert_that(is.numeric(M))
+    assertthat::assert_that(M %% 1 == 0)
+    assertthat::assert_that(M > -1)
+    obj <- structure(list(M = M), class = "polynomial")
+    return(obj)
 }
 
 
@@ -103,7 +103,7 @@ create_polynomial_object <- function(M = 1){
 # @seealso \code{\link{create_polynomial_object}}, \code{\link{rbf_basis}}
 #
 .polynomial_basis <- function(X, M = 1){
-  return(X ^ M)
+    return(X ^ M)
 }
 
 
@@ -122,5 +122,5 @@ create_polynomial_object <- function(M = 1){
 # @seealso \code{\link{create_rbf_object}}, \code{\link{polynomial_basis}}
 #
 .rbf_basis <- function(X, mus, gamma = 1){
-  return(exp( (-1) * gamma * sum( (X - mus) ^ 2) ))
+    return(exp( (-1) * gamma * sum( (X - mus) ^ 2) ))
 }

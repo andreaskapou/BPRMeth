@@ -64,61 +64,61 @@ bpr_predict_wrap <- function(formula = NULL, x, y, model_name = "svm", w = NULL,
                              is_parallel = TRUE, no_cores = NULL,
                              is_summary = TRUE){
 
-  # Check that x is a list object
-  assertthat::assert_that(is.list(x))
+    # Check that x is a list object
+    assertthat::assert_that(is.list(x))
 
-  # Learn methylation profiles for each gene promoter region
-  message("Learning methylation profiles ...\n")
-  out_opt <- bpr_optim(x           = x,
-                       w           = w,
-                       basis       = basis,
-                       fit_feature = fit_feature,
-                       cpg_dens_feat = cpg_dens_feat,
-                       opt_method  = opt_method,
-                       opt_itnmax  = opt_itnmax,
-                       is_parallel = is_parallel,
-                       no_cores    = no_cores)
+    # Learn methylation profiles for each gene promoter region
+    message("Learning methylation profiles ...\n")
+    out_opt <- bpr_optim(x           = x,
+                         w           = w,
+                         basis       = basis,
+                         fit_feature = fit_feature,
+                         cpg_dens_feat = cpg_dens_feat,
+                         opt_method  = opt_method,
+                         opt_itnmax  = opt_itnmax,
+                         is_parallel = is_parallel,
+                         no_cores    = no_cores)
 
-  # Create training and test sets
-  message("Partitioning to test and train data ...\n")
-  dataset <- .partition_data(x          = out_opt$W_opt,
-                             y          = y,
-                             train_ind  = train_ind,
-                             train_perc = train_perc)
+    # Create training and test sets
+    message("Partitioning to test and train data ...\n")
+    dataset <- .partition_data(x          = out_opt$W_opt,
+                               y          = y,
+                               train_ind  = train_ind,
+                               train_perc = train_perc)
 
-  # Train regression model from methylation profiles
-  message("Training linear regression model ...\n")
-  train_model <- train_model_gex(formula    = formula,
-                                 model_name = model_name,
-                                 train      = dataset$train,
-                                 is_summary = is_summary)
-
-  # Predict gene expression from methylation profiles
-  message("Making predictions ...\n")
-  predictions <- predict_model_gex(model      = train_model$gex_model,
-                                   test       = dataset$test,
+    # Train regression model from methylation profiles
+    message("Training linear regression model ...\n")
+    train_model <- train_model_gex(formula    = formula,
+                                   model_name = model_name,
+                                   train      = dataset$train,
                                    is_summary = is_summary)
-  message("Done!\n\n")
 
-  # Create 'bpr_predict' object
-  obj <- structure(list(formula      = formula,
-                        model_name   = model_name,
-                        basis        = out_opt$basis,
-                        train_ind    = dataset$train_ind,
-                        train_perc   = train_perc,
-                        fit_feature  = fit_feature,
-                        cpg_dens_feat = cpg_dens_feat,
-                        opt_method   = opt_method,
-                        opt_itnmax   = opt_itnmax,
-                        W_opt        = out_opt$W_opt,
-                        Mus          = out_opt$Mus,
-                        train        = dataset$train,
-                        test         = dataset$test,
-                        gex_model    = train_model$gex_model,
-                        train_pred   = train_model$train_pred,
-                        test_pred    = predictions$test_pred,
-                        train_errors = train_model$train_errors,
-                        test_errors  = predictions$test_errors),
-                   class = "bpr_predict")
-  return(obj)
+    # Predict gene expression from methylation profiles
+    message("Making predictions ...\n")
+    predictions <- predict_model_gex(model      = train_model$gex_model,
+                                     test       = dataset$test,
+                                     is_summary = is_summary)
+    message("Done!\n\n")
+
+    # Create 'bpr_predict' object
+    obj <- structure(list(formula      = formula,
+                          model_name   = model_name,
+                          basis        = out_opt$basis,
+                          train_ind    = dataset$train_ind,
+                          train_perc   = train_perc,
+                          fit_feature  = fit_feature,
+                          cpg_dens_feat = cpg_dens_feat,
+                          opt_method   = opt_method,
+                          opt_itnmax   = opt_itnmax,
+                          W_opt        = out_opt$W_opt,
+                          Mus          = out_opt$Mus,
+                          train        = dataset$train,
+                          test         = dataset$test,
+                          gex_model    = train_model$gex_model,
+                          train_pred   = train_model$train_pred,
+                          test_pred    = predictions$test_pred,
+                          train_errors = train_model$train_errors,
+                          test_errors  = predictions$test_errors),
+                     class = "bpr_predict")
+    return(obj)
 }

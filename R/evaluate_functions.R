@@ -36,8 +36,8 @@ NULL
 #'
 #' @export
 eval_probit_function <- function(x, ...){
-  f <- eval_function(x, ...)
-  return(pnorm(f))
+    f <- eval_function(x, ...)
+    return(pnorm(f))
 }
 
 
@@ -60,13 +60,13 @@ eval_probit_function <- function(x, ...){
 #'
 #' @export
 eval_function <- function(x, ...){
-  UseMethod("eval_function")
+    UseMethod("eval_function")
 }
 
 
 # Default function for the generic function 'eval_function'
 eval_function.default <- function(x, ...){
-  stop(paste("Object of class '", class(x), "' is not implemented.", sep = ""))
+    stop(paste("Object class '", class(x), "' is not implemented.", sep = ""))
 }
 
 
@@ -74,22 +74,22 @@ eval_function.default <- function(x, ...){
 #'
 #' @export
 eval_function.rbf <- function(x, obs, w, ...){
-  assertthat::assert_that(methods::is(x, "rbf"))
-  assertthat::assert_that(is.vector(w))
-  assertthat::assert_that(!is.null(x$mus))
+    assertthat::assert_that(methods::is(x, "rbf"))
+    assertthat::assert_that(is.vector(w))
+    assertthat::assert_that(!is.null(x$mus))
 
-  f <- rep(w[1], length(obs))
-  obs <- as.matrix(obs)
-  if (x$M > 0){
-    for (i in 1:x$M){
-      f <- f + w[i + 1] * apply(X      = obs,
-                                MARGIN = 1,
-                                FUN    = .rbf_basis,
-                                mus    = x$mus[i],
-                                gamma  = x$gamma)
+    f <- rep(w[1], length(obs))
+    obs <- as.matrix(obs)
+    if (x$M > 0){
+        for (i in 1:x$M){
+            f <- f + w[i + 1] * apply(X      = obs,
+                                      MARGIN = 1,
+                                      FUN    = .rbf_basis,
+                                      mus    = x$mus[i],
+                                      gamma  = x$gamma)
+        }
     }
-  }
-  return(f)
+    return(f)
 }
 
 
@@ -97,15 +97,15 @@ eval_function.rbf <- function(x, obs, w, ...){
 #'
 #' @export
 eval_function.polynomial <- function(x, obs, w, ...){
-  assertthat::assert_that(methods::is(x, "polynomial"))
-  assertthat::assert_that(is.vector(obs))
-  assertthat::assert_that(is.vector(w))
+    assertthat::assert_that(methods::is(x, "polynomial"))
+    assertthat::assert_that(is.vector(obs))
+    assertthat::assert_that(is.vector(w))
 
-  f <- rep(w[1], length(obs))
-  if (x$M > 0){
-    for (i in 1:x$M){
-      f <- f + w[i + 1] * .polynomial_basis(obs, i)
+    f <- rep(w[1], length(obs))
+    if (x$M > 0){
+        for (i in 1:x$M){
+            f <- f + w[i + 1] * .polynomial_basis(obs, i)
+        }
     }
-  }
-  return(f)
+    return(f)
 }

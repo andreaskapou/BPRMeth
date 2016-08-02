@@ -77,63 +77,63 @@ process_haib_caltech_wrap <- function(bs_files, rna_files,
                                       fmin = -1, fmax = 1){
 
 
-  # Process BS-Seq file and return data in the required format
-  bs_data <- preprocess_bs_seq(files         = bs_files,
-                               file_format   = "encode_rrbs",
-                               chr_discarded = chr_discarded,
-                               min_bs_cov    = min_bs_cov,
-                               max_bs_cov    = max_bs_cov)
+    # Process BS-Seq file and return data in the required format
+    bs_data <- preprocess_bs_seq(files         = bs_files,
+                                 file_format   = "encode_rrbs",
+                                 chr_discarded = chr_discarded,
+                                 min_bs_cov    = min_bs_cov,
+                                 max_bs_cov    = max_bs_cov)
 
-  # Read the chromosome size file, if it is supplied
-  if (!is.null(chrom_size_file)){
-    chrom_size <- read_chrom_size(file = chrom_size_file)
-  }else{
-    chrom_size <- NULL
-  }
+    # Read the chromosome size file, if it is supplied
+    if (!is.null(chrom_size_file)){
+        chrom_size <- read_chrom_size(file = chrom_size_file)
+    }else{
+        chrom_size <- NULL
+    }
 
-  # Read RNA-Seq BED file
-  rna_data <- read_rna_encode_caltech(file          = rna_files,
-                                      chr_discarded = chr_discarded,
-                                      is_GRanges    = TRUE)
+    # Read RNA-Seq BED file
+    rna_data <- read_rna_encode_caltech(file          = rna_files,
+                                        chr_discarded = chr_discarded,
+                                        is_GRanges    = TRUE)
 
-  # Create promoter regions
-  prom_reg <- create_prom_region(annot_data = rna_data,
-                                 chrom_size = chrom_size,
-                                 upstream   = upstream,
-                                 downstream = downstream)
+    # Create promoter regions
+    prom_reg <- create_prom_region(annot_data = rna_data,
+                                   chrom_size = chrom_size,
+                                   upstream   = upstream,
+                                   downstream = downstream)
 
-  # Create methylation regions data
-  methyl_reg <- create_methyl_region(bs_data       = bs_data,
-                                     prom_region   = prom_reg,
-                                     cpg_density   = cpg_density,
-                                     sd_thresh     = sd_thresh,
-                                     ignore_strand = ignore_strand,
-                                     fmin          = fmin,
-                                     fmax          = fmax)
+    # Create methylation regions data
+    methyl_reg <- create_methyl_region(bs_data       = bs_data,
+                                       prom_region   = prom_reg,
+                                       cpg_density   = cpg_density,
+                                       sd_thresh     = sd_thresh,
+                                       ignore_strand = ignore_strand,
+                                       fmin          = fmin,
+                                       fmax          = fmax)
 
-  # Keep only the corresponding gene expression data
-  rna_data <- rna_data[methyl_reg$prom_ind]
-  # Keep only the corresponding gene annotation data
-  prom_reg <- prom_reg[methyl_reg$prom_ind]
+    # Keep only the corresponding gene expression data
+    rna_data <- rna_data[methyl_reg$prom_ind]
+    # Keep only the corresponding gene annotation data
+    prom_reg <- prom_reg[methyl_reg$prom_ind]
 
-  proc_data <- preprocess_final_HTS_data(methyl_region = methyl_reg$meth_data,
-                                         prom_reg = prom_reg,
-                                         rna_data = rna_data,
-                                         gene_log2_transf = gene_log2_transf,
-                                         gene_outl_thresh = gene_outl_thresh,
-                                         gex_outlier = gex_outlier)
+    proc_data <- preprocess_final_HTS_data(methyl_region = methyl_reg$meth_data,
+                                           prom_reg = prom_reg,
+                                           rna_data = rna_data,
+                                           gene_log2_transf = gene_log2_transf,
+                                           gene_outl_thresh = gene_outl_thresh,
+                                           gex_outlier = gex_outlier)
 
-  # Create object
-  obj <- structure(list(methyl_region = proc_data$methyl_region,
-                        gex           = proc_data$gex,
-                        prom_region   = proc_data$prom_reg,
-                        rna_data      = proc_data$rna_data,
-                        upstream      = upstream,
-                        downstream    = downstream,
-                        cpg_density   = cpg_density,
-                        sd_thresh     = sd_thresh,
-                        fmin          = fmin,
-                        fmax          = fmax),
-                   class = "processHTS")
-  return(obj)
+    # Create object
+    obj <- structure(list(methyl_region = proc_data$methyl_region,
+                          gex           = proc_data$gex,
+                          prom_region   = proc_data$prom_reg,
+                          rna_data      = proc_data$rna_data,
+                          upstream      = upstream,
+                          downstream    = downstream,
+                          cpg_density   = cpg_density,
+                          sd_thresh     = sd_thresh,
+                          fmin          = fmin,
+                          fmax          = fmax),
+                     class = "processHTS")
+    return(obj)
 }

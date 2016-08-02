@@ -50,29 +50,29 @@
 preprocess_bs_seq <- function(files, file_format = "encode_rrbs",
                               chr_discarded = NULL, min_bs_cov = 4,
                               max_bs_cov = 1000){
-  # If we have more than one replicates
-  if (length(files) > 1){
-    bs_data <- pool_bs_seq_rep(files         = files,
-                               file_format   = file_format,
-                               chr_discarded = chr_discarded)
-  }else{
-    if (file_format == "encode_rrbs"){
-      bs_data <- read_bs_encode_haib(file          = files,
-                                     chr_discarded = chr_discarded,
-                                     is_GRanges    = TRUE)
-    }else if (file_format == "bismark_cov"){
-      bs_data <- read_bs_bismark_cov(file          = files,
-                                     chr_discarded = chr_discarded,
-                                     is_GRanges    = TRUE)
+    # If we have more than one replicates
+    if (length(files) > 1){
+        bs_data <- pool_bs_seq_rep(files         = files,
+                                   file_format   = file_format,
+                                   chr_discarded = chr_discarded)
+    }else{
+        if (file_format == "encode_rrbs"){
+            bs_data <- read_bs_encode_haib(file          = files,
+                                           chr_discarded = chr_discarded,
+                                           is_GRanges    = TRUE)
+        }else if (file_format == "bismark_cov"){
+            bs_data <- read_bs_bismark_cov(file          = files,
+                                           chr_discarded = chr_discarded,
+                                           is_GRanges    = TRUE)
+        }
+        else{
+            stop("Wrong file format. Please check the available file formats!")
+        }
     }
-    else{
-      stop("Wrong file format. Please check the available file formats!")
-    }
-  }
 
-  bs_data <- .discard_bs_noise_reads(bs_data     = bs_data,
-                                     min_bs_cov  = min_bs_cov,
-                                     max_bs_cov  = max_bs_cov)
-  message("Done!\n")
-  return(bs_data)
+    bs_data <- .discard_bs_noise_reads(bs_data     = bs_data,
+                                       min_bs_cov  = min_bs_cov,
+                                       max_bs_cov  = max_bs_cov)
+    message("Done!\n")
+    return(bs_data)
 }

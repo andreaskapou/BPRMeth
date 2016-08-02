@@ -27,27 +27,27 @@
 # @importFrom stats pnorm dbinom
 #
 .bpr_likelihood <- function(w, H, data, is_NLL = FALSE){
-  total <- data[, 1]
-  succ  <- data[, 2]
+    total <- data[, 1]
+    succ  <- data[, 2]
 
-  # Predictions of the target variables
-  # Compute the cdf of N(0,1) distribution (i.e. probit function)
-  Phi <- pnorm(H %*% w)
+    # Predictions of the target variables
+    # Compute the cdf of N(0,1) distribution (i.e. probit function)
+    Phi <- pnorm(H %*% w)
 
-  # In extreme cases where probit is 0 or 1, subtract a tiny number
-  # so we can evaluate the log(0) when computing the Binomial
-  Phi[which(Phi > (1 - 1e-289))] <- 1 - 1e-289
-  Phi[which(Phi < 1e-289)] <- 1e-289
+    # In extreme cases where probit is 0 or 1, subtract a tiny number
+    # so we can evaluate the log(0) when computing the Binomial
+    Phi[which(Phi > (1 - 1e-289))] <- 1 - 1e-289
+    Phi[which(Phi < 1e-289)] <- 1e-289
 
-  # Compute the log likelihood
-  res <- sum(dbinom(x = succ, size = total, prob = Phi, log = TRUE)) -
-                                                       1 / 2 * t(w) %*% w
+    # Compute the log likelihood
+    res <- sum(dbinom(x = succ, size = total, prob = Phi, log = TRUE)) -
+        1 / 2 * t(w) %*% w
 
-  # If we required the Negative Log Likelihood
-  if (is_NLL){
-    res <- (-1) * res
-  }
-  return(res)
+    # If we required the Negative Log Likelihood
+    if (is_NLL){
+        res <- (-1) * res
+    }
+    return(res)
 }
 
 
@@ -68,31 +68,31 @@
 # @importFrom stats pnorm dnorm
 #
 .bpr_gradient <- function(w, H, data, is_NLL = FALSE){
-  total <- data[, 1]
-  succ  <- data[, 2]
+    total <- data[, 1]
+    succ  <- data[, 2]
 
-  # Predictions of the target variables
-  g <- as.vector(H %*% w)
-  # Compute the cdf of N(0,1) distribution (i.e. probit function)
-  Phi <- pnorm(g)
+    # Predictions of the target variables
+    g <- as.vector(H %*% w)
+    # Compute the cdf of N(0,1) distribution (i.e. probit function)
+    Phi <- pnorm(g)
 
-  # In extreme cases where probit is 0 or 1, subtract a tiny number
-  # so we can evaluate the log(0) when computing the Binomial
-  Phi[which(Phi > (1 - 1e-289))] <- 1 - 1e-289
-  Phi[which(Phi < 1e-289)] <- 1e-289
+    # In extreme cases where probit is 0 or 1, subtract a tiny number
+    # so we can evaluate the log(0) when computing the Binomial
+    Phi[which(Phi > (1 - 1e-289))] <- 1 - 1e-289
+    Phi[which(Phi < 1e-289)] <- 1e-289
 
-  # Compute the density of a N(0,1) distribution
-  N <- dnorm(g)
-  N[which(N < 1e-289)] <- 1e-289
+    # Compute the density of a N(0,1) distribution
+    N <- dnorm(g)
+    N[which(N < 1e-289)] <- 1e-289
 
-  # Compute the gradient vector w.r.t the coefficients w
-  gr <- (N * (succ * (1 / Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
+    # Compute the gradient vector w.r.t the coefficients w
+    gr <- (N * (succ * (1 / Phi) - (total - succ) * (1 / (1 - Phi)))) %*% H - w
 
-  # If we required the Negative Log Likelihood
-  if (is_NLL){
-    gr <- (-1) * gr
-  }
-  return(gr)
+    # If we required the Negative Log Likelihood
+    if (is_NLL){
+        gr <- (-1) * gr
+    }
+    return(gr)
 }
 
 
@@ -123,20 +123,20 @@
 # @seealso \code{\link{bpr_likelihood}}, \code{\link{bpr_EM}}
 #
 .sum_weighted_bpr_lik <- function(w, x, des_mat, post_prob, is_NLL = TRUE){
-  N <- length(x)
+    N <- length(x)
 
-  # TODO: Create tests
-  # For each element in x, evaluate the BPR log likelihood
-  res <- vapply(X   = 1:N,
-                FUN = function(y) .bpr_likelihood(w = w,
-                                                  H = des_mat[[y]]$H,
-                                                  data = x[[y]][, 2:3],
-                                                  is_NLL = is_NLL),
-                FUN.VALUE = numeric(1),
-                USE.NAMES = FALSE)
+    # TODO: Create tests
+    # For each element in x, evaluate the BPR log likelihood
+    res <- vapply(X   = 1:N,
+                  FUN = function(y) .bpr_likelihood(w = w,
+                                                    H = des_mat[[y]]$H,
+                                                    data = x[[y]][, 2:3],
+                                                    is_NLL = is_NLL),
+                  FUN.VALUE = numeric(1),
+                  USE.NAMES = FALSE)
 
-  # Return the dot product of the result and the posterior probabilities
-  return(post_prob %*% res)
+    # Return the dot product of the result and the posterior probabilities
+    return(post_prob %*% res)
 }
 
 
@@ -156,18 +156,18 @@
 # @seealso \code{\link{bpr_gradient}}, \code{\link{bpr_EM}}
 #
 .sum_weighted_bpr_grad <- function(w, x, des_mat, post_prob, is_NLL = TRUE){
-  N <- length(x)
+    N <- length(x)
 
-  # TODO: Create tests
-  # For each element in x, evaluate the gradient of the BPR log likelihood
-  res <- vapply(X   = 1:N,
-                FUN = function(y) .bpr_gradient(w = w,
-                                                H = des_mat[[y]]$H,
-                                                data = x[[y]][, 2:3],
-                                                is_NLL = is_NLL),
-                FUN.VALUE = numeric(length(w)),
-                USE.NAMES = FALSE)
+    # TODO: Create tests
+    # For each element in x, evaluate the gradient of the BPR log likelihood
+    res <- vapply(X   = 1:N,
+                  FUN = function(y) .bpr_gradient(w = w,
+                                                  H = des_mat[[y]]$H,
+                                                  data = x[[y]][, 2:3],
+                                                  is_NLL = is_NLL),
+                  FUN.VALUE = numeric(length(w)),
+                  USE.NAMES = FALSE)
 
-  # Return the dot product of the result and the posterior probabilities
-  return(post_prob %*% t(res))
+    # Return the dot product of the result and the posterior probabilities
+    return(post_prob %*% t(res))
 }

@@ -40,32 +40,32 @@
 #'
 #' @export
 read_bs_bismark_cov <- function(file, chr_discarded = NULL, is_GRanges = TRUE){
-  message("Reading file ", file, " ...")
-  bs_data <- data.table::fread(input = file,
-                               sep = "\t",
-                               header = FALSE,
-                               col.names = c("chr", "start", "meth_reads",
-                                             "unmeth_reads"))
+    message("Reading file ", file, " ...")
+    bs_data <- data.table::fread(input = file,
+                                 sep = "\t",
+                                 header = FALSE,
+                                 col.names = c("chr", "start", "meth_reads",
+                                               "unmeth_reads"))
 
 
-  # Remove selected chromosomes  -------------------------------
-  bs_data <- .discard_chr(x = bs_data, chr_discarded = chr_discarded)
+    # Remove selected chromosomes  -------------------------------
+    bs_data <- .discard_chr(x = bs_data, chr_discarded = chr_discarded)
 
 
-  # Sorting data -----------------------------------------------
-  # With order priority: 1. chr, 2. start
-  message("Sorting BS-Seq data ...")
-  bs_data <- bs_data[order(bs_data$chr, bs_data$start)]
+    # Sorting data -----------------------------------------------
+    # With order priority: 1. chr, 2. start
+    message("Sorting BS-Seq data ...")
+    bs_data <- bs_data[order(bs_data$chr, bs_data$start)]
 
 
-  if (is_GRanges){
-    # Create a GRanges object ---------------------------------
-    message("Creating GRanges object ...")
-    bs_data <- GenomicRanges::GRanges(seqnames = bs_data$chr,
-                    ranges = IRanges::IRanges(start = bs_data$start, width = 1),
-                    total_reads = bs_data$meth_reads + bs_data$unmeth_reads,
-                    meth_reads  = bs_data$meth_reads)
-  }
-  message("Finished reading BS-Seq file!\n")
-  return(bs_data)
+    if (is_GRanges){
+        # Create a GRanges object ---------------------------------
+        message("Creating GRanges object ...")
+        bs_data <- GenomicRanges::GRanges(seqnames = bs_data$chr,
+                  ranges = IRanges::IRanges(start = bs_data$start, width = 1),
+                  total_reads = bs_data$meth_reads + bs_data$unmeth_reads,
+                  meth_reads  = bs_data$meth_reads)
+    }
+    message("Finished reading BS-Seq file!\n")
+    return(bs_data)
 }

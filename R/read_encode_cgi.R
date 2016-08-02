@@ -29,24 +29,24 @@
 #'
 #' @export
 read_encode_cgi <- function(file, is_GRanges = TRUE){
-  message("Reading file ", file, " ...")
-  cgi_data <- data.table::fread(input = file,
-                                sep = "\t",
-                                header = FALSE,
-                                col.names = c("chr", "start", "end", "cgi_id"))
+    message("Reading file ", file, " ...")
+    cgi_data <- data.table::fread(input = file,
+                              sep = "\t",
+                              header = FALSE,
+                              col.names = c("chr", "start", "end", "cgi_id"))
 
-  N <- NROW(cgi_data)
-  cgi_id <- paste0("cgi_", seq(1, N))
-  cgi_data$cgi_id <- cgi_id
+    N <- NROW(cgi_data)
+    cgi_id <- paste0("cgi_", seq(1, N))
+    cgi_data$cgi_id <- cgi_id
 
-  if (is_GRanges){
-    # Create a GRanges object -----------------------------------
-    message("Creating GRanges object ...")
-    cgi_data <- GenomicRanges::GRanges(seqnames = cgi_data$chr,
-                   ranges = IRanges::IRanges(start = cgi_data$start,
-                                             end   = cgi_data$end),
-                   cgi_id = cgi_data$cgi_id)
-  }
-  message("Finished reading CGI file!\n")
-  return(cgi_data)
+    if (is_GRanges){
+        # Create a GRanges object -----------------------------------
+        message("Creating GRanges object ...")
+        cgi_data <- GenomicRanges::GRanges(seqnames = cgi_data$chr,
+                           ranges = IRanges::IRanges(start = cgi_data$start,
+                                                     end   = cgi_data$end),
+                           cgi_id = cgi_data$cgi_id)
+    }
+    message("Finished reading CGI file!\n")
+    return(cgi_data)
 }

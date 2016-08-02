@@ -59,13 +59,13 @@ NULL
 #'
 #' @export
 bpr_optim <- function(x, ...){
-  UseMethod("bpr_optim")
+    UseMethod("bpr_optim")
 }
 
 
 # Default function for the generic function 'bpr_optim'
 bpr_optim.default <- function(x, ...){
-  stop("Object x should be either matrix or list!")
+    stop("Object x should be either matrix or list!")
 }
 
 
@@ -85,92 +85,93 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
                            cpg_dens_feat = TRUE, opt_method = "CG",
                            opt_itnmax = 100, is_parallel = TRUE,
                            no_cores = NULL, ...){
-  # Check that x is a list object
-  assertthat::assert_that(is.list(x))
+    # Check that x is a list object
+    assertthat::assert_that(is.list(x))
 
-  # Extract number of observations
-  N <- length(x)
-  assertthat::assert_that(N > 0)
+    # Extract number of observations
+    N <- length(x)
+    assertthat::assert_that(N > 0)
 
-  # Perform checks for initial parameter values
-  out <- .do_checks(w = w, basis = basis)
-  w   <- out$w
-  basis <- out$basis
+    # Perform checks for initial parameter values
+    out <- .do_checks(w = w, basis = basis)
+    w   <- out$w
+    basis <- out$basis
 
-  # Initialize so the CMD check on R passes without NOTES
-  i <- 0
+    # Initialize so the CMD check on R passes without NOTES
+    i <- 0
 
-  # If parallel mode is ON
-  if (is_parallel){
-    # If number of cores is not given
-    if (is.null(no_cores)){
-      no_cores <- parallel::detectCores() - 2
+    # If parallel mode is ON
+    if (is_parallel){
+        # If number of cores is not given
+        if (is.null(no_cores)){
+            no_cores <- parallel::detectCores() - 2
+        }else{
+            if (no_cores >= parallel::detectCores()){
+                no_cores <- parallel::detectCores() - 1
+            }
+        }
+        if (is.na(no_cores)){
+            no_cores <- 2
+        }
+        # Create cluster object
+        cl <- parallel::makeCluster(no_cores)
+        doParallel::registerDoParallel(cl)
+
+        # Parallel optimization for each element of x, i.e. for each region i.
+        res <- foreach::"%dopar%"(obj = foreach::foreach(i = 1:N),
+              ex  = {
+                  out_opt <- bpr_optim.matrix(x           = x[[i]],
+                                              w           = w,
+                                              basis       = basis,
+                                              fit_feature = fit_feature,
+                                              cpg_dens_feat = cpg_dens_feat,
+                                              opt_method  = opt_method,
+                                              opt_itnmax  = opt_itnmax)
+              })
+        # Stop parallel execution
+        parallel::stopCluster(cl)
+        doParallel::stopImplicitCluster()
     }else{
-      if (no_cores >= parallel::detectCores()){
-        no_cores <- parallel::detectCores() - 1
-      }
+        # Sequential optimization for each element of x, i.e. for each region i.
+        res <- foreach::"%do%"(obj = foreach::foreach(i = 1:N),
+               ex  = {
+                   out_opt <- bpr_optim.matrix(x           = x[[i]],
+                                               w           = w,
+                                               basis       = basis,
+                                               fit_feature = fit_feature,
+                                               cpg_dens_feat = cpg_dens_feat,
+                                               opt_method  = opt_method,
+                                               opt_itnmax  = opt_itnmax)
+               })
     }
-    if (is.na(no_cores)){
-      no_cores <- 2
+
+    # Matrix for storing optimized coefficients
+    W_opt <- sapply(res, function(x) x$w_opt)
+    if (is.matrix(W_opt)){
+        W_opt <- t(W_opt)
+    }else{
+        W_opt <- as.matrix(W_opt)
     }
-    # Create cluster object
-    cl <- parallel::makeCluster(no_cores)
-    doParallel::registerDoParallel(cl)
+    colnames(W_opt) <- paste("w", seq(1, NCOL(W_opt)), sep = "")
 
-    # Parallel optimization for each element of x, i.e. for each region i.
-    res <- foreach::"%dopar%"(obj = foreach::foreach(i = 1:N),
-                              ex  = {
-      out_opt <- bpr_optim.matrix(x           = x[[i]],
-                                  w           = w,
-                                  basis       = basis,
-                                  fit_feature = fit_feature,
-                                  cpg_dens_feat = cpg_dens_feat,
-                                  opt_method  = opt_method,
-                                  opt_itnmax  = opt_itnmax)
-                              })
-    # Stop parallel execution
-    parallel::stopCluster(cl)
-  }else{
-    # Sequential optimization for each element of x, i.e. for each region i.
-    res <- foreach::"%do%"(obj = foreach::foreach(i = 1:N),
-                           ex  = {
-      out_opt <- bpr_optim.matrix(x           = x[[i]],
-                                  w           = w,
-                                  basis       = basis,
-                                  fit_feature = fit_feature,
-                                  cpg_dens_feat = cpg_dens_feat,
-                                  opt_method  = opt_method,
-                                  opt_itnmax  = opt_itnmax)
-                          })
-  }
-
-  # Matrix for storing optimized coefficients
-  W_opt <- sapply(res, function(x) x$w_opt)
-  if (is.matrix(W_opt)){
-    W_opt <- t(W_opt)
-  }else{
-    W_opt <- as.matrix(W_opt)
-  }
-  colnames(W_opt) <- paste("w", seq(1, NCOL(W_opt)), sep = "")
-
-  # Matrix for storing the centers of RBFs if object class is 'rbf'
-  Mus <- NULL
-  if (methods::is(basis, "rbf")){
-    if (is.null(basis$mus)){
-      Mus <- sapply(lapply(res, function(x) x$basis), function(y) y$mus)
-      if (is.matrix(Mus)){
-        Mus <- t(Mus)
-      }else{
-        Mus <- as.matrix(Mus)
-      }
-      colnames(Mus) <- paste("mu", seq(1, NCOL(Mus)), sep = "")
+    # Matrix for storing the centers of RBFs if object class is 'rbf'
+    Mus <- NULL
+    if (methods::is(basis, "rbf")){
+        if (is.null(basis$mus)){
+            Mus <- sapply(lapply(res, function(x) x$basis), function(y) y$mus)
+            if (is.matrix(Mus)){
+                Mus <- t(Mus)
+            }else{
+                Mus <- as.matrix(Mus)
+            }
+            colnames(Mus) <- paste("mu", seq(1, NCOL(Mus)), sep = "")
+        }
     }
-  }
 
-  return(list(W_opt = W_opt,
-              Mus = Mus,
-              basis = basis,
-              w = w))
+    return(list(W_opt = W_opt,
+                Mus = Mus,
+                basis = basis,
+                w = w))
 }
 
 
@@ -190,65 +191,65 @@ bpr_optim.list <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
 bpr_optim.matrix <- function(x, w = NULL, basis = NULL, fit_feature = "RMSE",
                              cpg_dens_feat = TRUE, opt_method = "CG",
                              opt_itnmax = 100, ...){
-  # Vector for storing CpG locations relative to TSS
-  obs <- as.vector(x[, 1])
+    # Vector for storing CpG locations relative to TSS
+    obs <- as.vector(x[, 1])
 
-  # Methylation data
-  data <- x[, 2:3]
+    # Methylation data
+    data <- x[, 2:3]
 
-  # Create design matrix H
-  des_mat <- .design_matrix(x = basis, obs = obs)
-  H       <- des_mat$H
-  basis   <- des_mat$basis
+    # Create design matrix H
+    des_mat <- .design_matrix(x = basis, obs = obs)
+    H       <- des_mat$H
+    basis   <- des_mat$basis
 
-  # Call optim function to perform minimization of the NLL of BPR function
-  w_opt <- optim(par     = w,
-                 fn      = .bpr_likelihood,
-                 gr      = .bpr_gradient,
-                 method  = opt_method,
-                 control = list(maxit = opt_itnmax),
-                 H       = H,
-                 data    = data,
-                 is_NLL  = TRUE)$par
+    # Call optim function to perform minimization of the NLL of BPR function
+    w_opt <- optim(par     = w,
+                   fn      = .bpr_likelihood,
+                   gr      = .bpr_gradient,
+                   method  = opt_method,
+                   control = list(maxit = opt_itnmax),
+                   H       = H,
+                   data    = data,
+                   is_NLL  = TRUE)$par
 
-  if (basis$M != 0){
-    # If we need to add the goodness of fit to the data as feature
-    if (!is.null(fit_feature)){
-      if (identical(fit_feature, "NLL")){
-        fit <- .bpr_likelihood(w = w_opt,
-                               H = H,
-                               data = data,
-                               is_NLL = TRUE)
-      }else if (identical(fit_feature, "RMSE")){
-        # Predictions of the target variables
-        f_pred <- as.vector(pnorm(H %*% w_opt))
-        f_true <- data[, 2] / data[, 1]
-        fit <- sqrt(mean( (f_pred - f_true) ^ 2) )
-      }
-      w_opt <- c(w_opt, fit)
+    if (basis$M != 0){
+        # If we need to add the goodness of fit to the data as feature
+        if (!is.null(fit_feature)){
+            if (identical(fit_feature, "NLL")){
+                fit <- .bpr_likelihood(w = w_opt,
+                                       H = H,
+                                       data = data,
+                                       is_NLL = TRUE)
+            }else if (identical(fit_feature, "RMSE")){
+                # Predictions of the target variables
+                f_pred <- as.vector(pnorm(H %*% w_opt))
+                f_true <- data[, 2] / data[, 1]
+                fit <- sqrt(mean( (f_pred - f_true) ^ 2) )
+            }
+            w_opt <- c(w_opt, fit)
+        }
+
+        # Add as feature the CpG density in the promoter region
+        if (cpg_dens_feat){
+            w_opt <- c(w_opt, length(obs))
+        }
     }
 
-    # Add as feature the CpG density in the promoter region
-    if (cpg_dens_feat){
-      w_opt <- c(w_opt, length(obs))
-    }
-  }
-
-  return(list(w_opt = w_opt,
-              basis = basis))
+    return(list(w_opt = w_opt,
+                basis = basis))
 }
 
 
 # Internal function to make all the appropriate type checks.
 .do_checks <- function(w = NULL, basis = NULL){
-  if (is.null(basis)){
-    basis <- create_rbf_object(M = 3)
-  }
-  if (is.null(w)){
-    w <- rep(0.5, basis$M + 1)
-  }
-  if (length(w) != (basis$M + 1) ){
-    stop("Coefficients vector should be M+1, M: number of basis functions!")
-  }
-  return(list(w = w, basis = basis))
+    if (is.null(basis)){
+        basis <- create_rbf_object(M = 3)
+    }
+    if (is.null(w)){
+        w <- rep(0.5, basis$M + 1)
+    }
+    if (length(w) != (basis$M + 1) ){
+        stop("Coefficient vector should be M+1, M: number of basis functions!")
+    }
+    return(list(w = w, basis = basis))
 }

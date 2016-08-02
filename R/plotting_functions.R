@@ -32,24 +32,27 @@
 plot_fitted_profiles <- function(region, X, fit_prof, fit_mean = NULL,
                                  title = "Gene promoter", ...){
 
-  graphics::par(cex=1.05, mai=c(1.37,1.37,.7,.3) )
-  x <- X[[region]][,1]
-  y <- X[[region]][,3]/X[[region]][,2]
-  xs <- seq(from = -1, to = 1, by = 0.01)
-  graphics::plot(x, y, col = "blue2", pch = 21, ylim = c(0,1), xlim = c(-1,1),
-                 lwd = 0.8, xlab = NA, ylab = NA, cex.axis = 1.1, xaxt = "n")
-  graphics::mtext(side = 1, "genomic region", line = 3, cex = 1.2)
-  graphics::mtext(side = 2, "methylation level", line = 3, cex = 1.2)
-  graphics::axis(side = 1, at = c(-1, 0, 1), labels=c("-7kb", "TSS", "+7kb"))
-  graphics::title(main=title, line = 1, cex.main=1.4)
-  if(!is.null(fit_mean)){
+    graphics::par(cex=1.05, mai=c(1.37,1.37,.7,.3) )
+    x <- X[[region]][,1]
+    y <- X[[region]][,3]/X[[region]][,2]
+    xs <- seq(from = -1, to = 1, by = 0.01)
+    graphics::plot(x, y, col = "blue2", pch = 21, ylim = c(0,1),
+                   xlim = c(-1,1), lwd = 0.8, xlab = NA, ylab = NA,
+                   cex.axis = 1.1, xaxt = "n")
+    graphics::mtext(side = 1, "genomic region", line = 3, cex = 1.2)
+    graphics::mtext(side = 2, "methylation level", line = 3, cex = 1.2)
+    graphics::axis(side = 1, at = c(-1, 0, 1), labels=c("-7kb", "TSS", "+7kb"))
+    graphics::title(main=title, line = 1, cex.main=1.4)
+    if(!is.null(fit_mean)){
+        graphics::lines(x = xs,
+                        y = eval_probit_function(fit_mean$basis, xs,
+                                                 fit_mean$W_opt[region, ]),
+                        col = 'coral', lwd = 2, lty = 2)
+    }
     graphics::lines(x = xs,
-        y = eval_probit_function(fit_mean$basis, xs, fit_mean$W_opt[region, ]),
-        col = 'coral', lwd = 2, lty = 2)
-  }
-  graphics::lines(x = xs,
-        y = eval_probit_function(fit_prof$basis, xs, fit_prof$W_opt[region, ]),
-        col = 'red2', lwd = 2)
+                    y = eval_probit_function(fit_prof$basis, xs,
+                                             fit_prof$W_opt[region, ]),
+                    col = 'red2', lwd = 2)
 }
 
 
@@ -85,93 +88,39 @@ plot_fitted_profiles <- function(region, X, fit_prof, fit_mean = NULL,
 plot_scatter_gex <- function(bpr_predict_obj,
                              main_lab = "Methylation Profile",
                              is_margins = TRUE){
-  output <- bpr_predict_obj
-  if (is_margins){
-    ylim=c(-3.55, 8.02)
-    xlim=c(-3.90, 7.02)
-  }else{
-    max_data <- max(output$test_pred, output$test$y)
-    min_data <- min(output$test_pred, output$test$y)
-    ylim=c(min_data, max_data)
-    xlim=c(min_data, max_data)
-  }
+    output <- bpr_predict_obj
+    if (is_margins){
+        ylim=c(-3.55, 8.02)
+        xlim=c(-3.90, 7.02)
+    }else{
+        max_data <- max(output$test_pred, output$test$y)
+        min_data <- min(output$test_pred, output$test$y)
+        ylim=c(min_data, max_data)
+        xlim=c(min_data, max_data)
+    }
 
-  # Compute correlation
-  r <- round(stats::cor(output$test_pred, output$test$y), 2)
-  # Compute RMSE
-  rmse   <- round(output$test_errors$rmse, 2)
-  # Perform simple linear regression using lm
-  my_lm = stats::lm(output$test$y ~ output$test_pred)
+    # Compute correlation
+    r <- round(stats::cor(output$test_pred, output$test$y), 2)
+    # Compute RMSE
+    rmse   <- round(output$test_errors$rmse, 2)
+    # Perform simple linear regression using lm
+    my_lm = stats::lm(output$test$y ~ output$test_pred)
 
-  graphics::plot(output$test_pred, output$test$y, ylab = NA, xlab = NA,
-                 ylim = ylim, xlim = xlim, cex.axis = 1, col = "#0000ff56",
-                 pch = 16, cex = 1.3)
-  graphics::mtext(side = 1, "predicted expression (log2)", line = 2.2, cex = 1.1)
-  graphics::mtext(side = 2, "measured expression (log2)", line = 2.2, cex = 1.1)
-  graphics::title(main=main_lab, line = 1.1, cex.main=1.45)
-  graphics::abline(stats::coef(my_lm)[1], stats::coef(my_lm)[2],
-                   col = "red", lty = 4, lwd = 3)
-  # Create legend inside the figure
-  graphics::legend(3.7, -1.85, legend = paste0("r = ", r, "\n", "RMSE = ", rmse),
-                   bty = "n", cex = 1.2)
+    graphics::plot(output$test_pred, output$test$y, ylab = NA, xlab = NA,
+                   ylim = ylim, xlim = xlim, cex.axis = 1, col = "#0000ff56",
+                   pch = 16, cex = 1.3)
+    graphics::mtext(side = 1, "predicted expression (log2)",
+                    line = 2.2, cex = 1.1)
+    graphics::mtext(side = 2, "measured expression (log2)",
+                    line = 2.2, cex = 1.1)
+    graphics::title(main=main_lab, line = 1.1, cex.main=1.45)
+    graphics::abline(stats::coef(my_lm)[1], stats::coef(my_lm)[2],
+                     col = "red", lty = 4, lwd = 3)
+    # Create legend inside the figure
+    graphics::legend(3.7, -1.85,
+                     legend = paste0("r = ", r, "\n", "RMSE = ", rmse),
+                     bty = "n", cex = 1.2)
 }
-
-# ggplot_scatter_gex <- function(bpr_predict_obj,
-#                                main_lab = "Methylation Profile",
-#                                is_margins = FALSE){
-#   # Require the ggplot2 package
-#   requireNamespace("ggplot2", quietly = TRUE)
-#   output <- bpr_predict_obj
-#   #require(ggplot2)
-#   if (is_margins){
-#     ylim=c(-3.35, 8.02)
-#     xlim=c(-3.85, 7.02)
-#   }else{
-#     max_data <- max(output$test_pred, output$test$y)
-#     min_data <- min(output$test_pred, output$test$y)
-#     ylim=c(min_data, max_data)
-#     xlim=c(min_data, max_data)
-#   }
-#
-#   # Compute correlation
-#   r <- round(stats::cor(output$test_pred, output$test$y), 2)
-#   # Compute RMSE
-#   rmse   <- round(output$test_errors$rmse, 2)
-#   # Perform simple linear regression using lm
-#   my_lm = stats::lm(output$test$y ~ output$test_pred)
-#
-#   out_plot <- data.frame(pred = output$test_pred,
-#                          meas = output$test$y)
-#
-#
-#   gg <- ggplot2::ggplot(out_plot, ggplot2::aes(x = out_plot$pred,
-#                                                y = out_plot$meas)) +
-#     ggplot2::geom_point(pch = 16, col = "#0000ff56", cex = 1.85) +
-#     ggplot2::theme_bw() +
-#     ggplot2::theme(axis.title.x = ggplot2::element_text(color="black",
-#                                                         size = 12),
-#           axis.title.y = ggplot2::element_text(color="black", size = 12),
-#           plot.title = ggplot2::element_text(face="bold", color = "black",
-#                                              size = 13),
-#           axis.text = ggplot2::element_text(size = 12),
-#           panel.grid.major = ggplot2::element_blank(),
-#           #panel.grid.minor = element_blank(),
-#           panel.border = ggplot2::element_rect(colour = "black", size = 0.5)) +
-#     ggplot2::labs(x = "predicted expression (log2)",
-#                   y = "measured expression (log2)",
-#                   title = main_lab) +
-#     ggplot2::scale_x_continuous(breaks = seq(-2, 8, by = 2), limits=xlim) +
-#     ggplot2::scale_y_continuous(breaks = seq(-2, 8, by = 2), limits=ylim) +
-#     ggplot2::geom_abline(intercept = stats::coef(my_lm)[1],
-#                 slope = stats::coef(my_lm)[2],
-#                 col="red", lty = 4, lwd = 0.5) +
-#     ggplot2::geom_text(data = data.frame(),
-#           ggplot2::aes(5, -3, label = paste0("r = ", r, "\n", "RMSE = ", rmse)),
-#           size = 3, colour = "black",
-#           hjust = 0)
-#
-#   return(gg)
-# }
 
 
 #' Plot of clustered methylation profiles
@@ -202,24 +151,30 @@ plot_scatter_gex <- function(bpr_predict_obj,
 #' @export
 plot_cluster_prof <- function(bpr_cluster_obj,
                               main_lab = "Clustered methylation profiles"){
-  graphics::par(mar=c(4.2, 4.1, 3.1, 2), xpd=TRUE)
-  cols <- c("darkolivegreen4", "cornflowerblue", "coral", "firebrick","#E69F00")
-  xs <- seq(-1,1,len=2000) # create some values
-  graphics::plot(x = xs, y = eval_probit_function(bpr_cluster_obj$basis, xs,
-                                                  bpr_cluster_obj$w[, 1]),
-       xlim = c(-1, 1), ylim = c(0, 1), type = "l", col = cols[1], lwd = 4,
-       xlab = "promoter region", ylab = "methylation level", main = main_lab)
-  K <- 5
-  if (bpr_cluster_obj$K < 5){
-    K <- bpr_cluster_obj$K
-  }
-  for (k in 2:K){
-    graphics::lines(x = xs, y = eval_probit_function(bpr_cluster_obj$basis, xs,
-                                                     bpr_cluster_obj$w[, k]),
-                    col = cols[k], lwd = 4)
-  }
-#   graphics::legend("right", inset=c(-0.18,0), legend=seq(1,K),
-#                    lty = 1, lwd=4, col=cols[1:K], title="Cluster")
+    graphics::par(mar=c(4.2, 4.1, 3.1, 2), xpd=TRUE)
+    cols <- c("darkolivegreen4", "cornflowerblue",
+              "coral", "firebrick","#E69F00")
+    xs <- seq(-1,1,len=2000) # create some values
+    graphics::plot(x = xs,
+                   y = eval_probit_function(bpr_cluster_obj$basis, xs,
+                                            bpr_cluster_obj$w[, 1]),
+                   xlim = c(-1, 1), ylim = c(0, 1),
+                   type = "l", col = cols[1], lwd = 4,
+                   xlab = "promoter region",
+                   ylab = "methylation level",
+                   main = main_lab)
+    K <- 5
+    if (bpr_cluster_obj$K < 5){
+        K <- bpr_cluster_obj$K
+    }
+    for (k in 2:K){
+        graphics::lines(x = xs,
+                        y = eval_probit_function(bpr_cluster_obj$basis, xs,
+                                                 bpr_cluster_obj$w[, k]),
+                        col = cols[k], lwd = 4)
+    }
+    #   graphics::legend("right", inset=c(-0.18,0), legend=seq(1,K),
+    #                    lty = 1, lwd=4, col=cols[1:K], title="Cluster")
 }
 
 
@@ -253,17 +208,20 @@ plot_cluster_prof <- function(bpr_cluster_obj,
 #' @export
 boxplot_cluster_gex <- function(bpr_cluster_obj, gex,
                                 main_lab = "Gene expression levels"){
-  graphics::par(mar=c(4.2, 4.1, 3.1, 5.5), xpd=TRUE)
+    graphics::par(mar=c(4.2, 4.1, 3.1, 5.5), xpd=TRUE)
 
-  cols <- c("darkolivegreen4", "cornflowerblue", "coral", "firebrick","#E69F00")
-  gex_list <- list()
-  for (k in 1:bpr_cluster_obj$K){
-    gex_list[[k]] <- gex[which(bpr_cluster_obj$labels == k)]
-  }
+    cols <- c("darkolivegreen4", "cornflowerblue",
+              "coral", "firebrick","#E69F00")
+    gex_list <- list()
+    for (k in 1:bpr_cluster_obj$K){
+        gex_list[[k]] <- gex[which(bpr_cluster_obj$labels == k)]
+    }
 
-  graphics::boxplot(gex_list, col = cols[1:bpr_cluster_obj$K], notch = TRUE,
-                    xlab = "Cluster K", ylab = "expression level",
-                    main = main_lab)
-  graphics::legend("right", inset=c(-0.18,0), legend=seq(1,bpr_cluster_obj$K),
-                   lty = 1, lwd=3, col=cols[1:bpr_cluster_obj$K], title="Cluster")
+    graphics::boxplot(gex_list, col = cols[1:bpr_cluster_obj$K], notch = TRUE,
+                      xlab = "Cluster K", ylab = "expression level",
+                      main = main_lab)
+    graphics::legend("right", inset=c(-0.18,0),
+                     legend = seq(1,bpr_cluster_obj$K),
+                     lty = 1, lwd = 3, col = cols[1:bpr_cluster_obj$K],
+                     title = "Cluster")
 }

@@ -21,12 +21,12 @@
 #'
 #' @export
 read_chrom_size <- function(file){
-  message("Reading file ", file, " ...")
-  data_raw <- data.table::fread(input = file,
-                                sep = "\t",
-                                header = FALSE,
-                                col.names = c("chr", "size"))
+    message("Reading file ", file, " ...")
+    data_raw <- data.table::fread(input = file,
+                                  sep = "\t",
+                                  header = FALSE,
+                                  col.names = c("chr", "size"))
 
-  message("Done!\n")
-  return(data_raw)
+    message("Done!\n")
+    return(data_raw)
 }
