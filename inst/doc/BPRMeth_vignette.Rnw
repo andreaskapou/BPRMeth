@@ -10,7 +10,7 @@ BiocStyle::latex()
 @
 
 \bioctitle[BPRMeth: Methylation features for clustering and prediction]{BPRMeth: Higher order methylation features for clustering and prediction in epigenomic studies}
-\author{Chantriolnt-Andreas Kapourani\footnote{C.A.Kapourani@ed.ac.uk}}
+\author{Chantriolnt-Andreas Kapourani\footnote{C.A.Kapourani@ed.ac.uk or kapouranis.andreas@gmail.com}}
 \date{Modified: 1 August, 2016. Compiled: \today}
 
 \begin{document}
