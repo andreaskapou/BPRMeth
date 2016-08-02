@@ -42,6 +42,23 @@ on the data for use in downstream analysis. These include, removing noisy
 gene expression data, removing or not un-expressed genes and log2-transorming
 of the FPKM values.
 }
+\examples{
+# Obtain the path to the BS file and then read it
+bs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
+bs_data <- read_bs_encode_haib(bs_file)
+
+# Create promoter regions
+rnaseq_file <- system.file("extdata", "rnaseq.bed", package = "BPRMeth")
+annot_data <- read_rna_encode_caltech(rnaseq_file)
+prom_region <- create_prom_region(annot_data)
+
+# Create methylation regions
+methyl_region <- create_methyl_region(bs_data, prom_region)
+
+# Finally preprocess the HTS data
+res <- preprocess_final_HTS_data(methyl_region, prom_region, annot_data)
+
+}
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
