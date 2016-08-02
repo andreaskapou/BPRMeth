@@ -75,7 +75,7 @@ To illustrate the functions of the \verb|BPRMeth| package we will use real datas
 \subsection{Import and read HTS files}
 Due to its general approach, the BPR method can be applied both in RRBS and WGBS methylation datasets, provided that we have information about the methylated and unmethylated reads in each CpG location.
 
-The \verb|BPRMeth| package provides methods for reading files generated from HTS experiments with specific formats. For the formats provided by the ENCODE datasets described above; we have implemented a wrapper function \Rfunction{process\_haib\_caltech\_wrap} for performing the preprocessing and obtaining the final objects for downstream analysis. The user can implement his own methods for reading files with different formats, provided that he can create an object similar to what is described below. First, we load and attach the package and then we obtain the paths for the sample RRBS and RNA-Seq files with the following commands:
+The \verb|BPRMeth| package provides methods for reading files generated from HTS experiments with specific formats. For the formats provided by the ENCODE datasets described above; we have implemented \Rfunction{process\_haib\_caltech\_wrap}, which is a wrapper function for performing the preprocessing and obtaining the final objects for downstream analysis. The user can implement his own methods for reading files with different formats, provided that he can create an object similar to what is described below. First, we load and attach the package and then we obtain the paths for the sample RRBS and RNA-Seq files with the following commands:
 <<eval=TRUE, echo=TRUE, message=FALSE, results="asis">>=
 library(BPRMeth)
 rrbs_file <- system.file("extdata", "rrbs.bed", package = "BPRMeth")
@@ -90,7 +90,7 @@ HTS_data <- process_haib_caltech_wrap(rrbs_file, rnaseq_file)
 
 Among other information, the \verb|processHTS| object contains the following important slots:
 \begin{enumerate}
-\item{A \Rfunction{list} where each entry corresponds to a different promoter methylation region and is accessible with \textbf{methyl\_region}. \\ More specifically, each methylation promoter region is an $L_{i} \times 3$ dimensional matrix, where $L_{i}$ denotes the number of CpGs found in region $i$. The columns contain the following information:
+\item{A \Rfunction{list} where each entry corresponds to a different promoter methylation region, accessible with \textbf{methyl\_region}. \\ More specifically, each methylation promoter region is an $L_{i} \times 3$ dimensional matrix, where $L_{i}$ denotes the number of CpGs found in region $i$. The columns contain the following information:
 \begin{itemize}
 \item{ 1st column: Contains the locations of CpGs relative to TSS. Note that the actual locations are scaled to the (-1, 1) region. }
 \item{ 2nd column: Contains the total reads of each CpG in the corresponding location.}
@@ -214,7 +214,7 @@ basis_obj <- create_rbf_object(M = 4)
 K <- 5
 # Perform clustering
 res <- bpr_cluster_wrap(x = HTS_data$methyl_region, K = K, basis = basis_obj,
-                        em_max_iter = 15, opt_itnmax = 30, is_parallel = TRUE)
+                        em_max_iter = 15, opt_itnmax = 30, is_parallel = FALSE)
 @
 
 Figure \ref{figure/figureexample3-1} shows the fitted methylation profiles for each cluster.

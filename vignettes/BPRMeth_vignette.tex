@@ -125,7 +125,7 @@ To illustrate the functions of the \verb|BPRMeth| package we will use real datas
 \subsection{Import and read HTS files}
 Due to its general approach, the BPR method can be applied both in RRBS and WGBS methylation datasets, provided that we have information about the methylated and unmethylated reads in each CpG location.
 
-The \verb|BPRMeth| package provides methods for reading files generated from HTS experiments with specific formats. For the formats provided by the ENCODE datasets described above; we have implemented a wrapper function \Rfunction{process\_haib\_caltech\_wrap} for performing the preprocessing and obtaining the final objects for downstream analysis. The user can implement his own methods for reading files with different formats, provided that he can create an object similar to what is described below. First, we load and attach the package and then we obtain the paths for the sample RRBS and RNA-Seq files with the following commands:
+The \verb|BPRMeth| package provides methods for reading files generated from HTS experiments with specific formats. For the formats provided by the ENCODE datasets described above; we have implemented \Rfunction{process\_haib\_caltech\_wrap}, which is a wrapper function for performing the preprocessing and obtaining the final objects for downstream analysis. The user can implement his own methods for reading files with different formats, provided that he can create an object similar to what is described below. First, we load and attach the package and then we obtain the paths for the sample RRBS and RNA-Seq files with the following commands:
 \begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hlstd{(BPRMeth)}
@@ -144,7 +144,7 @@ Then, we process both files to obtain a \verb|processHTS| object which will be u
 
 Among other information, the \verb|processHTS| object contains the following important slots:
 \begin{enumerate}
-\item{A \Rfunction{list} where each entry corresponds to a different promoter methylation region and is accessible with \textbf{methyl\_region}. \\ More specifically, each methylation promoter region is an $L_{i} \times 3$ dimensional matrix, where $L_{i}$ denotes the number of CpGs found in region $i$. The columns contain the following information:
+\item{A \Rfunction{list} where each entry corresponds to a different promoter methylation region, accessible with \textbf{methyl\_region}. \\ More specifically, each methylation promoter region is an $L_{i} \times 3$ dimensional matrix, where $L_{i}$ denotes the number of CpGs found in region $i$. The columns contain the following information:
 \begin{itemize}
 \item{ 1st column: Contains the locations of CpGs relative to TSS. Note that the actual locations are scaled to the (-1, 1) region. }
 \item{ 2nd column: Contains the total reads of each CpG in the corresponding location.}
@@ -377,7 +377,7 @@ The \verb|BPRMeth| package provides the \Rfunction{bpr\_cluster\_wrap} function 
 \hlstd{K} \hlkwb{<-} \hlnum{5}
 \hlcom{# Perform clustering}
 \hlstd{res} \hlkwb{<-} \hlkwd{bpr_cluster_wrap}\hlstd{(}\hlkwc{x} \hlstd{= HTS_data}\hlopt{$}\hlstd{methyl_region,} \hlkwc{K} \hlstd{= K,} \hlkwc{basis} \hlstd{= basis_obj,}
-                        \hlkwc{em_max_iter} \hlstd{=} \hlnum{15}\hlstd{,} \hlkwc{opt_itnmax} \hlstd{=} \hlnum{30}\hlstd{,} \hlkwc{is_parallel} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+                        \hlkwc{em_max_iter} \hlstd{=} \hlnum{15}\hlstd{,} \hlkwc{opt_itnmax} \hlstd{=} \hlnum{30}\hlstd{,} \hlkwc{is_parallel} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -422,15 +422,15 @@ This vignette was compiled using:
 ## [9] base     
 ## 
 ## other attached packages:
-## [1] BPRMeth_0.99.0       GenomicRanges_1.24.2 GenomeInfoDb_1.8.3   IRanges_2.6.1       
+## [1] BPRMeth_0.99.1       GenomicRanges_1.24.2 GenomeInfoDb_1.8.3   IRanges_2.6.1       
 ## [5] S4Vectors_0.10.2     BiocGenerics_0.18.0  knitr_1.13           colorout_1.1-2      
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] XVector_0.12.1      magrittr_1.5        zlibbioc_1.18.0     MASS_7.3-45        
 ##  [5] doParallel_1.0.10   plotmo_3.1.4        foreach_1.4.3       highr_0.6          
 ##  [9] stringr_1.0.0       tools_3.3.1         data.table_1.9.6    plotrix_3.6-3      
-## [13] e1071_1.6-7         iterators_1.0.8     class_7.3-14        assertthat_0.1     
-## [17] randomForest_4.6-12 formatR_1.4         codetools_0.2-14    evaluate_0.9       
+## [13] e1071_1.6-7         iterators_1.0.8     class_7.3-14        randomForest_4.6-12
+## [17] assertthat_0.1      formatR_1.4         codetools_0.2-14    evaluate_0.9       
 ## [21] earth_4.4.4         stringi_1.1.1       compiler_3.3.1      TeachingDemos_2.10 
 ## [25] BiocStyle_2.0.2     chron_2.3-47
 \end{verbatim}
