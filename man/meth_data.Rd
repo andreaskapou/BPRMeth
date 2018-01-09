@@ -3,23 +3,22 @@
 \docType{data}
 \name{meth_data}
 \alias{meth_data}
-\title{Synthetic bulk methylation data}
+\title{Synthetic data for BPRMeth package}
 \format{A list with 600 elements, where each element element is an L x 3
-  matrix of observations, where: \describe{ \item{1st column}{locations of
-  obseravtions} \item{2nd column}{total trials} \item{3rd column}{number of
-  successes} }}
+ matrix of observations, where:
+\describe{
+  \item{1st column}{locations of obseravtions}
+  \item{2nd column}{total trials at corresponding locations}
+  \item{3rd column}{number of successes at corresponding locations}
+}}
 \usage{
 meth_data
 }
 \value{
-Synthetic bulk methylation data
+Synthetic methylation data
 }
 \description{
 A synthetic dataset containinig 600 entries.
 }
-\seealso{
-\code{\link{gex_data}}, \code{\link{bernoulli_data}},
-  \code{\link{binomial_data}}, \code{\link{beta_data}},
-  \code{\link{gaussian_data}}
-}
 \keyword{datasets}
+
