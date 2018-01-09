@@ -10,6 +10,12 @@ To get the latest development version from Github:
 devtools::install_github("andreaskapou/BPRMeth")
 ```
 
+Or install the stable version from Bioconductor
+```R
+source("https://bioconductor.org/biocLite.R")
+biocLite("BPRMeth")
+```
+
 # Citation
 Kapourani, C.-A. and Sanguinetti, G. (2016). Higher order methylation features for clustering and prediction in epigenomic studies. Bioinformatics 32 (17), i405-i412. **(Best Paper Award
 in ECCB 2016)**.
