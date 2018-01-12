@@ -31,7 +31,7 @@ biocLite("BPRMeth")
 
 ## Or download from Github repository
 # install.packages("devtools")
-devtools::install_github("andreaskapou/BPRMeth")
+devtools::install_github("andreaskapou/BPRMeth", build_vignettes = TRUE)
 ```
 
 # Introduction
@@ -214,9 +214,12 @@ Another application of the `BPRMeth` model is to use the higher-order methylatio
 
 The `BPRMeth` package provides the `cluster_profiles_vb` function for performing Bayesian clustering, where the user needs to provide the number of clusters $K$, the methylation regions $X$, the observation model and a basis object. For efficiency we run on 20 VB iterations.
 ```{r clustering, echo=TRUE, message=FALSE, eval=TRUE, warning=FALSE}
-set.seed(1)  # Set seed for reproducible results
-basis_obj <- create_rbf_object(M = 3) # Create basis object
-K <- 5  # Set number of clusters K = 5
+# Set seed for reproducible results
+set.seed(1) 
+# Create basis object
+basis_obj <- create_rbf_object(M = 3)
+# Set number of clusters to 3
+K <- 3
 # Perform clustering
 cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, 
                               model = "binomial", basis = basis_obj, 
@@ -246,7 +249,6 @@ sessionInfo()
 [2] Clark, S. J., Argelaguet, R., Kapourani, C. A., Stubbs, T. M., Lee, H. J., Krueger, F., Sanguinetti, G., Kelsey, G., Marioni, J.C., Stegle, O. and Reik, W (2017). Joint Profiling Of Chromatin Accessibility, DNA Methylation And Transcription In Single Cells. __bioRxiv__, 138685.
 
 [3] ENCODE Project Consortium. (2012). An integrated encyclopedia of DNA elements in the human genome. __Nature__, 489(7414), 57-74.
-
 
 # Acknowledgements
 This package was developed at the University of Edinburgh in the School of Informatics, with support from Guido
