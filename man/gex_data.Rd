@@ -3,7 +3,7 @@
 \docType{data}
 \name{gex_data}
 \alias{gex_data}
-\title{Synthetic data for mpgex package}
+\title{Synthetic expression data}
 \format{A vector of length 600}
 \usage{
 gex_data
@@ -12,7 +12,12 @@ gex_data
 Synthetic gene expression data
 }
 \description{
-Corresponding gene expression data for the 'meth_data'
+Corresponding gene expression data for the
+  \code{\link{meth_data}}
+}
+\seealso{
+\code{\link{meth_data}}, \code{\link{bernoulli_data}},
+  \code{\link{binomial_data}}, \code{\link{beta_data}},
+  \code{\link{gaussian_data}}
 }
 \keyword{datasets}
-

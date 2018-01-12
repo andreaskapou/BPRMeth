@@ -2,8 +2,8 @@
 % Please edit documentation in R/BPRMeth_package.R
 \docType{package}
 \name{BPRMeth}
-\alias{.datatable.aware}
 \alias{BPRMeth}
+\alias{.datatable.aware}
 \alias{BPRMeth-package}
 \title{\code{BPRMeth}: Extracting higher order methylation features}
 \format{An object of class \code{logical} of length 1.}
@@ -14,11 +14,10 @@
 BPRMeth main package documentation.
 }
 \description{
-Higher order methylation features for clustering and prediction in epigenomic
-studies
+Higher order methylation features for clustering and prediction
+  in epigenomic studies
 }
 \author{
 C.A.Kapourani \email{C.A.Kapourani@ed.ac.uk}
 }
 \keyword{datasets}
-
