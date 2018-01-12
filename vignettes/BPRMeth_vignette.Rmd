@@ -88,13 +88,13 @@ To create this object someone should follow these steps ( __Do not run__ )
 ```{r read_met_dt_pipeline, echo=TRUE, message=FALSE, eval=FALSE}
 # Read bulk methylation data
 met_dt <- read_met(file = "met_file", type = "bulk_seq")
-# Read annotation file, which will create genomic regions as well
+# Read annotation file, which will create annotation regions as well
 anno_dt <- read_anno(file = "anno_file")
-# Create methylation regions and store regions that have CpG coverage
+# Create methylation regions that have CpG coverage
 met_region <- create_region_object(met_dt = met_dt, anno_dt = anno_dt)
 ```
 
-Now let's observe the format of the `met_region` object. For example, we can access the $20th$ promoter methylation region as follows
+Now let's observe the format of the `met_region` object. For example, we can access the $20^{th}$ promoter methylation region as follows
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 head(met_region$met[[20]])
 ```
