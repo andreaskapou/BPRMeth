@@ -5,6 +5,7 @@ SaveWorkspace: No
 AlwaysSaveHistory: Default
 
 EnableCodeIndexing: Yes
+<<<<<<< HEAD
 UseSpacesForTab: Yes
 NumSpacesForTab: 4
 Encoding: UTF-8
@@ -12,10 +13,18 @@ Encoding: UTF-8
 RnwWeave: knitr
 LaTeX: pdfLaTeX
 
+=======
+Encoding: UTF-8
+
+>>>>>>> Add project files
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
+<<<<<<< HEAD
 PackageRoxygenize: rd,collate,namespace,vignette
+=======
+PackageRoxygenize: rd,collate,namespace
+>>>>>>> Add project files
