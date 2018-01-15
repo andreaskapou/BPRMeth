@@ -1,7 +1,7 @@
 Package: BPRMeth
 Type: Package
 Title: Model higher-order methylation profiles
-Version: 1.5.12
+Version: 1.5.13
 Authors@R: person("C. A.", "Kapourani", email = "kapouranis.andreas@gmail.com",
                   role = c("aut", "cre"))
 Author: Chantriolnt-Andreas Kapourani [aut, cre]

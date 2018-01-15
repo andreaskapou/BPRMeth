@@ -147,7 +147,7 @@ Learning the methylation profiles is equivalent to inferring the model parameter
 
 For performing parameter inference, the `BPRMeth` package is enhanced to provide both maximum likelihood estimation and Bayesian inference for the parameters. Specifically, for Bayesian estimation it provides an efficient __mean-field variational inference (Variational Bayes)__ and a __Gibbs sampling__ algorithm. For computational efficiency one should choose the VB implementation (Note that for Beta observation models, one should use MLE to infer the profiles, since currently the package does not provide Bayesian treatment for Beta likelihood).
 
-To infer the methylation profiles using __VB__ we need to call the `infer_profiles_vb` function
+To infer the methylation profiles using __MLE__ we need to call the `infer_profiles_mle` function
 ```{r infer_profiles, echo=TRUE, message=FALSE, warning=FALSE}
 fit_profiles <- infer_profiles_mle(X = met_region$met, model = "binomial",
                                basis = basis_profile, is_parallel = FALSE)
