@@ -149,10 +149,10 @@ For performing parameter inference, the `BPRMeth` package is enhanced to provide
 
 To infer the methylation profiles using __VB__ we need to call the `infer_profiles_vb` function
 ```{r infer_profiles, echo=TRUE, message=FALSE, warning=FALSE}
-fit_profiles <- infer_profiles_vb(X = met_region$met, model = "binomial",
+fit_profiles <- infer_profiles_mle(X = met_region$met, model = "binomial",
                                basis = basis_profile, is_parallel = FALSE)
 
-fit_mean <- infer_profiles_vb(X = met_region$met, model = "binomial", 
+fit_mean <- infer_profiles_mle(X = met_region$met, model = "binomial", 
                               basis = basis_mean, is_parallel = FALSE)
 ```
 
@@ -180,7 +180,7 @@ To quantitatively predict expression at each region, we construct a regression m
 All the aforementioned steps are assembled in the `predict_expr` wrapper function:
 ```{r predictexpr, echo=TRUE, message=FALSE, warning=FALSE, warning=FALSE}
 # Set seed for reproducible results
-set.seed(22)
+set.seed(123)
 # Perform predictions using methylation profiles
 pred_profile <- predict_expr(prof_obj = fit_profiles, expr = expr,
                              anno = met_region$anno, model_name = "svm",
@@ -194,8 +194,8 @@ pred_mean <- predict_expr(prof_obj = fit_mean, expr = expr,
 
 We can now compare the Pearson's correlation coefficient $r$ for both models and observe that the higher-order methylation features achieve test correlations twice as large compared to mean methylation rate. Note that someone should use cross-validaion to get a better estimate of the correlation performance.
 ```{r l9, echo=TRUE, message=FALSE, warning=FALSE}
-print(paste("Profile r", pred_profile$test_errors$pcc))
-print(paste("Profile r", pred_mean$test_errors$pcc))
+print(paste("Profile r: ", round(pred_profile$test_errors$pcc, 2)))
+print(paste("Mean r:", round(pred_mean$test_errors$pcc, 2)))
 ```
 
 Below in Figure \@ref(fig:plotpred) we show a scatter plot of the predicted and measured expression values for the \verb|chr12| and \verb|chr13| of the K562 cell line.
