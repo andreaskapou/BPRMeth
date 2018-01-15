@@ -7,3 +7,5 @@ BPRMeth.Rproj
 *.out
 *.blg
 *.aux
+*.o
+*.so
