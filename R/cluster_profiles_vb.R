@@ -178,10 +178,10 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
     mu <- lapply(1:N, function(n) c(H[[n]] %*% rowMeans(m_k)))
     # mu <- lapply(1:N, function(n) c(H[[n]] %*% rowSums(sapply(X = 1:K,
     #                    function(k) C_n[n,k]*m_k[,k]))))
-    # Ensure that \mu is not 0 or 1
+    # Ensure that \mu is not large enough, for numerical stability
     for (my_iter in 1:length(mu)) {
-        mu[[my_iter]][which(mu[[my_iter]] > (1 - 1e-15))] <- 1 - 1e-15
-        mu[[my_iter]][which(mu[[my_iter]] < 1e-15)] <- 1e-15
+        mu[[my_iter]][which(mu[[my_iter]] > 7)] <- 7
+        mu[[my_iter]][which(mu[[my_iter]] < -7)] <- -7
     }
     E_z <- lapply(1:N, function(n) .update_Ez(E_z = E_z[[n]], mu = mu[[n]],
                                               y_0 = y_0[[n]], y_1 = y_1[[n]]))
@@ -230,10 +230,10 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
             mu <- lapply(X = 1:N, FUN = function(n) c(H[[n]] %*%
                     rowSums(sapply(X = 1:K, function(k) r_nk[n,k]*m_k[,k]))))
         }
-        # Ensure that \mu is not 0 or 1
+        # Ensure that \mu is not large enough, for numerical stability
         for (my_iter in 1:length(mu)) {
-            mu[[my_iter]][which(mu[[my_iter]] > (1 - 1e-15))] <- 1 - 1e-15
-            mu[[my_iter]][which(mu[[my_iter]] < 1e-15)] <- 1e-15
+            mu[[my_iter]][which(mu[[my_iter]] > 7)] <- 7
+            mu[[my_iter]][which(mu[[my_iter]] < -7)] <- -7
         }
         E_z <- lapply(X = 1:N, FUN = function(n) .update_Ez(E_z = E_z[[n]],
                  mu = mu[[n]], y_0 = y_0[[n]], y_1 = y_1[[n]]))
@@ -273,7 +273,7 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
 
         # Show VB difference
         if (is_verbose) {
-            cat("It:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
+            cat("\nIt:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
             cat("Z: ",lb_pz_qz,"\tC: ",lb_p_c - lb_q_c,
                 "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
                 "\tTau: ",lb_p_tau - lb_q_tau,"\n")
@@ -408,7 +408,7 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
 
         # Show VB difference
         if (is_verbose) {
-            cat("It:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
+            cat("\nIt:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
             cat("Y: ",lb_p_y,"\tC: ",lb_p_c - lb_q_c,
                 "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
                 "\tTau: ",lb_p_tau - lb_q_tau,"\n")

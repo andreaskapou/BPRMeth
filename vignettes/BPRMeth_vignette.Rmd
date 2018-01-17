@@ -147,12 +147,12 @@ Learning the methylation profiles is equivalent to inferring the model parameter
 
 For performing parameter inference, the `BPRMeth` package is enhanced to provide both maximum likelihood estimation and Bayesian inference for the parameters. Specifically, for Bayesian estimation it provides an efficient __mean-field variational inference (Variational Bayes)__ and a __Gibbs sampling__ algorithm. For computational efficiency one should choose the VB implementation (Note that for Beta observation models, one should use MLE to infer the profiles, since currently the package does not provide Bayesian treatment for Beta likelihood).
 
-To infer the methylation profiles using __MLE__ we need to call the `infer_profiles_mle` function
+To infer the methylation profiles using __VB__ we need to call the `infer_profiles_vb` function
 ```{r infer_profiles, echo=TRUE, message=FALSE, warning=FALSE}
-fit_profiles <- infer_profiles_mle(X = met_region$met, model = "binomial",
+fit_profiles <- infer_profiles_vb(X = met_region$met, model = "binomial",
                                basis = basis_profile, is_parallel = FALSE)
 
-fit_mean <- infer_profiles_mle(X = met_region$met, model = "binomial", 
+fit_mean <- infer_profiles_vb(X = met_region$met, model = "binomial", 
                               basis = basis_mean, is_parallel = FALSE)
 ```
 
@@ -180,7 +180,7 @@ To quantitatively predict expression at each region, we construct a regression m
 All the aforementioned steps are assembled in the `predict_expr` wrapper function:
 ```{r predictexpr, echo=TRUE, message=FALSE, warning=FALSE, warning=FALSE}
 # Set seed for reproducible results
-set.seed(123)
+set.seed(22)
 # Perform predictions using methylation profiles
 pred_profile <- predict_expr(prof_obj = fit_profiles, expr = expr,
                              anno = met_region$anno, model_name = "svm",
@@ -215,11 +215,11 @@ Another application of the `BPRMeth` model is to use the higher-order methylatio
 The `BPRMeth` package provides the `cluster_profiles_vb` function for performing Bayesian clustering, where the user needs to provide the number of clusters $K$, the methylation regions $X$, the observation model and a basis object. For efficiency we run on 20 VB iterations.
 ```{r clustering, echo=TRUE, message=FALSE, eval=TRUE, warning=FALSE}
 # Set seed for reproducible results
-set.seed(1) 
+set.seed(12) 
 # Create basis object
 basis_obj <- create_rbf_object(M = 3)
-# Set number of clusters to 3
-K <- 3
+# Set number of clusters K
+K <- 4
 # Perform clustering
 cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, 
                               model = "binomial", basis = basis_obj, 
@@ -228,7 +228,7 @@ cl_obj <- cluster_profiles_vb(X = met_region$met, K = K,
 
 
 Figure \@ref(fig:clusterplot) shows the fitted methylation profiles for each cluster.
-```{r clusterplot, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions. __Top__: Five clustered methylation profiles over +/-7kb promoter region w.r.t. TSS in the direction of transcription. Each methylation profile is modelled using three RBFs. __Bottom__: Boxplots with the corresponding expression levels of the protein-coding genes assigned to each cluster.", message=FALSE, eval=TRUE, warning=FALSE, fig.height=10}
+```{r clusterplot, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions. __Top__: Four clustered methylation profiles over +/-7kb promoter region w.r.t. TSS in the direction of transcription. Each methylation profile is modelled using three RBFs. __Bottom__: Boxplots with the corresponding expression levels of the protein-coding genes assigned to each cluster.", message=FALSE, eval=TRUE, warning=FALSE, fig.height=10}
 g1 <- plot_cluster_profiles(cluster_obj = cl_obj)
 g2 <- boxplot_cluster_expr(cluster_obj = cl_obj, expr = expr, 
                            anno = met_region$anno)
