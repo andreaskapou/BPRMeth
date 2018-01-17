@@ -16,12 +16,11 @@
 #'   respectively. If "bernoulli" or "gaussian" model, then C=2 containing the
 #'   output y (e.g. methylation level).
 #' @param K Integer denoting the total number of clusters K.
-#' @param delta_0 Parameter vectr of the Dirichlet prior on the mixing
+#' @param delta_0 Parameter vector of the Dirichlet prior on the mixing
 #'   proportions pi.
 #' @param w Optional, an (M+1)xK matrix of the initial parameters, where each
 #'   column consists of the basis function coefficients for each corresponding
 #'   cluster k. If NULL, will be assigned with default values.
-#' @param is_verbose Logical, print results during EM iterations.
 #' @inheritParams infer_profiles_vb
 #'
 #' @return An object of class \code{cluster_profiles_vb_}"obs_model" with the

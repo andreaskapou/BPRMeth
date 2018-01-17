@@ -32,7 +32,7 @@ will an RBF object will be created.}
 \item{H}{Optional, design matrix of the input data X. If NULL, H will be
 computed inside the function.}
 
-\item{delta_0}{Parameter vectr of the Dirichlet prior on the mixing
+\item{delta_0}{Parameter vector of the Dirichlet prior on the mixing
 proportions pi.}
 
 \item{w}{Optional, an (M+1)xK matrix of the initial parameters, where each
@@ -52,7 +52,7 @@ distribution is used as prior for the precision parameter tau.}
 
 \item{epsilon_conv}{Numeric denoting the convergence threshold for VB.}
 
-\item{is_verbose}{Logical, print results during EM iterations.}
+\item{is_verbose}{Logical, print results during VB iterations.}
 
 \item{...}{Additional parameters.}
 }
