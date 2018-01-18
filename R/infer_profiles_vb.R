@@ -204,8 +204,8 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
         # Update mean of q(z)
         mu <- H %*% m
         # Ensure that \mu is not large enough, for numerical stability
-        mu[which(mu > 7)] <- 7
-        mu[which(mu < -7)] <- -7
+        mu[which(mu > 5)] <- 5
+        mu[which(mu < -5)] <- -5
 
         mu_1 <- mu[y == 1]  # Keep data where y == 1
         mu_0 <- mu[y == 0]  # Keep data where y == 0
