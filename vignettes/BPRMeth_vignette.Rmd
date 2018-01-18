@@ -219,7 +219,7 @@ set.seed(12)
 # Create basis object
 basis_obj <- create_rbf_object(M = 3)
 # Set number of clusters K
-K <- 4
+K <- 5
 # Perform clustering
 cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, 
                               model = "binomial", basis = basis_obj, 
@@ -228,7 +228,7 @@ cl_obj <- cluster_profiles_vb(X = met_region$met, K = K,
 
 
 Figure \@ref(fig:clusterplot) shows the fitted methylation profiles for each cluster.
-```{r clusterplot, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions. __Top__: Four clustered methylation profiles over +/-7kb promoter region w.r.t. TSS in the direction of transcription. Each methylation profile is modelled using three RBFs. __Bottom__: Boxplots with the corresponding expression levels of the protein-coding genes assigned to each cluster.", message=FALSE, eval=TRUE, warning=FALSE, fig.height=10}
+```{r clusterplot, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions. __Top__: Five clustered methylation profiles over +/-7kb promoter region w.r.t. TSS in the direction of transcription. Each methylation profile is modelled using three RBFs. __Bottom__: Boxplots with the corresponding expression levels of the protein-coding genes assigned to each cluster.", message=FALSE, eval=TRUE, warning=FALSE, fig.height=10}
 g1 <- plot_cluster_profiles(cluster_obj = cl_obj)
 g2 <- boxplot_cluster_expr(cluster_obj = cl_obj, expr = expr, 
                            anno = met_region$anno)

@@ -204,8 +204,7 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
         # Update mean of q(z)
         mu <- H %*% m
         # Ensure that \mu is not large enough, for numerical stability
-        mu[which(mu > 5)] <- 5
-        mu[which(mu < -5)] <- -5
+        mu[mu > 6] <- 6; mu[mu < -6] <- -6;
 
         mu_1 <- mu[y == 1]  # Keep data where y == 1
         mu_0 <- mu[y == 0]  # Keep data where y == 0
@@ -215,6 +214,8 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
         S <- solve(diag(alpha/beta, D) + HH) # Posterior covariance of q(w)
         m <- S %*% (crossprod(H, E_z))             # Posterior mean of q(w)
         beta <- beta_0 + 0.5 * c(crossprod(m) + matrix.trace(S))
+        # Check beta parameter for numerical issues
+        if (beta > 3*alpha) { beta <- 3*alpha }
 
         # Compute lower bound
         lb_p_zw_qw <- -0.5*matrix.trace(HH %*% (tcrossprod(m,m) + S)) +
@@ -355,6 +356,8 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
         m <- gaussian_l * S %*% Hy                 # Mean of Gaussian factor
         E_ww <- c(crossprod(m) + matrix.trace(S))  # Expectation of E[w'w]
         beta <- beta_0 + 0.5 * E_ww  # Update \beta parameter of Gamma factor
+        # Check beta parameter for numerical issues
+        if (beta > 3*alpha) { beta <- 3*alpha }
         E_a <- alpha / beta          # Compute expectation of E[a]
 
         # Compute lower bound

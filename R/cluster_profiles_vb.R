@@ -179,10 +179,10 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
     # mu <- lapply(1:N, function(n) c(H[[n]] %*% rowSums(sapply(X = 1:K,
     #                    function(k) C_n[n,k]*m_k[,k]))))
     # Ensure that \mu is not large enough, for numerical stability
-    for (my_iter in 1:length(mu)) {
-        mu[[my_iter]][which(mu[[my_iter]] > 7)] <- 7
-        mu[[my_iter]][which(mu[[my_iter]] < -7)] <- -7
-    }
+    # for (my_iter in 1:length(mu)) {
+    #     mu[[my_iter]][mu[[my_iter]] > 6] <- 6
+    #     mu[[my_iter]][mu[[my_iter]] < -6] <- -6
+    # }
     E_z <- lapply(1:N, function(n) .update_Ez(E_z = E_z[[n]], mu = mu[[n]],
                                               y_0 = y_0[[n]], y_1 = y_1[[n]]))
     E_zz <- lapply(1:N, function(n) 1 + mu[[n]] * E_z[[n]])
@@ -221,6 +221,8 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
             # Update \beta_k parameter for Gamma
             E_ww[k] <- crossprod(m_k[,k]) + matrix.trace(S_k[[k]])
             beta_k[k]  <- beta_0 + 0.5*E_ww[k]
+            # Check beta parameter for numerical issues
+            if (beta_k[k] > 3*alpha_k[k]) { beta_k[k] <- 3*alpha_k[k] }
         }
         # Update \mu, E[z] and E[z^2]
         if (D == 1) {
@@ -231,10 +233,10 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
                     rowSums(sapply(X = 1:K, function(k) r_nk[n,k]*m_k[,k]))))
         }
         # Ensure that \mu is not large enough, for numerical stability
-        for (my_iter in 1:length(mu)) {
-            mu[[my_iter]][which(mu[[my_iter]] > 7)] <- 7
-            mu[[my_iter]][which(mu[[my_iter]] < -7)] <- -7
-        }
+        # for (my_iter in 1:length(mu)) {
+        #     mu[[my_iter]][mu[[my_iter]] > 6] <- 6
+        #     mu[[my_iter]][mu[[my_iter]] < -6] <- -6
+        # }
         E_z <- lapply(X = 1:N, FUN = function(n) .update_Ez(E_z = E_z[[n]],
                  mu = mu[[n]], y_0 = y_0[[n]], y_1 = y_1[[n]]))
         E_zz <- lapply(X = 1:N, FUN = function(n) 1 + mu[[n]] * E_z[[n]])
@@ -374,6 +376,8 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
             # Update \beta_k parameter for Gamma
             E_ww[k] <- crossprod(m_k[,k]) + matrix.trace(S_k[[k]])
             beta_k[k]  <- beta_0 + 0.5*E_ww[k]
+            # Check beta parameter for numerical issues
+            if (beta_k[k] > 3*alpha_k[k]) { beta_k[k] <- 3*alpha_k[k] }
         }
         # Update expectations over \ln\pi
         e_log_pi  <- digamma(delta_k) - digamma(sum(delta_k))
