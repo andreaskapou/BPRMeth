@@ -316,6 +316,8 @@ plot_predicted_expr <- function(pred_obj, title = "Predicted expression",
         labs(x = "predicted expression (log2)",y = "measured expression (log2)",
              title = title) +
         geom_smooth(method = lm, se = FALSE, col = "red") +
+        scale_y_continuous(limits = ylim) +
+        scale_x_continuous(limits = xlim) +
         geom_text(data = data.frame(),
                   aes(label = paste0("  r = ",r,"\n","RMSE = ",rmse)),
                   x = -Inf, y = Inf, hjust = -0.2, vjust = 1.2) +
