@@ -115,7 +115,9 @@ read_met <- function(file, type = "sc_seq", strand_info = FALSE,
 #'   pre-centred. If TRUE, the mean of the locations will be chosen as centre.
 #'   If FALSE, the 'start' will be chosen as the center; e.g. for genes the
 #'   'start' denotes the TSS and we use this as centre to obtain K-bp upstream
-#'   and downstream of TSS.
+#'   and downstream of TSS. Note that when is_centre = TRUE, then 'upstream' and
+#'   'downstream' parameters are ignored and the whole region from start to end
+#'   is taken as the default.
 #' @param upstream Integer defining the length of bp upstream of 'centre' for
 #'   creating the genomic region.
 #' @param downstream Integer defining the length of bp downstream of 'centre'
@@ -484,23 +486,33 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
     end    <- start + GenomicRanges::ranges(anno)@width - 1 # End info
 
     for (i in 1:N) {
-        # Depending on the strand we change regions up or downstream of centre
-        if (identical(strand[i], "-")) {
-            centre[i] <- end[i]  # Set centre location
-            # Set downstream bp promoter region
-            up[i] <- max(0, end[i] - downstream)
-            # Set upstream bp promoter region
-            if (is.null(chrom_size)) {down[i] <- end[i] - upstream
-            }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
-                                  end[i] - upstream) }
-        }else {
-            centre[i] <- start[i]  # Set centre location
-            # Set upstream bp promoter region
-            up[i] <- max(0, start[i] + upstream)
-            # Set downstream bp promoter region
-            if (is.null(chrom_size)) { down[i] <- start[i] + downstream
-            }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
-                                  start[i] + downstream) }
+        if (is_centre) {
+            centre[i] <- (start[i] + end[i]) / 2
+            # Depending on the strand we change regions up or downstream of centre
+            if (identical(strand[i], "-")) {
+                up[i] <- end[i]; down[i] <- start[i]
+            }else {
+                up[i] <- start[i]; down[i] <- end[i]
+            }
+        }else{
+            # Depending on the strand we change regions up or downstream of centre
+            if (identical(strand[i], "-")) {
+                centre[i] <- end[i]  # Set centre location
+                # Set downstream bp promoter region
+                up[i] <- max(0, end[i] - downstream)
+                # Set upstream bp promoter region
+                if (is.null(chrom_size)) {down[i] <- end[i] - upstream
+                }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
+                                      end[i] - upstream) }
+            }else {
+                centre[i] <- start[i]  # Set centre location
+                # Set upstream bp promoter region
+                up[i] <- max(0, start[i] + upstream)
+                # Set downstream bp promoter region
+                if (is.null(chrom_size)) { down[i] <- start[i] + downstream
+                }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
+                                      start[i] + downstream) }
+            }
         }
     }
 

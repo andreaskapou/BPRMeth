@@ -18,7 +18,9 @@ be the output of \code{\link{read_chrom_size}} function.}
 pre-centred. If TRUE, the mean of the locations will be chosen as centre.
 If FALSE, the 'start' will be chosen as the center; e.g. for genes the
 'start' denotes the TSS and we use this as centre to obtain K-bp upstream
-and downstream of TSS.}
+and downstream of TSS. Note that when is_centre = TRUE, then 'upstream' and
+'downstream' parameters are ignored and the whole region from start to end
+is taken as the default.}
 
 \item{upstream}{Integer defining the length of bp upstream of 'centre' for
 creating the genomic region.}
