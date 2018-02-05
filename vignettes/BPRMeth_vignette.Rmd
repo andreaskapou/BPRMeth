@@ -16,7 +16,9 @@ abstract: |
   Learn methylation profiles using basis function regression for different 
   observation models. The inferred profiles can be used for downstream analysis, 
   such as prediciting gene expression levels or clustering regions with similar 
-  methylation profiles.
+  methylation profiles. This vignette focuses on the functionality and the usage
+  of the BPRMeth package. Mathematical details and modelling assumptions can be 
+  found on the following link [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani)
 vignette: |
   %\VignetteIndexEntry{BPRMeth: Model higher-order methylation profiles}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,12 +39,12 @@ devtools::install_github("andreaskapou/BPRMeth", build_vignettes = TRUE)
 # Introduction
 DNA methylation is probably the best studied epigenomic mark, due to its well established heritability and  widespread association with diseases. Yet its role in gene regulation, and the molecular mechanisms underpinning its association with diseases, are still imperfectly understood. While the methylation status of individual cytosines can sometimes be informative, several recent papers have shown that the functional role of DNA methylation is better captured by a quantitative analysis of the __spatial variation__ of methylation across a genomic region.
 
-The `BPRMeth` package is a probabilistic method to quantify explicit features of methylation profiles, in a way that would make it easier to formally use such profiles in downstream modelling efforts, such as predicting gene expression levels or clustering genomic regions according to their methylation profiles. The original implementation has now been enhanced in two important ways: we introduced a fast, __variational inference__ approach which enables the quantification of Bayesian posterior confidence measures on the model, and we adapted the method to use several observation models, making it suitable for a diverse range of platforms including __single-cell__ analyses and __methylation arrays__. 
+The `BPRMeth` package is a probabilistic method to quantify explicit features of methylation profiles, in a way that would make it easier to formally use such profiles in downstream modelling efforts, such as predicting gene expression levels or clustering genomic regions according to their methylation profiles. The original implementation [1] has now been enhanced in two important ways: we introduced a fast, __variational inference__ approach which enables the quantification of Bayesian posterior confidence measures on the model, and we adapted the method to use several observation models, making it suitable for a diverse range of platforms including __single-cell__ analyses and __methylation arrays__. 
 
 In addition to being a flexible tool for methylation data, the proposed framework is in principle deployable to other measurements with a similar structure, and indeed the method was already used for single-cell __chromatin accessibility__ data in [2].
 
 # Background
-Mathematically, the `BPRMeth` is based on a basis function generalised linear model. The basic idea is as follows: the methylation profile associated to a genomic region $D$ is defined as a (latent) function $f\colon D\rightarrow (0,1)$ which takes as input the genomic coordinate along the region and returns the propensity for that locus to be methylated. In order to enforce spatial smoothness, and to obtain a compact representation for this function in terms of interpretable features, we represent the profile function as a linear combination of basis functions
+Mathematically, `BPRMeth` is based on a basis function generalised linear model. The basic idea is as follows: the methylation profile associated to a genomic region $D$ is defined as a (latent) function $f\colon D\rightarrow (0,1)$ which takes as input the genomic coordinate along the region and returns the propensity for that locus to be methylated. In order to enforce spatial smoothness, and to obtain a compact representation for this function in terms of interpretable features, we represent the profile function as a linear combination of basis functions
 
 $$
 f(x)=\Phi\left(\mathbf{w}^Th(x)\right)
@@ -57,7 +59,7 @@ knitr::include_graphics("../inst/figures/model.png")
 The optimal weight parameters $\mathbf{w}$ can be recovered either by Bayesian inference or maximum likelihood estimation, providing a set of quantitative features which can be used in downstream models: in [1] these features were used in a machine learning predictor of gene expression, and to cluster genomic regions according to their methylation profiles. Modelling details and mathematical derivations for the different models can be found online: [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani).
 
 # Analysis Pipeline
-The workflow diagram and functionalities of the `BPRMeth` package for analysis methylation profiles are shown below
+The workflow diagram and functionalities of the `BPRMeth` package for analysis of methylation profiles are shown in Figure 2. 
 
 ```{r, fig.retina = NULL, fig.align='center', fig.cap="Workflow diagram and functionalities of the BPRMeth package.", echo=FALSE}
 knitr::include_graphics("../inst/figures/workflow.png")
@@ -65,7 +67,7 @@ knitr::include_graphics("../inst/figures/workflow.png")
 
 ## Sample data
 To illustrate the functionality of the `BPRMeth` package we will use real datasets that are publicly available from the ENCODE project consortium [2]. More specifically we will focus on the K562 immortalized cell line, with GEO: GSE27584 for the bulk RRBS data and GEO: GSE33480 for the RNA-Seq data. We will use directly the preprocessed files,
-where we have kept only the protein coding genes, and for the purpose of this vignette we focus only on \verb|chr12| and \verb|chr13|. Full details of where to download the data and how to preprocess them are included in the Supplementary Material [1].
+where we have kept only the protein coding genes, and for the purpose of this vignette we focus only on __chr12__ and __chr13__. Full details of where to download the data and how to preprocess them are included in the Supplementary Material [1].
 
 ## Load preprocessed data
 Due to its general approach, `BPRMeth` can be used for a wide range of technologies such as array based, bulk sequencing (both RRBS and WGBS) and single cell sequencing methylation datasets. It is only required that the data are in the right format and we call the appropriate observation model depending on the type of technology. Since the encode data are generated from __bulk__ RRBS experiments, the observation model for the `BPRMeth` package will be __Binomial__.
@@ -84,16 +86,6 @@ The `met_region` object contains the following important slots:
     + 3rd column: Contains the methylated reads each CpG.
 * `anno`: Corresponding annotation data for each genomic region as `r Biocpkg("GRanges")` object. The `anno` slot is only required for downstream analysis, e.g. to predict gene expression levels from methylation profiles, since we need to map the genomic regions with the gene IDs.
 
-To create this object someone should follow these steps ( __Do not run__ )
-```{r read_met_dt_pipeline, echo=TRUE, message=FALSE, eval=FALSE}
-# Read bulk methylation data
-met_dt <- read_met(file = "met_file", type = "bulk_seq")
-# Read annotation file, which will create annotation regions as well
-anno_dt <- read_anno(file = "anno_file")
-# Create methylation regions that have CpG coverage
-met_region <- create_region_object(met_dt = met_dt, anno_dt = anno_dt)
-```
-
 Now let's observe the format of the `met_region` object. For example, we can access the $20^{th}$ promoter methylation region as follows
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 head(met_region$met[[20]])
@@ -107,8 +99,20 @@ and the total number of genomic regions are
 NROW(met_region$anno)
 ```
 
+
+### Read methylation and annotation data (Do not run)
+In the previous section for simplicity we provided a pre-processed object which we then can directly use for inferring methylation profiles. The steps required to create this object are really simple and follow the diagram in Figure 2. First we need to read the methylation data using the `read_met` function. Also we need read annotation data using the `read_anno` file. __Note__ that the annotation file can contain __any genomic context__: from promoters and gene bodies to enhancers, Nanog regulatory regions and CTCF regions; hence `BPRMeth` can be used for a plethora of analyses that want to take spatial genomic correlations into account. Finally, the `create_region_object` will create the methylation regions object which is the main object for storing methylation data. The following lines of code provide an example of creating this object ( __Do not run__ )
+```{r read_met_dt_pipeline, echo=TRUE, message=FALSE, eval=FALSE}
+# Read bulk methylation data
+met_dt <- read_met(file = "met_file", type = "bulk_seq")
+# Read annotation file, which will create annotation regions as well
+anno_dt <- read_anno(file = "anno_file")
+# Create methylation regions that have CpG coverage
+met_region <- create_region_object(met_dt = met_dt, anno_dt = anno_dt)
+```
+
 ### Expression data
-When using the `BPRMeth` package, someone most probably want to relate the inferred methylation profiles with gene expression data. To do this we have pre-processed expression data which can be loaded as follows
+If the goal is to relate methylation profiles to gene expression levels, we need also to store expression data. Again, here we have pre-processed expression data which can be loaded as follows
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 expr <- encode_expr
 ```
@@ -163,7 +167,7 @@ str(fit_profiles, max.level = 1)
 ```
 
 Below we show an example promoter region together with the fitted methylation profiles, where the points represent the DNA methylation level of each CpG site. The shape of the methylation profiles is captured by the blue curve, whereas the red line denotes the mean methylation rate
-```{r plotprofile, echo=TRUE, fig.cap="Inferring methylation profiles. Methylation pattern for specific genomic region over +/-7kb promoter region.", message=FALSE, eval=TRUE, warning=FALSE}
+```{r plotprofile, fig.wide=TRUE, echo=TRUE, fig.cap="Inferring methylation profiles. Methylation pattern for specific genomic region over +/-7kb promoter region.", message=FALSE, eval=TRUE, warning=FALSE}
 # Choose promoter region 21 -> i.e. LEPREL2 gene
 gene_id <- met_region$anno$id[21]
 p <- plot_infer_profiles(region = 21, obj_prof = fit_profiles,
@@ -219,23 +223,60 @@ set.seed(12)
 # Create basis object
 basis_obj <- create_rbf_object(M = 3)
 # Set number of clusters K
-K <- 5
+K <- 4
 # Perform clustering
-cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, 
-                              model = "binomial", basis = basis_obj, 
-                              vb_max_iter = 20)
+cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, model = "binomial", 
+                              basis = basis_obj, vb_max_iter = 20)
 ```
 
 
 Figure \@ref(fig:clusterplot) shows the fitted methylation profiles for each cluster.
-```{r clusterplot, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions. __Top__: Five clustered methylation profiles over +/-7kb promoter region w.r.t. TSS in the direction of transcription. Each methylation profile is modelled using three RBFs. __Bottom__: Boxplots with the corresponding expression levels of the protein-coding genes assigned to each cluster.", message=FALSE, eval=TRUE, warning=FALSE, fig.height=10}
-g1 <- plot_cluster_profiles(cluster_obj = cl_obj)
-g2 <- boxplot_cluster_expr(cluster_obj = cl_obj, expr = expr, 
-                           anno = met_region$anno)
-g <- cowplot::plot_grid(g1, g2, ncol = 1, nrow = 2)
-print(g)
+```{r clusterplot, fig.wide=TRUE, echo=TRUE, fig.cap="Clustering methylation profiles across promoter-proximal regions.", message=FALSE, eval=TRUE, warning=FALSE}
+cluster_plot <- plot_cluster_profiles(cluster_obj = cl_obj)
+print(cluster_plot)
 ```
 
+
+## Beta methylation profiles
+The structure of the package makes it straighforward to work with methylation data generated from different technologies. For example, with __methylation array__ data, the most common approach is to use the Beta distribution to capture the methylation level from the array experiment. Below we provide a minimal analysis step for inferring methylation profiles on synthetic data; note that we just need to define that `model = beta`. (In some cases, researchers work with M-values, where they transform the Beta values to $(-\inf, \inf)$, i.e. they make them Gaussian random variables, if that is the case the `BPRMeth` package can handle this by setting `model = gaussian`.) __Note__ that for the Beta model, we currently provide only maximum likelihood estimation (MLE).
+
+```{r infer_profiles_beta, fig.wide = TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+basis_obj <- create_rbf_object(M = 5)
+# Infer beta profiles
+beta_prof <- infer_profiles_mle(X = beta_data, model = "beta",
+                                basis = basis_obj, is_parallel = FALSE)
+p <- plot_infer_profiles(region = 15, obj_prof = beta_prof,
+                         obs = beta_data, title = "Beta profile")
+print(p)
+```
+
+
+## Bernoulli methylation profiles
+Similarly, someone might analyse __single cell__ methylation data, where now would need to set `model = bernoulli` as shown in the code snippet below using again synthetic data.
+
+```{r infer_profiles_bernoulli, fig.wide=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+basis_prof <- create_rbf_object(M = 5)
+basis_mean <- create_rbf_object(M = 0)
+bern_prof <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
+                               basis = basis_prof, is_parallel = FALSE)
+bern_mean <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
+                               basis = basis_mean, is_parallel = FALSE)
+p <- plot_infer_profiles(region = 50, obj_prof = bern_prof, 
+                         obj_mean = bern_mean, obs = bernoulli_data, 
+                         title = "Bernoulli profile")
+print(p)
+```
+
+
+We can finally cluster the single-cell methylation profiles as follows
+```{r cluster_bernoulli, fig.wide=TRUE, echo=TRUE, fig.cap="Clustering Bernoulli methylation profiles.", message=FALSE, eval=TRUE, warning=FALSE}
+# Perform clustering
+cl_obj <- cluster_profiles_vb(X = bernoulli_data, K = 3, model = "bernoulli", 
+                              basis = basis_obj, vb_max_iter = 40)
+                              
+cluster_plot <- plot_cluster_profiles(cluster_obj = cl_obj)
+print(cluster_plot)
+```
 
 # Session Info
 This vignette was compiled using:

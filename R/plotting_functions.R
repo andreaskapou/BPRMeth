@@ -59,7 +59,7 @@
 plot_infer_profiles <- function(region = 1, obj_prof, obj_mean = NULL,
                                 obs = NULL, title = "Inferred profiles",
                                 x_axis = "genomic region", y_axis = "met level",
-                                x_labels = c("-7Kb", "", "Centre", "", "+7Kb"),
+                                x_labels = c("Upstream", "", "Centre", "", "Downstream"),
                                 ...) {
     aes_xs <- seq(from = -1, to = 1, by = 0.01)
     # For RMD CHECK to pass without NOTEs
@@ -191,7 +191,7 @@ plot_infer_profiles <- function(region = 1, obj_prof, obj_mean = NULL,
 #' @export
 plot_cluster_profiles <- function(cluster_obj, title = "Clustered profiles",
                                 x_axis = "genomic region", y_axis = "met level",
-                                x_labels = c("-7Kb", "", "Centre", "", "+7Kb"),
+                                x_labels = c("Upstream", "", "Centre", "", "Downstream"),
                                 ...) {
     # Test data
     aes_xs <- seq(from = -1, to = 1, by = 0.01)
