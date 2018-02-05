@@ -3,7 +3,7 @@ title: "Modelling methylation profiles"
 author:
 - name: Andreas C. Kapourani
   affiliation: School of Informatics, University of Edinburgh, UK
-  email: c.a.kapourani or kapouranis.andreas@gmail.com
+  email: c.a.kapourani@ed.ac.uk or kapouranis.andreas@gmail.com
 - name: Guido Sanguinetti
   affiliation: School of Informatics, University of Edinburgh, UK
   email: G.Sanguinetti@ed.ac.uk
