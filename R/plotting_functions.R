@@ -155,6 +155,11 @@ plot_infer_profiles <- function(region = 1, obj_prof, obj_mean = NULL,
         p <- p + geom_point(data = dt_obs, mapping = aes(x = x, y = y),
                             shape = 1, color = "red", size = 3)
     }
+    # If nto gaussian data set y-lim to (0, 1)
+    if (!methods::is(obj_prof, "infer_profiles_mle_gaussian") ||
+        !methods::is(obj_prof, "infer_profiles_vb_gaussian")) {
+        p <- p + scale_y_continuous(limits = c(0, 1))
+    }
     p <- p + scale_x_continuous(limits = c(-1, 1), labels = x_labels) +
         labs(title = title, x = x_axis, y = y_axis) +
         .gg_theme()
