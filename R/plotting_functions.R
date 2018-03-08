@@ -225,7 +225,7 @@ plot_cluster_profiles <- function(cluster_obj, title = "Clustered profiles",
             methods::is(cluster_obj, "cluster_profiles_vb_bernoulli")) {
             ys_low <- ys - ys*(1 - ys);
             ys_high <- ys + ys*(1 - ys)
-        }else if (methods::is(cluster_obj, "infer_profiles_vb_gaussian")) {
+        }else if (methods::is(cluster_obj, "cluster_profiles_vb_gaussian")) {
             ys_low <- ys - 2 * tmp$W_sd_pred;
             ys_high <- ys + 2 * tmp$W_sd_pred
         }
@@ -236,7 +236,7 @@ plot_cluster_profiles <- function(cluster_obj, title = "Clustered profiles",
     dt <- data.table::data.table(aes_xs = numeric(), aes_ys = numeric(),
             ys_low = numeric(), ys_high = numeric(), Cluster = numeric())
     if (methods::is(cluster_obj, "cluster_profiles_vb") ||
-        methods::is(cluster_obj, "infer_profiles_gibbs") ) {
+        methods::is(cluster_obj, "cluster_profiles_gibbs") ) {
         for (k in 1:K) {
             dt <- rbind(dt, data.table::data.table(aes_xs = aes_xs,
                 aes_ys = ys[,k], ys_low = ys_low[,k], ys_high = ys_high[,k],
@@ -254,10 +254,16 @@ plot_cluster_profiles <- function(cluster_obj, title = "Clustered profiles",
     p <- ggplot(dt, aes(x = aes_xs, y = aes_ys, color = Cluster)) +
         geom_line(size = 2)
     if (methods::is(cluster_obj, "cluster_profiles_vb") ||
-        methods::is(cluster_obj, "infer_profiles_gibbs") ) {
+        methods::is(cluster_obj, "cluster_profiles_gibbs") ) {
         p <- p + geom_ribbon(dt, mapping = aes(ymin = ys_low, ymax = ys_high,
                  fill = Cluster), alpha = 0.2, size = 0.1)
     }
+    # If nto gaussian data set y_lim to (0, 1)
+    if (!methods::is(cluster_obj, "cluster_profiles_mle_gaussian") ||
+        !methods::is(cluster_obj, "cluster_profiles_vb_gaussian")) {
+        p <- p + scale_y_continuous(limits = c(0, 1))
+    }
+
     p <- p + scale_x_continuous(limits = c(-1, 1), labels = x_labels) +
         scale_color_brewer(palette = "Dark2") +
         scale_fill_brewer(palette = "Dark2") +
