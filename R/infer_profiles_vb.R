@@ -80,7 +80,7 @@ NULL
 #'
 #' @export
 infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
-                              gaussian_l = .5, alpha_0 = 1e-1, beta_0 = 1e-1,
+                              gaussian_l = .5, alpha_0 = .5, beta_0 = 15,
                               vb_max_iter = 100, epsilon_conv = 1e-5,
                               is_parallel = FALSE, no_cores = NULL,
                               is_verbose = FALSE, ...){
@@ -215,7 +215,7 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
         m <- S %*% (crossprod(H, E_z))             # Posterior mean of q(w)
         beta <- beta_0 + 0.5 * c(crossprod(m) + matrix.trace(S))
         # Check beta parameter for numerical issues
-        if (beta > 3*alpha) { beta <- 3*alpha }
+        if (beta > 10*alpha) { beta <- 10*alpha }
 
         # Compute lower bound
         lb_p_zw_qw <- -0.5*matrix.trace(HH %*% (tcrossprod(m,m) + S)) +

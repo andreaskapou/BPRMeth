@@ -69,7 +69,7 @@ NULL
 #' @export
 cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
                                 delta_0 = rep(1/K, K), w = NULL,
-                                gaussian_l = .5, alpha_0 = 1e-1, beta_0 = 1e-1,
+                                gaussian_l = .5, alpha_0 = .5, beta_0 = 15,
                                 vb_max_iter = 100, epsilon_conv = 1e-4,
                                 is_verbose = FALSE, ...){
     assertthat::assert_that(is.list(X))  # Check that X is a list object
@@ -222,7 +222,7 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
             E_ww[k] <- crossprod(m_k[,k]) + matrix.trace(S_k[[k]])
             beta_k[k]  <- beta_0 + 0.5*E_ww[k]
             # Check beta parameter for numerical issues
-            if (beta_k[k] > 3*alpha_k[k]) { beta_k[k] <- 3*alpha_k[k] }
+            if (beta_k[k] > 10*alpha_k[k]) { beta_k[k] <- 10*alpha_k[k] }
         }
         # Update \mu, E[z] and E[z^2]
         if (D == 1) {
