@@ -80,7 +80,7 @@ NULL
 #'
 #' @export
 infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
-                              gaussian_l = .5, alpha_0 = .5, beta_0 = 15,
+                              gaussian_l = 50, alpha_0 = .5, beta_0 = .1,
                               vb_max_iter = 100, epsilon_conv = 1e-5,
                               is_parallel = FALSE, no_cores = NULL,
                               is_verbose = FALSE, ...){

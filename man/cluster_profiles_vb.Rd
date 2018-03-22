@@ -8,8 +8,8 @@
 \title{Cluster methylation profiles using VB}
 \usage{
 cluster_profiles_vb(X, K = 3, model = NULL, basis = NULL, H = NULL,
-  delta_0 = rep(1/K, K), w = NULL, gaussian_l = 0.5, alpha_0 = 0.5,
-  beta_0 = 15, vb_max_iter = 100, epsilon_conv = 1e-04,
+  delta_0 = NULL, w = NULL, gaussian_l = 50, alpha_0 = 0.5,
+  beta_0 = 0.1, vb_max_iter = 100, epsilon_conv = 1e-04,
   is_verbose = FALSE, ...)
 }
 \arguments{

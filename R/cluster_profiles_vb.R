@@ -68,14 +68,15 @@ NULL
 #'
 #' @export
 cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
-                                delta_0 = rep(1/K, K), w = NULL,
-                                gaussian_l = .5, alpha_0 = .5, beta_0 = 15,
+                                delta_0 = NULL, w = NULL,
+                                gaussian_l = 50, alpha_0 = .5, beta_0 = .1,
                                 vb_max_iter = 100, epsilon_conv = 1e-4,
                                 is_verbose = FALSE, ...){
     assertthat::assert_that(is.list(X))  # Check that X is a list object
     if (is.null(model)) { stop("Observation model not defined!") }
     # Create RBF basis object by default
     if (is.null(basis)) { basis <- create_rbf_object(M = 3) }
+    if (is.null(delta_0)) { delta_0 <- rep(1/K, K) }
     if (is.null(H)) { # Create design matrix
         H <- lapply(X = X, FUN = function(x) design_matrix(basis, x[, 1])$H)
     }
@@ -276,9 +277,9 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
         # Show VB difference
         if (is_verbose) {
             cat("\nIt:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
-            cat("Z: ",lb_pz_qz,"\tC: ",lb_p_c - lb_q_c,
-                "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
-                "\tTau: ",lb_p_tau - lb_q_tau,"\n")
+            #cat("Z: ",lb_pz_qz,"\tC: ",lb_p_c - lb_q_c,
+            #    "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
+            #    "\tTau: ",lb_p_tau - lb_q_tau,"\n")
         }
         # Check if lower bound decreases
         if (LB[i] < LB[i - 1]) { warning("Warning: Lower bound decreases!\n") }
@@ -413,9 +414,9 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
         # Show VB difference
         if (is_verbose) {
             cat("\nIt:\t",i,"\tLB:\t",LB[i],"\tDiff:\t",LB[i] - LB[i - 1],"\n")
-            cat("Y: ",lb_p_y,"\tC: ",lb_p_c - lb_q_c,
-                "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
-                "\tTau: ",lb_p_tau - lb_q_tau,"\n")
+            #cat("Y: ",lb_p_y,"\tC: ",lb_p_c - lb_q_c,
+            #    "\tW: ", lb_p_w - lb_q_w,"\tPi: ", lb_p_pi - lb_q_pi,
+            #    "\tTau: ",lb_p_tau - lb_q_tau,"\n")
         }
         # Check if lower bound decreases
         if (LB[i] < LB[i - 1]) { warning("Warning: Lower bound decreases!\n") }

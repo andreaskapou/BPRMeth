@@ -154,7 +154,7 @@ For performing parameter inference, the `BPRMeth` package is enhanced to provide
 To infer the methylation profiles using __VB__ we need to call the `infer_profiles_vb` function
 ```{r infer_profiles, echo=TRUE, message=FALSE, warning=FALSE}
 fit_profiles <- infer_profiles_vb(X = met_region$met, model = "binomial",
-                               basis = basis_profile, is_parallel = FALSE)
+                                basis = basis_profile, is_parallel = FALSE)
 
 fit_mean <- infer_profiles_vb(X = met_region$met, model = "binomial", 
                               basis = basis_mean, is_parallel = FALSE)
@@ -226,6 +226,7 @@ basis_obj <- create_rbf_object(M = 3)
 K <- 4
 # Perform clustering
 cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, model = "binomial", 
+                              alpha_0 = .5, beta_0 = .1,
                               basis = basis_obj, vb_max_iter = 20)
 ```
 
