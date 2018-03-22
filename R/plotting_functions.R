@@ -156,7 +156,7 @@ plot_infer_profiles <- function(region = 1, obj_prof, obj_mean = NULL,
                             shape = 1, color = "red", size = 3)
     }
     # If nto gaussian data set y-lim to (0, 1)
-    if (!methods::is(obj_prof, "infer_profiles_mle_gaussian") ||
+    if (!methods::is(obj_prof, "infer_profiles_mle_gaussian") &
         !methods::is(obj_prof, "infer_profiles_vb_gaussian")) {
         p <- p + scale_y_continuous(limits = c(0, 1))
     }
@@ -259,7 +259,7 @@ plot_cluster_profiles <- function(cluster_obj, title = "Clustered profiles",
                  fill = Cluster), alpha = 0.2, size = 0.1)
     }
     # If nto gaussian data set y_lim to (0, 1)
-    if (!methods::is(cluster_obj, "cluster_profiles_mle_gaussian") ||
+    if (!methods::is(cluster_obj, "cluster_profiles_mle_gaussian") &
         !methods::is(cluster_obj, "cluster_profiles_vb_gaussian")) {
         p <- p + scale_y_continuous(limits = c(0, 1))
     }
