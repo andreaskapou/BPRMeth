@@ -39,11 +39,11 @@ Imports: assertthat,
     magrittr,
     kernlab,
     ggplot2,
-    cowplot
+    cowplot,
+    BiocStyle
 Suggests: testthat,
     knitr,
-    rmarkdown,
-	BiocStyle
+    rmarkdown
 VignetteBuilder: knitr
 biocViews: DNAMethylation,
 	GeneExpression,
