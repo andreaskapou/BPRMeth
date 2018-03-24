@@ -25,6 +25,33 @@ You can the check the vignette on how to use the package:
 browseVignettes("BPRMeth")
 ```
 
+## Clang / fopenmp error for Mac users
+If you get the following error when installing the package:
+
+`clang: error: unsupported option '-fopenmp'`
+
+try the following:
+```R
+brew install llvm
+brew install boost
+brew install homebrew/science/hdf5 --enable-cxx
+
+mkdir -p ~/.R
+vim ~/.R/Makevars
+
+## Paste the following commands
+# The following statements are required to use the clang4 binary
+CC=/usr/local/clang4/bin/clang
+CXX=/usr/local/clang4/bin/clang++
+CXX11=/usr/local/clang4/bin/clang++
+CXX14=/usr/local/clang4/bin/clang++
+CXX17=/usr/local/clang4/bin/clang++
+CXX1X=/usr/local/clang4/bin/clang++
+LDFLAGS=-L/usr/local/clang4/lib
+# End clang4 inclusion statements
+```
+These commands will point R to the new version of clang.
+
 
 ## `BPRMeth` workflow
 
