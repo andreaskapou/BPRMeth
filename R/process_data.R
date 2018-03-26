@@ -165,6 +165,9 @@ read_anno <- function(file, chrom_size_file = NULL, chr_discarded = NULL,
                       downstream = 5000, is_anno_region = TRUE,
                       delimiter = "\t") {
 
+    if (!is_centre & !is_window) {
+        stop("One of 'is_centre' or 'is_window' must be set to TRUE.")
+    }
     chr <- NULL # So RMD CHECK does not complain
     message("Reading file ", file, " ...")
     anno_dt <- data.table::fread(input = file, sep = delimiter,
@@ -480,6 +483,9 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
                                is_window = TRUE, upstream = -5000,
                                downstream = 5000){
     assertthat::assert_that(methods::is(anno, "GRanges"))
+    if (!is_centre & !is_window) {
+        stop("One of 'is_centre' or 'is_window' must be set to TRUE.")
+    }
     N <- NROW(anno)  # Number of features
     if (upstream > 0 ) { upstream <- -upstream }
     # Create empty vectors
@@ -511,18 +517,18 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
             # Depending on the strand we change regions up or downstream of centre
             if (identical(strand[i], "-")) {
                 # Set downstream bp promoter region
-                up[i] <- max(0, end[i] - downstream)
+                up[i] <- max(0, centre[i] - downstream)
                 # Set upstream bp promoter region
-                if (is.null(chrom_size)) {down[i] <- end[i] - upstream
+                if (is.null(chrom_size)) {down[i] <- centre[i] - upstream
                 }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
-                                      end[i] - upstream) }
+                                      centre[i] - upstream) }
             }else {
                 # Set upstream bp promoter region
-                up[i] <- max(0, start[i] + upstream)
+                up[i] <- max(0, centre[i] + upstream)
                 # Set downstream bp promoter region
-                if (is.null(chrom_size)) { down[i] <- start[i] + downstream
+                if (is.null(chrom_size)) { down[i] <- centre[i] + downstream
                 }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
-                                      start[i] + downstream) }
+                                      centre[i] + downstream) }
             }
         }
     }
