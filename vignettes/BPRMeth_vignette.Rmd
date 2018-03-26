@@ -39,9 +39,9 @@ devtools::install_github("andreaskapou/BPRMeth", build_vignettes = TRUE)
 # Introduction
 DNA methylation is probably the best studied epigenomic mark, due to its well established heritability and  widespread association with diseases. Yet its role in gene regulation, and the molecular mechanisms underpinning its association with diseases, are still imperfectly understood. While the methylation status of individual cytosines can sometimes be informative, several recent papers have shown that the functional role of DNA methylation is better captured by a quantitative analysis of the __spatial variation__ of methylation across a genomic region.
 
-The `BPRMeth` package is a probabilistic method to quantify explicit features of methylation profiles, in a way that would make it easier to formally use such profiles in downstream modelling efforts, such as predicting gene expression levels or clustering genomic regions according to their methylation profiles. The original implementation [1] has now been enhanced in two important ways: we introduced a fast, __variational inference__ approach which enables the quantification of Bayesian posterior confidence measures on the model, and we adapted the method to use several observation models, making it suitable for a diverse range of platforms including __single-cell__ analyses and __methylation arrays__. 
+The `BPRMeth` package is a probabilistic method to quantify explicit features of methylation profiles, in a way that would make it easier to formally use such profiles in downstream modelling efforts, such as predicting gene expression levels or clustering genomic regions according to their methylation profiles. The original implementation [1] has now been enhanced in two important ways: we introduced a fast, __variational inference__ approach which enables the quantification of Bayesian posterior confidence measures on the model, and we adapted the method to use several observation models, making it suitable for a diverse range of platforms including __single-cell__ analyses and __methylation arrays__. Technical details of the updated version are explained in [2].
 
-In addition to being a flexible tool for methylation data, the proposed framework is in principle deployable to other measurements with a similar structure, and indeed the method was already used for single-cell __chromatin accessibility__ data in [2].
+In addition to being a flexible tool for methylation data, the proposed framework is in principle deployable to other measurements with a similar structure, and indeed the method was already used for single-cell __chromatin accessibility__ data in [3].
 
 # Background
 Mathematically, `BPRMeth` is based on a basis function generalised linear model. The basic idea is as follows: the methylation profile associated to a genomic region $D$ is defined as a (latent) function $f\colon D\rightarrow (0,1)$ which takes as input the genomic coordinate along the region and returns the propensity for that locus to be methylated. In order to enforce spatial smoothness, and to obtain a compact representation for this function in terms of interpretable features, we represent the profile function as a linear combination of basis functions
@@ -66,7 +66,7 @@ knitr::include_graphics("../inst/figures/workflow.png")
 ```
 
 ## Sample data
-To illustrate the functionality of the `BPRMeth` package we will use real datasets that are publicly available from the ENCODE project consortium [2]. More specifically we will focus on the K562 immortalized cell line, with GEO: GSE27584 for the bulk RRBS data and GEO: GSE33480 for the RNA-Seq data. We will use directly the preprocessed files,
+To illustrate the functionality of the `BPRMeth` package we will use real datasets that are publicly available from the ENCODE project consortium [4]. More specifically we will focus on the K562 immortalized cell line, with GEO: GSE27584 for the bulk RRBS data and GEO: GSE33480 for the RNA-Seq data. We will use directly the preprocessed files,
 where we have kept only the protein coding genes, and for the purpose of this vignette we focus only on __chr12__ and __chr13__. Full details of where to download the data and how to preprocess them are included in the Supplementary Material [1].
 
 ## Load preprocessed data
@@ -84,7 +84,7 @@ The `met_region` object contains the following important slots:
     + 1st column: Contains the locations of CpGs relative to central location. Note that the actual locations are scaled to the (-1, 1) region.
     + 2nd column: Contains the total reads of each CpG.
     + 3rd column: Contains the methylated reads each CpG.
-* `anno`: Corresponding annotation data for each genomic region as `r Biocpkg("GRanges")` object. The `anno` slot is only required for downstream analysis, e.g. to predict gene expression levels from methylation profiles, since we need to map the genomic regions with the gene IDs.
+* `anno`: Corresponding annotation data for each genomic region as `GRanges` object. The `anno` slot is only required for downstream analysis, e.g. to predict gene expression levels from methylation profiles, since we need to map the genomic regions with the gene IDs.
 
 Now let's observe the format of the `met_region` object. For example, we can access the $20^{th}$ promoter methylation region as follows
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
@@ -288,9 +288,11 @@ sessionInfo()
 # Bibliography
 [1] Kapourani, C. A., & Sanguinetti, G. (2016). Higher order methylation features for clustering and prediction in epigenomic studies. __Bioinformatics__, 32(17), i405-i412.
 
-[2] Clark, S. J., Argelaguet, R., Kapourani, C. A., Stubbs, T. M., Lee, H. J., Krueger, F., Sanguinetti, G., Kelsey, G., Marioni, J.C., Stegle, O. and Reik, W (2017). Joint Profiling Of Chromatin Accessibility, DNA Methylation And Transcription In Single Cells. __bioRxiv__, 138685.
+[2] Kapourani, C. A. and Sanguinetti, G. (2018). BPRMeth: a flexible Bioconductor package for modelling methylation profiles. __Bioinformatics__, DOI: [https://doi.org/10.1093/bioinformatics/bty129](https://doi.org/10.1093/bioinformatics/bty129)
 
-[3] ENCODE Project Consortium. (2012). An integrated encyclopedia of DNA elements in the human genome. __Nature__, 489(7414), 57-74.
+[3] Clark, S.J., Argelaguet, R., Kapourani, C.A., Stubbs, T.M., Lee, H.J., Alda-Catalinas, C., Krueger, F., Sanguinetti, G., Kelsey, G., Marioni, J.C., Stegle, O. and Reik, W., (2018). scNMT-seq enables joint profiling of chromatin accessibility DNA methylation and transcription in single cells. __Nature communications__, 9(1), p.781.
+
+[4] ENCODE Project Consortium. (2012). An integrated encyclopedia of DNA elements in the human genome. __Nature__, 489(7414), 57-74.
 
 # Acknowledgements
 This package was developed at the University of Edinburgh in the School of Informatics, with support from Guido

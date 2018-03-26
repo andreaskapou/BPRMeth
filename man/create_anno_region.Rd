@@ -5,7 +5,7 @@
 \title{Create annotation regions}
 \usage{
 create_anno_region(anno, chrom_size = NULL, is_centre = FALSE,
-  upstream = -5000, downstream = 5000)
+  is_window = TRUE, upstream = -5000, downstream = 5000)
 }
 \arguments{
 \item{anno}{A \code{GRanges} object containing the annotation data, this
@@ -18,15 +18,19 @@ be the output of \code{\link{read_chrom_size}} function.}
 pre-centred. If TRUE, the mean of the locations will be chosen as centre.
 If FALSE, the 'start' will be chosen as the center; e.g. for genes the
 'start' denotes the TSS and we use this as centre to obtain K-bp upstream
-and downstream of TSS. Note that when is_centre = TRUE, then 'upstream' and
-'downstream' parameters are ignored and the whole region from start to end
-is taken as the default.}
+and downstream of TSS.}
+
+\item{is_window}{Whether to consider a predefined window region around
+centre. If TRUE, then 'upstream' and 'downstream' parameters are used,
+otherwise we consider the whole region from start to end location.}
 
 \item{upstream}{Integer defining the length of bp upstream of 'centre' for
-creating the genomic region.}
+creating the genomic region. If is_window = FALSE, this parameter is
+ignored.}
 
 \item{downstream}{Integer defining the length of bp downstream of 'centre'
-for creating the genomic region.}
+for creating the genomic region. If is_window = FALSE, this parameter is
+ignored.}
 }
 \value{
 A \code{GRanges} object containing the genomic regions.

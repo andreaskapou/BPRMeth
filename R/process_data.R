@@ -115,13 +115,16 @@ read_met <- function(file, type = "sc_seq", strand_info = FALSE,
 #'   pre-centred. If TRUE, the mean of the locations will be chosen as centre.
 #'   If FALSE, the 'start' will be chosen as the center; e.g. for genes the
 #'   'start' denotes the TSS and we use this as centre to obtain K-bp upstream
-#'   and downstream of TSS. Note that when is_centre = TRUE, then 'upstream' and
-#'   'downstream' parameters are ignored and the whole region from start to end
-#'   is taken as the default.
+#'   and downstream of TSS.
+#' @param is_window Whether to consider a predefined window region around
+#'   centre. If TRUE, then 'upstream' and 'downstream' parameters are used,
+#'   otherwise we consider the whole region from start to end location.
 #' @param upstream Integer defining the length of bp upstream of 'centre' for
-#'   creating the genomic region.
+#'   creating the genomic region. If is_window = FALSE, this parameter is
+#'   ignored.
 #' @param downstream Integer defining the length of bp downstream of 'centre'
-#'   for creating the genomic region.
+#'   for creating the genomic region. If is_window = FALSE, this parameter is
+#'   ignored.
 #' @param is_anno_region Logical, whether or not to create genomic region. It
 #'   should be set to TRUE, if you want to use the object as input to
 #'   \code{\link{create_region_object}} function.
@@ -158,8 +161,9 @@ read_met <- function(file, type = "sc_seq", strand_info = FALSE,
 #'
 #' @export
 read_anno <- function(file, chrom_size_file = NULL, chr_discarded = NULL,
-                      is_centre = FALSE, upstream = -5000, downstream = 5000,
-                      is_anno_region = TRUE, delimiter = "\t"){
+                      is_centre = FALSE, is_window = TRUE, upstream = -5000,
+                      downstream = 5000, is_anno_region = TRUE,
+                      delimiter = "\t") {
 
     chr <- NULL # So RMD CHECK does not complain
     message("Reading file ", file, " ...")
@@ -181,7 +185,8 @@ read_anno <- function(file, chrom_size_file = NULL, chr_discarded = NULL,
     if (is_anno_region) {
         # Create genomic region
         anno_dt <- create_anno_region(anno = anno_dt,chrom_size = chrom_size,
-            is_centre = is_centre, upstream = upstream, downstream = downstream)
+            is_centre = is_centre, is_window = is_window, upstream = upstream,
+            downstream = downstream)
     }
 
     return(anno_dt)
@@ -472,7 +477,8 @@ read_chrom_size <- function(file, delimiter = "\t"){
 #' @importFrom methods is
 #' @export
 create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
-                               upstream = -5000, downstream = 5000){
+                               is_window = TRUE, upstream = -5000,
+                               downstream = 5000){
     assertthat::assert_that(methods::is(anno, "GRanges"))
     N <- NROW(anno)  # Number of features
     if (upstream > 0 ) { upstream <- -upstream }
@@ -486,8 +492,15 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
     end    <- start + GenomicRanges::ranges(anno)@width - 1 # End info
 
     for (i in 1:N) {
+        # If we consider the centre of the region as centre or the beginning
         if (is_centre) {
-            centre[i] <- (start[i] + end[i]) / 2
+            centre[i] <- floor((start[i] + end[i]) / 2)
+        }else{
+            # Depending on the strand we change regions up or downstream of centre
+            if (identical(strand[i], "-")) { centre[i] <- end[i]
+            } else{centre[i] <- start[i] }
+        }
+        if (!is_window) {
             # Depending on the strand we change regions up or downstream of centre
             if (identical(strand[i], "-")) {
                 up[i] <- end[i]; down[i] <- start[i]
@@ -497,7 +510,6 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
         }else{
             # Depending on the strand we change regions up or downstream of centre
             if (identical(strand[i], "-")) {
-                centre[i] <- end[i]  # Set centre location
                 # Set downstream bp promoter region
                 up[i] <- max(0, end[i] - downstream)
                 # Set upstream bp promoter region
@@ -505,7 +517,6 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
                 }else {down[i] <- min(chrom_size[chrom_size$chr == chrom[i]]$size,
                                       end[i] - upstream) }
             }else {
-                centre[i] <- start[i]  # Set centre location
                 # Set upstream bp promoter region
                 up[i] <- max(0, start[i] + upstream)
                 # Set downstream bp promoter region
