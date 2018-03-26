@@ -18,7 +18,8 @@ abstract: |
   such as prediciting gene expression levels or clustering regions with similar 
   methylation profiles. This vignette focuses on the functionality and the usage
   of the BPRMeth package. Mathematical details and modelling assumptions can be 
-  found on the following link [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani)
+  found in [2] and on the following link 
+  [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani)
 vignette: |
   %\VignetteIndexEntry{BPRMeth: Model higher-order methylation profiles}
   %\VignetteEngine{knitr::rmarkdown}
