@@ -60,5 +60,4 @@ The diagram below shows an overview of the pre-processing and analysis workflow 
 ![Diagram outlining the schematic workflow of BPRMeth (left) with example output graphs (right).](inst/figures/bprmeth-workflow.png)
 
 ## Citation
-Kapourani, C.-A. and Sanguinetti, G. (2016). Higher order methylation features for clustering and prediction in epigenomic studies. Bioinformatics 32 (17), i405-i412. **(Best Paper Award
-in ECCB 2016)**.
+Kapourani, C.-A. and Sanguinetti, G. (2016). Higher order methylation features for clustering and prediction in epigenomic studies. Bioinformatics 32 (17), i405-i412. **(Best Paper Award in ECCB 2016)**.
