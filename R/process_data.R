@@ -507,12 +507,9 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
             } else{centre[i] <- start[i] }
         }
         if (!is_window) {
-            # Depending on the strand we change regions up or downstream of centre
-            if (identical(strand[i], "-")) {
-                up[i] <- end[i]; down[i] <- start[i]
-            }else {
-                up[i] <- start[i]; down[i] <- end[i]
-            }
+            # Fixed issue for negative lengths of IRanges
+            up[i] <- start[i]
+            down[i] <- end[i]
         }else{
             # Depending on the strand we change regions up or downstream of centre
             if (identical(strand[i], "-")) {
