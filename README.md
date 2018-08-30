@@ -16,8 +16,9 @@ devtools::install_github("andreaskapou/BPRMeth", build_vignettes = TRUE)
 Or install from the stable release version from Bioconductor
 ```R
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("BPRMeth")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("BPRMeth")
 ```
 
 You can the check the vignette on how to use the package:

@@ -29,8 +29,9 @@ vignette: |
 # Installation
 ```{r installation, echo=TRUE, eval=FALSE}
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("BPRMeth")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("BPRMeth")
 
 ## Or download from Github repository
 # install.packages("devtools")
