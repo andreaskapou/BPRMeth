@@ -1,7 +1,7 @@
 Package: BPRMeth
 Type: Package
 Title: Model higher-order methylation profiles
-Version: 1.9.0
+Version: 1.9.1
 Authors@R: person("C. A.", "Kapourani", email = "kapouranis.andreas@gmail.com",
                   role = c("aut", "cre"))
 Author: Chantriolnt-Andreas Kapourani [aut, cre]
@@ -45,7 +45,7 @@ Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-biocViews: DNAMethylation,
+biocViews: ImmunoOncology, DNAMethylation,
 	GeneExpression,
 	GeneRegulation,
 	Epigenetics,
