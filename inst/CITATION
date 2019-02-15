@@ -2,7 +2,7 @@ bibentry(
     bibtype = "article",
     author = c(
         person(c("Chantriolnt", "Andreas"), "Kapourani"),
-        person(c("Guido"), "Sanguinetti"),
+        person(c("Guido"), "Sanguinetti")),
     title="BPRMeth: a flexible Bioconductor package for modelling methylation profiles",
     journal="Bioinformatics",
     year="2018",
