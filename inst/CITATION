@@ -1,0 +1,14 @@
+bibentry(
+    bibtype = "article",
+    author = c(
+        person(c("Chantriolnt", "Andreas"), "Kapourani"),
+        person(c("Guido"), "Sanguinetti"),
+    title="BPRMeth",
+    journal="Bioinformatics",
+    year="2018",
+    volume="34",
+    issue="14",
+    pages="2485-2486",
+    doi = "10.1093/bioinformatics/bty129"
+)
+
