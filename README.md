@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/54470752.svg)](https://zenodo.org/badge/latestdoi/54470752)
 
+[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/BPRMeth.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/BPRMeth)
+
 The aim of `BPRMeth` is to extract higher order features associated with the shape of methylation profiles across a defined genomic region. Using these higher order features across promoter-proximal regions, BPRMeth provides a powerful machine learning predictor of gene expression. Check the vignette on how to use the package. Modelling details for the different models can be found online: [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani).
 
 The original implementation has now been enhanced in two important ways: we introduced a fast, __variational inference__ approach which enables the quantification of Bayesian posterior confidence measures on the model, and we adapted the method to use several observation models, making it suitable for a diverse range of platforms including __single-cell__ and __bulk__ sequencing experiments and __methylation arrays__. 
