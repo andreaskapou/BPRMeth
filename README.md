@@ -1,8 +1,6 @@
 # BPRMeth: modelling DNA methylation profiles
 
-[![DOI](https://zenodo.org/badge/54470752.svg)](https://zenodo.org/badge/latestdoi/54470752)
-
-[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/BPRMeth.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/BPRMeth)
+[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/BPRMeth.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/BPRMeth)  [![DOI](https://zenodo.org/badge/54470752.svg)](https://zenodo.org/badge/latestdoi/54470752)
 
 The aim of `BPRMeth` is to extract higher order features associated with the shape of methylation profiles across a defined genomic region. Using these higher order features across promoter-proximal regions, BPRMeth provides a powerful machine learning predictor of gene expression. Check the vignette on how to use the package. Modelling details for the different models can be found online: [http://rpubs.com/cakapourani](http://rpubs.com/cakapourani).
 
