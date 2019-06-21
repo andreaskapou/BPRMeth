@@ -542,3 +542,123 @@ create_anno_region <- function(anno, chrom_size = NULL, is_centre = FALSE,
     }
     return(genomic_region)
 }
+
+
+#' @title Partition bulk methylation dataset to training and test set
+#'
+#' @param dt_obj BPRMeth data `region_object` object
+#' @param cpg_train_prcg Fraction of CpGs in each genomic region to keep for
+#'   training set.
+#'
+#' @return The BPRMeth data `region_object` object with the following changes.
+#'   The `met` element will now contain only the `training` data. An additional
+#'   element called `met_test` will store the data that will be used during
+#'   testing to evaluate the imputation performance. These data will not be seen
+#'   from BPRMeth during inference.
+#'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @examples
+#' # Partition the synthetic data from BPRMeth package
+#' dt <- partition_bulk_dataset(encode_met)
+#'
+#' @seealso \code{\link{create_region_object}}, \code{\link{read_met}},
+#'   \code{\link{impute_bulk_met}}
+#'
+#' @export
+#'
+partition_bulk_dataset <- function(dt_obj, cpg_train_prcg = 0.5){
+    assertthat::assert_that(cpg_train_prcg >= 0 & cpg_train_prcg <= 1)
+    # If `met_test` element already exists, stop
+    if (!is.null(dt_obj$met_test)) { stop("Stopping. Test data already exist!")}
+    train = test <- dt_obj$met
+    N <- length(dt_obj$met)       # Number of cgenomic regions
+    for (n in seq_len(N)) {     # Iterate over region
+        # Get fraction of CpGs covered
+        pivot <- cpg_train_prcg * NROW(dt_obj$met[[n]])
+        idx <- sort(sample(NROW(dt_obj$met[[n]]), round(pivot)))
+        train[[n]] <- dt_obj$met[[n]][idx,,drop = FALSE]
+        test[[n]] <- dt_obj$met[[n]][-idx,,drop = FALSE]
+    }
+    # Set the training data as the `met` element
+    dt_obj$met <- train
+    # Set the test data as the `met_test` element
+    dt_obj$met_test <- test
+    return(dt_obj)
+}
+
+
+#' @title Impute/predict bulk methylation states
+#'
+#' @description Make predictions of missing methylation states, i.e. perfrom
+#'   imputation using BPRmeth This requires keepin a subset of data as a held
+#'   out test set during BPRMeth inference or providing a different file that
+#'   contains chromosome and CpG locations.
+#'
+#' @param obj Output of BPRMeth inference object.
+#' @param anno A \code{GRanges} object with annotation data, whose format
+#'   should be similar to  \code{\link{read_anno}}.
+#' @param test_data Test data to evaluate performance.
+#' @param return_test Whether or not to return a list with the predictions.
+#'
+#' @return A list containing two vectors, the true methylation state and the
+#'   predicted/imputed methylation states.
+#'
+#' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
+#'
+#' @examples
+#' # Extract synthetic data
+#' dt <- encode_met
+#'
+#' # Partition to train and test set
+#' dt <- partition_bulk_dataset(dt)
+#'
+#' # Create basis object
+#' basis_obj <- create_rbf_object(M = 3)
+#'
+#' # Run BPRMeth
+#' fit <- infer_profiles_mle(X = dt$met, model = "binomial",
+#'    basis = basis_obj, is_parallel = FALSE, opt_itnmax = 10)
+#'
+#' # Perform imputation
+#' imputation_obj <- impute_bulk_met(obj = fit, anno = dt$anno,
+#'                                   test_data = dt$met_test)
+#'
+#' @seealso \code{\link{partition_bulk_dataset}}
+#'
+#' @export
+impute_bulk_met <- function(obj, anno, test_data = NULL, return_test = FALSE) {
+    # Either test data or test file should be supplied
+    assertthat::assert_that(!is.null(test_data))
+    N         <- length(test_data)              # Number of genomic regions
+    test_pred <- test_data                      # Copy test data
+    act_obs   <- vector(mode = "list", length = N) # Actual CpG states
+    pred_obs  <- vector(mode = "list", length = N) # Predicted CpG states
+    # Iterate over each genomic region
+    for (n in seq_len(N)) {
+        # Predict expression
+        pred <- eval_probit_function(obj = obj$basis,
+                                     obs = test_data[[n]][, 1], w = obj$W[n,])
+        if (NCOL(test_pred[[n]]) == 2) {
+            test_pred[[n]][,2] <- pred
+            # Actual CpG states
+            act_obs[[n]]  <- test_data[[n]][, 2]
+            # Predicted CpG states (i.e. function evaluations)
+            pred_obs[[n]] <- test_pred[[n]][, 2]
+        } else {
+            out <- cbind(test_pred[[n]][,1], pred)
+            test_pred[[n]] <- out
+            # Actual CpG states
+            act_obs[[n]]  <- test_data[[n]][, 3] / test_data[[n]][, 2]
+            # Predicted CpG states (i.e. function evaluations)
+            pred_obs[[n]] <- test_pred[[n]][, 2]
+        }
+    }
+    if (return_test) {
+        return(list(test_pred = test_pred, act_obs = do.call("c", act_obs),
+                    pred_obs = do.call("c", pred_obs)))
+    }else{
+        return(list(act_obs = do.call("c", act_obs),
+                    pred_obs = do.call("c", pred_obs)))
+    }
+}
