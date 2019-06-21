@@ -5,7 +5,6 @@
 \alias{designmatrix}
 \alias{des_matrix}
 \alias{des_mat}
-\alias{design_matrix}
 \alias{design_matrix.default}
 \alias{design_matrix.polynomial}
 \alias{design_matrix.rbf}

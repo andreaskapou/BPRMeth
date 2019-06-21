@@ -4,7 +4,6 @@
 \alias{cluster_profiles_vb}
 \alias{cluster_profile_vb}
 \alias{cluster_vb}
-\alias{cluster_profiles_vb}
 \title{Cluster methylation profiles using VB}
 \usage{
 cluster_profiles_vb(X, K = 3, model = NULL, basis = NULL, H = NULL,

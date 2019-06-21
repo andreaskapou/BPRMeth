@@ -4,7 +4,6 @@
 \alias{infer_profiles_mle}
 \alias{infer_profile_mle}
 \alias{inference_mle}
-\alias{infer_profiles_mle}
 \title{Infer methylation profiles using MLE}
 \usage{
 infer_profiles_mle(X, model = NULL, basis = NULL, H = NULL,

@@ -4,12 +4,12 @@
 \alias{infer_profiles_gibbs}
 \alias{infer_profile_gibbs}
 \alias{inference_gibbs}
-\alias{infer_profiles_gibbs}
 \title{Infer methylation profiles using Gibbs sampling}
 \usage{
-infer_profiles_gibbs(X, model = NULL, basis = NULL, H = NULL, w = NULL,
-  mu_0 = NULL, cov_0 = NULL, gibbs_nsim = 500, gibbs_burn_in = 100,
-  store_gibbs_draws = FALSE, is_parallel = FALSE, no_cores = NULL, ...)
+infer_profiles_gibbs(X, model = NULL, basis = NULL, H = NULL,
+  w = NULL, mu_0 = NULL, cov_0 = NULL, gibbs_nsim = 500,
+  gibbs_burn_in = 100, store_gibbs_draws = FALSE,
+  is_parallel = FALSE, no_cores = NULL, ...)
 }
 \arguments{
 \item{X}{The input data, either a \code{\link[base]{matrix}} or a

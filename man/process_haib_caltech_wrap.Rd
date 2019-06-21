@@ -6,9 +6,9 @@
 \usage{
 process_haib_caltech_wrap(bs_files, rna_files, chrom_size_file = NULL,
   chr_discarded = NULL, upstream = -7000, downstream = 7000,
-  min_bs_cov = 4, max_bs_cov = 1000, cpg_density = 10, sd_thresh = 0.1,
-  ignore_strand = TRUE, gene_log2_transf = TRUE, gene_outl_thresh = TRUE,
-  gex_outlier = 300, fmin = -1, fmax = 1)
+  min_bs_cov = 4, max_bs_cov = 1000, cpg_density = 10,
+  sd_thresh = 0.1, ignore_strand = TRUE, gene_log2_transf = TRUE,
+  gene_outl_thresh = TRUE, gex_outlier = 300, fmin = -1, fmax = 1)
 }
 \arguments{
 \item{bs_files}{Filename (or vector of filenames if there are replicates) of

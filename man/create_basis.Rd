@@ -9,8 +9,8 @@
 \alias{create_fourier_object}
 \title{Create basis objects}
 \usage{
-create_rbf_object(M = 2, gamma = NULL, mus = NULL, eq_spaced_mus = TRUE,
-  whole_region = TRUE)
+create_rbf_object(M = 2, gamma = NULL, mus = NULL,
+  eq_spaced_mus = TRUE, whole_region = TRUE)
 
 create_polynomial_object(M = 1)
 

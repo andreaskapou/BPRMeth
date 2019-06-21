@@ -10,7 +10,8 @@
 \title{Create genomic region data}
 \usage{
 create_region_object(met_dt, anno_dt, cov = 5, sd_thresh = 0.1,
-  ignore_strand = TRUE, filter_empty_region = TRUE, fmin = -1, fmax = 1)
+  ignore_strand = TRUE, filter_empty_region = TRUE, fmin = -1,
+  fmax = 1)
 }
 \arguments{
 \item{met_dt}{A \code{GRanges} object with methylation data, whose format

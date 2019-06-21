@@ -4,11 +4,10 @@
 \alias{cluster_profiles_mle}
 \alias{cluster_profile_mle}
 \alias{cluster_mle}
-\alias{cluster_profiles_mle}
 \title{Cluster methylation profiles using EM}
 \usage{
-cluster_profiles_mle(X, K = 3, model = NULL, basis = NULL, H = NULL,
-  pi_k = NULL, lambda = 0.5, beta_dispersion = 5,
+cluster_profiles_mle(X, K = 3, model = NULL, basis = NULL,
+  H = NULL, pi_k = NULL, lambda = 0.5, beta_dispersion = 5,
   gaussian_sigma = rep(0.2, K), w = NULL, em_max_iter = 50,
   epsilon_conv = 1e-04, opt_method = "CG", opt_itnmax = 50,
   init_opt_itnmax = 30, is_parallel = FALSE, no_cores = NULL,
