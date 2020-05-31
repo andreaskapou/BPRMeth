@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-BPRMeth.Rproj
+<<<<<<< HEAD
+^data-raw$
+=======
+>>>>>>> Add project files
