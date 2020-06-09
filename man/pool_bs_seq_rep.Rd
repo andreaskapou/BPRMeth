@@ -4,8 +4,7 @@
 \alias{pool_bs_seq_rep}
 \title{(DEPRECATED) Read and pool replicates from BS-Seq data}
 \usage{
-pool_bs_seq_rep(files, file_format = "encode_rrbs",
-  chr_discarded = NULL)
+pool_bs_seq_rep(files, file_format = "encode_rrbs", chr_discarded = NULL)
 }
 \arguments{
 \item{files}{A vector of filenames containing replicate experiments. This can

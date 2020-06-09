@@ -6,6 +6,7 @@ generate_bernoulli_data <- function(basis, w, max_cov = 30, xmin = -500,
     x <- matrix(0, nrow = L, ncol = 2)
     # Randomly sample locations for the observations
     obs <- sort(sample(xmin:xmax, L))
+    rownames(x) <- paste("loc", obs, sep = ":")
     # Scale to (-1,1)
     x[, 1] <- BPRMeth:::.minmax_scaling(data = obs, xmin = xmin, xmax = xmax,
                                         fmin = -1, fmax = 1)
@@ -26,6 +27,7 @@ generate_binomial_data <- function(basis, w, max_cov = 30, xmin = -500,
     x <- matrix(0, nrow = L, ncol = 3)
     # Randomly sample locations for the observations
     obs <- sort(sample(xmin:xmax, L))
+    rownames(x) <- paste("loc", obs, sep = ":")
     # Scale to (-1,1)
     x[, 1] <- BPRMeth:::.minmax_scaling(data = obs, xmin = xmin, xmax = xmax,
                                         fmin = -1, fmax = 1)
@@ -47,6 +49,7 @@ generate_beta_data <- function(basis, w, beta_dispersion = 5, max_cov = 30,
     x <- matrix(0, nrow = L, ncol = 2)
     # Randomly sample locations for the observations
     obs <- sort(sample(xmin:xmax, L))
+    rownames(x) <- paste("loc", obs, sep = ":")
     # Scale to (-1,1)
     x[, 1] <- BPRMeth:::.minmax_scaling(data = obs, xmin = xmin, xmax = xmax,
                                         fmin = -1, fmax = 1)
@@ -70,6 +73,7 @@ generate_gaussian_data <- function(basis, w, max_cov = 30, xmin = -500,
     x <- matrix(0, nrow = L, ncol = 2)
     # Randomly sample locations for the observations
     obs <- sort(sample(xmin:xmax, L))
+    rownames(x) <- paste("loc", obs, sep = ":")
     # Scale to (-1,1)
     x[, 1] <- BPRMeth:::.minmax_scaling(data = obs, xmin = xmin, xmax = xmax,
                                         fmin = -1, fmax = 1)
@@ -128,5 +132,5 @@ gaussian_data  <- generate_data(N = 300, type = "gaussian",
                                 w = list(w1 = c(-1.1, -2, 2.7, -2),
                                          w2 = c(2, 1, -2, 1),
                                          w3 = c(0.4, -0.7, 1.7, 2.8)))
-devtools::use_data(bernoulli_data, binomial_data, beta_data, gaussian_data,
-                   overwrite = TRUE)
+usethis::use_data(bernoulli_data, binomial_data, beta_data, gaussian_data,
+                  overwrite = TRUE)

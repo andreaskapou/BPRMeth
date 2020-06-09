@@ -4,12 +4,14 @@
 \name{encode_met}
 \alias{encode_met}
 \title{Processed ENCODE methylation data}
-\format{A list object containing methylation regions and annotation data.
+\format{
+A list object containing methylation regions and annotation data.
   This in general would be the output of the
   \code{\link{create_region_object}} function. It has the following two
   objects: \itemize{ \item{ \code{met}: A list containing the methylation
   regions, each element of the list is a different genomic region.} \item{
-  \code{anno}: Corresponding annotation data.}}}
+  \code{anno}: Corresponding annotation data.}}
+}
 \usage{
 encode_met
 }

@@ -29,7 +29,6 @@
 #' @param train_perc Optional parameter for defining the percentage of the
 #'   dataset to be used for training set, the remaining will be the test set.
 #' @param is_summary Logical, print the summary statistics.
-#' @inheritParams bpr_optimize
 #'
 #' @return A 'predict_expr' object which consists of the following variables:
 #'   \itemize{ \item{train}: The training data. \item{test}: The test data.

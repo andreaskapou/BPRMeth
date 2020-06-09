@@ -64,6 +64,14 @@
 }
 
 
+# Compute inverse of min-max scaling to bring relative locations to actual
+# genomic coordinates.
+.inv_minmax_scaling <- function(data, xmin, xmax, fmin = -1, fmax = 1) {
+  x <- ( (data - fmin) * (xmax - xmin) / (fmax - fmin ) ) + xmin
+  return(x)
+}
+
+
 # Centre CpG locations
 #
 # \code{centre_loc} centres CpG locations relative to middle point

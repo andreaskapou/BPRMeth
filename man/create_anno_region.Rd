@@ -4,8 +4,14 @@
 \alias{create_anno_region}
 \title{Create annotation regions}
 \usage{
-create_anno_region(anno, chrom_size = NULL, is_centre = FALSE,
-  is_window = TRUE, upstream = -5000, downstream = 5000)
+create_anno_region(
+  anno,
+  chrom_size = NULL,
+  is_centre = FALSE,
+  is_window = TRUE,
+  upstream = -5000,
+  downstream = 5000
+)
 }
 \arguments{
 \item{anno}{A \code{GRanges} object containing the annotation data, this

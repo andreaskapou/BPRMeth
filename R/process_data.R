@@ -234,8 +234,9 @@ read_anno <- function(file, chrom_size_file = NULL, chr_discarded = NULL,
 #'   (i.e. binomial) it contains the total number of reads at each CpG location,
 #'   otherwise the methylation level.} \item{ 3rd column: If "bulk" data, the
 #'   methylated reads at each CpG location, otherwise this D = 2 and this column
-#'   is absent.} } } \item{ \code{anno}: The annotation object.} } Note: The
-#'   lengths of \code{met} and \code{anno} should match.
+#'   is absent.} }. Rownames of each matrix contain the actual CpG genomic
+#'   coordinates as <chr>:<location>. } \item{ \code{anno}: The annotation
+#'   object.} } Note: The lengths of \code{met} and \code{anno} should match.
 #'
 #' @author C.A.Kapourani \email{C.A.Kapourani@@ed.ac.uk}
 #'
@@ -273,6 +274,7 @@ create_region_object <- function(met_dt, anno_dt, cov = 5, sd_thresh = 1e-1,
     gen_ind    <- unique(query_hits) # Indices of genomic locations
     centre     <- anno_dt$centre     # Central locations
     id         <- anno_dt$id         # (Ensembl) IDs
+    chrom      <- as.character(anno_dt@seqnames) # Chrom info
     strand     <- as.character(GenomicRanges::strand(anno_dt))
     cpg_loc    <- GenomicRanges::ranges(met_dt)@start  # CpG locations
     met        <- met_dt$met         # Methylated read
@@ -312,7 +314,7 @@ create_region_object <- function(met_dt, anno_dt, cov = 5, sd_thresh = 1e-1,
     # Initilize list to NA
     for (j in 1:length(id)) { met_region[[id[j]]] <- NA }
     LABEL     <- FALSE                     # Flag variable
-    reg_count <- 0                         # Promoter counter
+    reg_count <- 0                         # Region counter
     cpg_ind   <- vector(mode = "integer")  # Vector of CpG indices
     cpg_ind   <- c(cpg_ind, subj_hits[1])  # Add the first subject hit
 
@@ -338,6 +340,8 @@ create_region_object <- function(met_dt, anno_dt, cov = 5, sd_thresh = 1e-1,
                     region <- cpg_loc[cpg_ind]
                     # Middle location for region 'reg_count'
                     middle <- centre[gen_ind[reg_count]]
+                    # Extract chromosome information
+                    chrom_info<- chrom[gen_ind[reg_count]]
                     # Extract strand information, i.e. direction
                     strand_direction <- strand[gen_ind[reg_count]]
                     # Extract upstream information
@@ -347,14 +351,17 @@ create_region_object <- function(met_dt, anno_dt, cov = 5, sd_thresh = 1e-1,
                     # Shift CpG locations relative to TSS
                     center_data  <- .do_centre_loc(region = region,
                         centre = middle, strand_direction = strand_direction)
-                    # In the "-" strand the order of the locations should change
+                    # In "-" strand the order of the locations should change
                     Order <- base::order(center_data)
                     met_region[[idx]] <- matrix(0, length(cpg_ind), D)
-                    # Store normalized locations of methylated CpGs
+                    # Store actual genomic coordinates of CpGs
+                    rownames(met_region[[idx]]) <- paste(chrom_info,
+                                                    region[Order], sep = ":")
+                    # Store normalized locations of CpGs
                     met_region[[idx]][, 1] <- round(.minmax_scaling(
                         data = center_data[Order], xmin = upstream,
                         xmax = downstream, fmin = fmin, fmax = fmax), 4)
-                    # Store methylated reads in the corresponding locations
+                    # Store reads in the corresponding locations
                     if (D == 2) { met_region[[idx]][, 2] <- met[cpg_ind][Order]
                     }else{
                         # Store total reads in the corresponding locations

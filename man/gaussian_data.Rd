@@ -4,9 +4,11 @@
 \name{gaussian_data}
 \alias{gaussian_data}
 \title{Synthetic Gaussian data}
-\format{A list with 300 elements, where each element element is an L x 2
+\format{
+A list with 300 elements, where each element element is an L x 2
   matrix of observations, where: \describe{ \item{1st column}{locations of
-  obseravtions} \item{2nd column}{methylation level} }}
+  obseravtions} \item{2nd column}{methylation level} }
+}
 \usage{
 gaussian_data
 }

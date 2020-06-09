@@ -86,10 +86,19 @@ infer_profiles_vb <- function(X, model = NULL, basis = NULL, H = NULL, w = NULL,
                               is_verbose = FALSE, ...){
     if (is.null(model)) { stop("Observation model not defined!") }
     # Create RBF basis object by default
-    if (is.null(basis)) { basis <- create_rbf_object(M = 3) }
+    if (is.null(basis)) {
+        warning("Basis object not defined. Using as default M = 3 RBFs.\n")
+        basis <- create_rbf_object(M = 3)
+    }
     if (is.null(H)) { # Create design matrix
-        if (is.list(X)) {H <- lapply(X,function(x) design_matrix(basis,x[,1])$H)
-        }else {H <- design_matrix(basis, X[,1])$H }
+        if (is.list(X)) {
+            # Remove rownames
+            X <- lapply(X, function(x) { rownames(x) <- NULL; return(x) })
+            H <- lapply(X, function(x) design_matrix(basis,x[,1])$H)
+        }else {
+            rownames(X) <- NULL
+            H <- design_matrix(basis, X[,1])$H
+        }
     }
 
     if (identical(model, "bernoulli") || identical(model, "binomial") ) {

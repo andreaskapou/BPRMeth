@@ -10,12 +10,27 @@
 \usage{
 bpr_optim(x, ...)
 
-\method{bpr_optim}{list}(x, w = NULL, basis = NULL, lambda = 1/2,
-  opt_method = "CG", opt_itnmax = 100, is_parallel = TRUE,
-  no_cores = NULL, ...)
+\method{bpr_optim}{list}(
+  x,
+  w = NULL,
+  basis = NULL,
+  lambda = 1/2,
+  opt_method = "CG",
+  opt_itnmax = 100,
+  is_parallel = TRUE,
+  no_cores = NULL,
+  ...
+)
 
-\method{bpr_optim}{matrix}(x, w = NULL, basis = NULL, lambda = 1/2,
-  opt_method = "CG", opt_itnmax = 100, ...)
+\method{bpr_optim}{matrix}(
+  x,
+  w = NULL,
+  basis = NULL,
+  lambda = 1/2,
+  opt_method = "CG",
+  opt_itnmax = 100,
+  ...
+)
 }
 \arguments{
 \item{x}{The input object, either a \code{\link[base]{matrix}} or a

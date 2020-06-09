@@ -4,8 +4,10 @@
 \alias{old_plot_cluster_prof}
 \title{(DEPRECATED) Plot of clustered methylation profiles}
 \usage{
-old_plot_cluster_prof(bpr_cluster_obj,
-  main_lab = "Clustered methylation profiles")
+old_plot_cluster_prof(
+  bpr_cluster_obj,
+  main_lab = "Clustered methylation profiles"
+)
 }
 \arguments{
 \item{bpr_cluster_obj}{The output of the \code{bpr_cluster_wrap} function.}

@@ -6,9 +6,20 @@
 \alias{inference_mle}
 \title{Infer methylation profiles using MLE}
 \usage{
-infer_profiles_mle(X, model = NULL, basis = NULL, H = NULL,
-  lambda = 0.5, w = NULL, beta_dispersion = 5, opt_method = "CG",
-  opt_itnmax = 100, is_parallel = FALSE, no_cores = NULL, ...)
+infer_profiles_mle(
+  X,
+  model = NULL,
+  basis = NULL,
+  H = NULL,
+  lambda = 0.5,
+  w = NULL,
+  beta_dispersion = 5,
+  opt_method = "CG",
+  opt_itnmax = 100,
+  is_parallel = FALSE,
+  no_cores = NULL,
+  ...
+)
 }
 \arguments{
 \item{X}{The input data, either a \code{\link[base]{matrix}} or a

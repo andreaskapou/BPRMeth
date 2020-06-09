@@ -4,10 +4,12 @@
 \name{binomial_data}
 \alias{binomial_data}
 \title{Synthetic Binomial data}
-\format{A list with 300 elements, where each element element is an L x 3
+\format{
+A list with 300 elements, where each element element is an L x 3
   matrix of observations, where: \describe{ \item{1st column}{locations of
   obseravtions} \item{2nd column}{total trials} \item{3rd column}{number of
-  successes} }}
+  successes} }
+}
 \usage{
 binomial_data
 }

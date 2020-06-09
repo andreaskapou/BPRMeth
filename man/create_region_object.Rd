@@ -9,9 +9,16 @@
 \alias{create_region_obj}
 \title{Create genomic region data}
 \usage{
-create_region_object(met_dt, anno_dt, cov = 5, sd_thresh = 0.1,
-  ignore_strand = TRUE, filter_empty_region = TRUE, fmin = -1,
-  fmax = 1)
+create_region_object(
+  met_dt,
+  anno_dt,
+  cov = 5,
+  sd_thresh = 0.1,
+  ignore_strand = TRUE,
+  filter_empty_region = TRUE,
+  fmin = -1,
+  fmax = 1
+)
 }
 \arguments{
 \item{met_dt}{A \code{GRanges} object with methylation data, whose format
@@ -49,8 +56,9 @@ A \code{list} object containing the two elements: \itemize{ \item{
   (i.e. binomial) it contains the total number of reads at each CpG location,
   otherwise the methylation level.} \item{ 3rd column: If "bulk" data, the
   methylated reads at each CpG location, otherwise this D = 2 and this column
-  is absent.} } } \item{ \code{anno}: The annotation object.} } Note: The
-  lengths of \code{met} and \code{anno} should match.
+  is absent.} }. Rownames of each matrix contain the actual CpG genomic
+  coordinates as <chr>:<location>. } \item{ \code{anno}: The annotation
+  object.} } Note: The lengths of \code{met} and \code{anno} should match.
 }
 \description{
 \code{create_region_object} creates genomic regions (e.g. forms

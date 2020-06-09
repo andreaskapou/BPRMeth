@@ -4,9 +4,14 @@
 \alias{preprocess_final_HTS_data}
 \title{(DEPRECATED) Pre-process final HTS data for downstream analysis}
 \usage{
-preprocess_final_HTS_data(methyl_region, prom_reg, rna_data,
-  gene_log2_transf = TRUE, gene_outl_thresh = TRUE,
-  gex_outlier = 300)
+preprocess_final_HTS_data(
+  methyl_region,
+  prom_reg,
+  rna_data,
+  gene_log2_transf = TRUE,
+  gene_outl_thresh = TRUE,
+  gex_outlier = 300
+)
 }
 \arguments{
 \item{methyl_region}{Methylation region data, which are the output of the

@@ -9,3 +9,4 @@ BPRMeth.Rproj
 *.aux
 *.o
 *.so
+*.DS_Store

@@ -4,9 +4,17 @@
 \alias{read_anno}
 \title{Read annotation file}
 \usage{
-read_anno(file, chrom_size_file = NULL, chr_discarded = NULL,
-  is_centre = FALSE, is_window = TRUE, upstream = -5000,
-  downstream = 5000, is_anno_region = TRUE, delimiter = "\\t")
+read_anno(
+  file,
+  chrom_size_file = NULL,
+  chr_discarded = NULL,
+  is_centre = FALSE,
+  is_window = TRUE,
+  upstream = -5000,
+  downstream = 5000,
+  is_anno_region = TRUE,
+  delimiter = "\\t"
+)
 }
 \arguments{
 \item{file}{File name.}

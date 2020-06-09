@@ -4,8 +4,13 @@
 \alias{preprocess_bs_seq}
 \title{(DEPRECATED) Pre-process BS-Seq data in any given format}
 \usage{
-preprocess_bs_seq(files, file_format = "encode_rrbs",
-  chr_discarded = NULL, min_bs_cov = 4, max_bs_cov = 1000)
+preprocess_bs_seq(
+  files,
+  file_format = "encode_rrbs",
+  chr_discarded = NULL,
+  min_bs_cov = 4,
+  max_bs_cov = 1000
+)
 }
 \arguments{
 \item{files}{A vector of filenames containing replicate experiments. This can

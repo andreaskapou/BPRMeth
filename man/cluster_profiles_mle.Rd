@@ -6,22 +6,38 @@
 \alias{cluster_mle}
 \title{Cluster methylation profiles using EM}
 \usage{
-cluster_profiles_mle(X, K = 3, model = NULL, basis = NULL,
-  H = NULL, pi_k = NULL, lambda = 0.5, beta_dispersion = 5,
-  gaussian_sigma = rep(0.2, K), w = NULL, em_max_iter = 50,
-  epsilon_conv = 1e-04, opt_method = "CG", opt_itnmax = 50,
-  init_opt_itnmax = 30, is_parallel = FALSE, no_cores = NULL,
-  is_verbose = FALSE, ...)
+cluster_profiles_mle(
+  X,
+  K = 3,
+  model = NULL,
+  basis = NULL,
+  H = NULL,
+  pi_k = NULL,
+  lambda = 0.5,
+  beta_dispersion = 5,
+  gaussian_sigma = rep(0.2, K),
+  w = NULL,
+  em_max_iter = 50,
+  epsilon_conv = 1e-04,
+  opt_method = "CG",
+  opt_itnmax = 50,
+  init_opt_itnmax = 30,
+  is_parallel = FALSE,
+  no_cores = NULL,
+  is_verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{X}{The input data, which has to be a \code{\link[base]{list}} of
 elements of length N, where each element is an \code{L X C} matrix, where L
 are the total number of observations. The first column contains the input
-observations x (i.e. CpG locations). If "binomial" model then C=3, and 2nd
-and 3rd columns contain total number of trials and number of successes
-respectively. If "bernoulli" or "gaussian" model, then C=2 containing the
-output y (e.g. methylation level). If "beta" model, then C=3, where 2nd
-column contains output y and 3rd column the dispersion parameter.}
+observations x (i.e. CpG locations). If
+"binomial" model then C=3, and 2nd and 3rd columns contain total number of
+trials and number of successes respectively. If "bernoulli" or "gaussian"
+model, then C=2 containing the output y (e.g. methylation level). If "beta"
+model, then C=3, where 2nd column contains output y and 3rd column the
+dispersion parameter.}
 
 \item{K}{Integer denoting the total number of clusters K.}
 

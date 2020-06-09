@@ -6,10 +6,22 @@
 \alias{inference_vb}
 \title{Infer methylation profiles using VB}
 \usage{
-infer_profiles_vb(X, model = NULL, basis = NULL, H = NULL,
-  w = NULL, gaussian_l = 50, alpha_0 = 0.5, beta_0 = 0.1,
-  vb_max_iter = 100, epsilon_conv = 1e-05, is_parallel = FALSE,
-  no_cores = NULL, is_verbose = FALSE, ...)
+infer_profiles_vb(
+  X,
+  model = NULL,
+  basis = NULL,
+  H = NULL,
+  w = NULL,
+  gaussian_l = 50,
+  alpha_0 = 0.5,
+  beta_0 = 0.1,
+  vb_max_iter = 100,
+  epsilon_conv = 1e-05,
+  is_parallel = FALSE,
+  no_cores = NULL,
+  is_verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{X}{The input data, either a \code{\link[base]{matrix}} or a

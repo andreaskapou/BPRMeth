@@ -4,9 +4,10 @@
 \name{BPRMeth}
 \alias{BPRMeth}
 \alias{.datatable.aware}
-\alias{BPRMeth-package}
 \title{\code{BPRMeth}: Extracting higher order methylation features}
-\format{An object of class \code{logical} of length 1.}
+\format{
+An object of class \code{logical} of length 1.
+}
 \usage{
 .datatable.aware
 }

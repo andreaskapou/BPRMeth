@@ -4,11 +4,23 @@
 \alias{bpr_predict_wrap}
 \title{(DEPRECATED) Predict gene expression from methylation profiles}
 \usage{
-bpr_predict_wrap(formula = NULL, x, y, model_name = "svm", w = NULL,
-  basis = NULL, train_ind = NULL, train_perc = 0.7,
-  fit_feature = "RMSE", cov_feature = TRUE, opt_method = "CG",
-  opt_itnmax = 100, is_parallel = TRUE, no_cores = NULL,
-  is_summary = TRUE)
+bpr_predict_wrap(
+  formula = NULL,
+  x,
+  y,
+  model_name = "svm",
+  w = NULL,
+  basis = NULL,
+  train_ind = NULL,
+  train_perc = 0.7,
+  fit_feature = "RMSE",
+  cov_feature = TRUE,
+  opt_method = "CG",
+  opt_itnmax = 100,
+  is_parallel = TRUE,
+  no_cores = NULL,
+  is_summary = TRUE
+)
 }
 \arguments{
 \item{formula}{An object of class \code{\link[stats]{formula}}, e.g. see

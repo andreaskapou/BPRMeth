@@ -4,8 +4,12 @@
 \alias{inner_train_model_expr}
 \title{(INNER) Train expression model from methylation profiles}
 \usage{
-inner_train_model_expr(formula = NULL, model_name = "lm", train,
-  is_summary = TRUE)
+inner_train_model_expr(
+  formula = NULL,
+  model_name = "lm",
+  train,
+  is_summary = TRUE
+)
 }
 \arguments{
 \item{formula}{An object of class \code{\link[stats]{formula}}, e.g. see

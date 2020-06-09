@@ -4,10 +4,12 @@
 \name{bernoulli_data}
 \alias{bernoulli_data}
 \title{Synthetic Bernoulli data}
-\format{A list with 300 elements, where each element element is an L x 2
+\format{
+A list with 300 elements, where each element element is an L x 2
   matrix of observations, where: \describe{ \item{1st column}{locations of
   obseravtions} \item{2nd column}{methylation level, 0 - unmethylated, 1 -
-  methylated} }}
+  methylated} }
+}
 \usage{
 bernoulli_data
 }

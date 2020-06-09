@@ -4,10 +4,17 @@
 \alias{plot_infer_profiles}
 \title{Plot inferred methylation profiles across a region}
 \usage{
-plot_infer_profiles(region = 1, obj_prof, obj_mean = NULL,
-  obs = NULL, title = "Inferred profiles", x_axis = "genomic region",
-  y_axis = "met level", x_labels = c("Upstream", "", "Centre", "",
-  "Downstream"), ...)
+plot_infer_profiles(
+  region = 1,
+  obj_prof,
+  obj_mean = NULL,
+  obs = NULL,
+  title = "Inferred profiles",
+  x_axis = "genomic region",
+  y_axis = "met level",
+  x_labels = c("Upstream", "", "Centre", "", "Downstream"),
+  ...
+)
 }
 \arguments{
 \item{region}{Genomic region number}
