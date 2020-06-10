@@ -3,7 +3,7 @@
 #  if (!requireNamespace("BiocManager", quietly=TRUE))
 #      install.packages("BiocManager")
 #  BiocManager::install("BPRMeth")
-#  
+#
 #  ## Or download from Github repository
 #  # install.packages("devtools")
 #  devtools::install_github("andreaskapou/BPRMeth", build_vignettes = TRUE)
@@ -59,7 +59,7 @@ basis_profile
 fit_profiles <- infer_profiles_vb(X = met_region$met, model = "binomial",
                                 basis = basis_profile, is_parallel = FALSE)
 
-fit_mean <- infer_profiles_vb(X = met_region$met, model = "binomial", 
+fit_mean <- infer_profiles_vb(X = met_region$met, model = "binomial",
                               basis = basis_mean, is_parallel = FALSE)
 
 ## ----show_infer_object, echo=TRUE, message=FALSE, warning=FALSE------------
@@ -70,7 +70,7 @@ str(fit_profiles, max.level = 1)
 # Choose promoter region 21 -> i.e. LEPREL2 gene
 gene_id <- met_region$anno$id[21]
 p <- plot_infer_profiles(region = 21, obj_prof = fit_profiles,
-                         obj_mean = fit_mean, obs = met_region$met, 
+                         obj_mean = fit_mean, obs = met_region$met,
                          title = paste0("Gene ID ", gene_id))
 print(p)
 
@@ -80,10 +80,10 @@ set.seed(22)
 # Perform predictions using methylation profiles
 pred_profile <- predict_expr(prof_obj = fit_profiles, expr = expr,
                              anno = met_region$anno, model_name = "svm",
-                             fit_feature = "RMSE", cov_feature = TRUE, 
+                             fit_feature = "RMSE", cov_feature = TRUE,
                              is_summary = FALSE)
 # Perform predictions using mean methylation rate
-pred_mean <- predict_expr(prof_obj = fit_mean, expr = expr, 
+pred_mean <- predict_expr(prof_obj = fit_mean, expr = expr,
                           anno = met_region$anno, model_name = "svm",
                           is_summary = FALSE)
 
@@ -92,22 +92,22 @@ print(paste("Profile r: ", round(pred_profile$test_errors$pcc, 2)))
 print(paste("Mean r:", round(pred_mean$test_errors$pcc, 2)))
 
 ## ----plotpred, echo=TRUE, fig.cap="Relationship between DNA methylation patterns and gene expression. Scatter plots of predicted versus measured (log2-transformed) gene expression values using profiles (left) and rates (right); each shaded blue dot represents a different gene, The red line indicates the linear fit between the predicted and measured expression values.", fig.wide=TRUE, message=FALSE, eval=TRUE, warning=FALSE----
-g1 <- plot_predicted_expr(pred_obj = pred_profile, 
+g1 <- plot_predicted_expr(pred_obj = pred_profile,
                           title = "Methylation profile")
-g2 <- plot_predicted_expr(pred_obj = pred_mean, 
+g2 <- plot_predicted_expr(pred_obj = pred_mean,
                           title = "Methylation rate")
 g <- cowplot::plot_grid(g1, g2, ncol = 2, nrow = 1)
 print(g)
 
 ## ----clustering, echo=TRUE, message=FALSE, eval=TRUE, warning=FALSE--------
 # Set seed for reproducible results
-set.seed(12) 
+set.seed(12)
 # Create basis object
 basis_obj <- create_rbf_object(M = 3)
 # Set number of clusters K
 K <- 4
 # Perform clustering
-cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, model = "binomial", 
+cl_obj <- cluster_profiles_vb(X = met_region$met, K = K, model = "binomial",
                               alpha_0 = .5, beta_0 = .1,
                               basis = basis_obj, vb_max_iter = 20)
 
@@ -131,16 +131,16 @@ bern_prof <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
                                basis = basis_prof, is_parallel = FALSE)
 bern_mean <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
                                basis = basis_mean, is_parallel = FALSE)
-p <- plot_infer_profiles(region = 50, obj_prof = bern_prof, 
-                         obj_mean = bern_mean, obs = bernoulli_data, 
+p <- plot_infer_profiles(region = 60, obj_prof = bern_prof,
+                         obj_mean = bern_mean, obs = bernoulli_data,
                          title = "Bernoulli profile")
 print(p)
 
 ## ----cluster_bernoulli, fig.wide=TRUE, echo=TRUE, fig.cap="Clustering Bernoulli methylation profiles.", message=FALSE, eval=TRUE, warning=FALSE----
 # Perform clustering
-cl_obj <- cluster_profiles_vb(X = bernoulli_data, K = 3, model = "bernoulli", 
+cl_obj <- cluster_profiles_vb(X = bernoulli_data, K = 3, model = "bernoulli",
                               basis = basis_obj, vb_max_iter = 40)
-                              
+
 cluster_plot <- plot_cluster_profiles(cluster_obj = cl_obj)
 print(cluster_plot)
 
