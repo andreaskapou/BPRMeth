@@ -4,9 +4,18 @@
 \alias{predict_expr}
 \title{Predict gene expression from methylation profiles}
 \usage{
-predict_expr(formula = NULL, prof_obj, expr, anno, model_name = "lm",
-  train_ind = NULL, train_perc = 0.7, fit_feature = "RMSE",
-  cov_feature = TRUE, is_summary = TRUE)
+predict_expr(
+  formula = NULL,
+  prof_obj,
+  expr,
+  anno,
+  model_name = "lm",
+  train_ind = NULL,
+  train_perc = 0.7,
+  fit_feature = "RMSE",
+  cov_feature = TRUE,
+  is_summary = TRUE
+)
 }
 \arguments{
 \item{formula}{An object of class \code{\link[stats]{formula}}, e.g. see

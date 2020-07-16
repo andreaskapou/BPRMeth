@@ -4,9 +4,15 @@
 \alias{read_met}
 \title{Read methylation file}
 \usage{
-read_met(file, type = "sc_seq", strand_info = FALSE,
-  chr_discarded = NULL, min_bulk_cov = 4, max_bulk_cov = 1000,
-  delimiter = "\\t")
+read_met(
+  file,
+  type = "sc_seq",
+  strand_info = FALSE,
+  chr_discarded = NULL,
+  min_bulk_cov = 4,
+  max_bulk_cov = 1000,
+  delimiter = "\\t"
+)
 }
 \arguments{
 \item{file}{File name.}

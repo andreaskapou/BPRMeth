@@ -4,8 +4,14 @@
 \alias{old_plot_fitted_profiles}
 \title{(DEPRECATED) Plot the fit of methylation profiles across a region}
 \usage{
-old_plot_fitted_profiles(region, X, fit_prof, fit_mean = NULL,
-  title = "Gene promoter", ...)
+old_plot_fitted_profiles(
+  region,
+  X,
+  fit_prof,
+  fit_mean = NULL,
+  title = "Gene promoter",
+  ...
+)
 }
 \arguments{
 \item{region}{Promoter region number}

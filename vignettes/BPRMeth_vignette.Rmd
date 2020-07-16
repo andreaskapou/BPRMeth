@@ -264,7 +264,7 @@ bern_prof <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
                                basis = basis_prof, is_parallel = FALSE)
 bern_mean <- infer_profiles_vb(X = bernoulli_data, model = "bernoulli",
                                basis = basis_mean, is_parallel = FALSE)
-p <- plot_infer_profiles(region = 50, obj_prof = bern_prof, 
+p <- plot_infer_profiles(region = 60, obj_prof = bern_prof, 
                          obj_mean = bern_mean, obs = bernoulli_data, 
                          title = "Bernoulli profile")
 print(p)

@@ -4,8 +4,11 @@
 \alias{old_boxplot_cluster_gex}
 \title{(DEPRECATED) Boxplot of clustered expression levels}
 \usage{
-old_boxplot_cluster_gex(bpr_cluster_obj, gex,
-  main_lab = "Gene expression levels")
+old_boxplot_cluster_gex(
+  bpr_cluster_obj,
+  gex,
+  main_lab = "Gene expression levels"
+)
 }
 \arguments{
 \item{bpr_cluster_obj}{The output of the \code{bpr_cluster_wrap} function.}

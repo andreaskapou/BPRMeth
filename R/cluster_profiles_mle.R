@@ -14,11 +14,12 @@
 #' @param X The input data, which has to be a \code{\link[base]{list}} of
 #'   elements of length N, where each element is an \code{L X C} matrix, where L
 #'   are the total number of observations. The first column contains the input
-#'   observations x (i.e. CpG locations). If "binomial" model then C=3, and 2nd
-#'   and 3rd columns contain total number of trials and number of successes
-#'   respectively. If "bernoulli" or "gaussian" model, then C=2 containing the
-#'   output y (e.g. methylation level). If "beta" model, then C=3, where 2nd
-#'   column contains output y and 3rd column the dispersion parameter.
+#'   observations x (i.e. CpG locations). If
+#'   "binomial" model then C=3, and 2nd and 3rd columns contain total number of
+#'   trials and number of successes respectively. If "bernoulli" or "gaussian"
+#'   model, then C=2 containing the output y (e.g. methylation level). If "beta"
+#'   model, then C=3, where 2nd column contains output y and 3rd column the
+#'   dispersion parameter.
 #' @param K Integer denoting the total number of clusters K.
 #' @param pi_k Vector of length K, denoting the mixing proportions.
 #' @param w Optional, an (M+1)xK matrix of the initial parameters, where each
@@ -89,6 +90,9 @@ cluster_profiles_mle <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
                                  no_cores = NULL, is_verbose = FALSE, ...){
     assertthat::assert_that(is.list(X))  # Check that X is a list object
     if (is.null(model)) { stop("Observation model not defined!") }
+    # Remove rownames
+    X <- lapply(X, function(x) { rownames(x) <- NULL; return(x) })
+    # Perform EM checks
     tmp <- .em_checks(X, H, K, pi_k, model, basis, lambda, beta_dispersion, w,
                       opt_method, init_opt_itnmax, is_parallel, no_cores)
     w <- tmp$w; basis <- tmp$basis; pi_k <- tmp$pi_k
@@ -338,7 +342,7 @@ cluster_profiles_mle <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
 ##------------------------------------------------------
 
 
-# Cluster profiles EM Binomial or Bernoulli
+# Cluster profiles EM Gaussian
 .cluster_profiles_mle_gaussian <- function(X, H, K, pi_k, basis, lambda,
                                            gaussian_sigma, w, em_max_iter,
                                            epsilon_conv, is_verbose){

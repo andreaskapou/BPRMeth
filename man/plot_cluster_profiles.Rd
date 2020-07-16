@@ -4,9 +4,14 @@
 \alias{plot_cluster_profiles}
 \title{Plot clustered methylation profiles across a region}
 \usage{
-plot_cluster_profiles(cluster_obj, title = "Clustered profiles",
-  x_axis = "genomic region", y_axis = "met level",
-  x_labels = c("Upstream", "", "Centre", "", "Downstream"), ...)
+plot_cluster_profiles(
+  cluster_obj,
+  title = "Clustered profiles",
+  x_axis = "genomic region",
+  y_axis = "met level",
+  x_labels = c("Upstream", "", "Centre", "", "Downstream"),
+  ...
+)
 }
 \arguments{
 \item{cluster_obj}{Clustered profiles object, i.e. output from

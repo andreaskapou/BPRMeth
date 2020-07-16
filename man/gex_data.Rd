@@ -4,7 +4,9 @@
 \name{gex_data}
 \alias{gex_data}
 \title{Synthetic expression data}
-\format{A vector of length 600}
+\format{
+A vector of length 600
+}
 \usage{
 gex_data
 }

@@ -4,10 +4,22 @@
 \alias{bpr_cluster_wrap}
 \title{(DEPRECATED) Cluster methylation profiles}
 \usage{
-bpr_cluster_wrap(x, K = 3, pi_k = NULL, w = NULL, basis = NULL,
-  em_max_iter = 100, epsilon_conv = 1e-04, lambda = 1/2,
-  opt_method = "CG", opt_itnmax = 100, init_opt_itnmax = 100,
-  is_parallel = TRUE, no_cores = NULL, is_verbose = FALSE)
+bpr_cluster_wrap(
+  x,
+  K = 3,
+  pi_k = NULL,
+  w = NULL,
+  basis = NULL,
+  em_max_iter = 100,
+  epsilon_conv = 1e-04,
+  lambda = 1/2,
+  opt_method = "CG",
+  opt_itnmax = 100,
+  init_opt_itnmax = 100,
+  is_parallel = TRUE,
+  no_cores = NULL,
+  is_verbose = FALSE
+)
 }
 \arguments{
 \item{x}{The binomial distributed observations, which has to be a list of

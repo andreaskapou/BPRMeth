@@ -4,8 +4,7 @@
 \alias{boxplot_cluster_expr}
 \title{Boxplot of clustered expression levels}
 \usage{
-boxplot_cluster_expr(cluster_obj, expr, anno,
-  title = "Expression levels")
+boxplot_cluster_expr(cluster_obj, expr, anno, title = "Expression levels")
 }
 \arguments{
 \item{cluster_obj}{The output from \code{\link{cluster_profiles_vb}} or

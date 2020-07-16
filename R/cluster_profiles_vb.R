@@ -73,9 +73,14 @@ cluster_profiles_vb <- function(X, K = 3, model = NULL, basis = NULL, H = NULL,
                                 vb_max_iter = 100, epsilon_conv = 1e-4,
                                 is_verbose = FALSE, ...){
     assertthat::assert_that(is.list(X))  # Check that X is a list object
+    # Remove rownames
+    X <- lapply(X, function(x) { rownames(x) <- NULL; return(x) })
     if (is.null(model)) { stop("Observation model not defined!") }
     # Create RBF basis object by default
-    if (is.null(basis)) { basis <- create_rbf_object(M = 3) }
+    if (is.null(basis)) {
+        warning("Basis object not defined. Using as default M = 3 RBFs.\n")
+        basis <- create_rbf_object(M = 3)
+    }
     if (is.null(delta_0)) { delta_0 <- rep(1/K, K) }
     if (is.null(H)) { # Create design matrix
         H <- lapply(X = X, FUN = function(x) design_matrix(basis, x[, 1])$H)

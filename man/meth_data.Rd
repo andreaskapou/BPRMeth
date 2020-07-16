@@ -4,10 +4,12 @@
 \name{meth_data}
 \alias{meth_data}
 \title{Synthetic bulk methylation data}
-\format{A list with 600 elements, where each element element is an L x 3
+\format{
+A list with 600 elements, where each element element is an L x 3
   matrix of observations, where: \describe{ \item{1st column}{locations of
   obseravtions} \item{2nd column}{total trials} \item{3rd column}{number of
-  successes} }}
+  successes} }
+}
 \usage{
 meth_data
 }

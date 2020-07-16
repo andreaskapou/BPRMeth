@@ -4,8 +4,11 @@
 \alias{plot_predicted_expr}
 \title{Scatter plot of predicted vs measured gene expression levels}
 \usage{
-plot_predicted_expr(pred_obj, title = "Predicted expression",
-  is_margins = FALSE)
+plot_predicted_expr(
+  pred_obj,
+  title = "Predicted expression",
+  is_margins = FALSE
+)
 }
 \arguments{
 \item{pred_obj}{The output of the \code{predict_expr} function.}

@@ -4,8 +4,10 @@
 \name{encode_expr}
 \alias{encode_expr}
 \title{Processed ENCODE expression data}
-\format{Expression data in format as the output of \code{\link{read_expr}}
-  fucntion, i.e. a \code{data.table} with two columns: "id", "expr".}
+\format{
+Expression data in format as the output of \code{\link{read_expr}}
+  fucntion, i.e. a \code{data.table} with two columns: "id", "expr".
+}
 \usage{
 encode_expr
 }
